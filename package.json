@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
+    "formidable": "^2.0.1",
     "jquery": "^3.6.0",
+    "mongodb": "^4.5.0",
+    "mv": "^2.1.1",
     "next": "12.1.1",
     "popper.js": "^1.16.1",
     "react": "17.0.2",
