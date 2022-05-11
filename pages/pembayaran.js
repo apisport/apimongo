@@ -8,7 +8,7 @@ export default function Home() {
   const [tglBooking, setTglBooking] = useState('20-03-2022 09:00 WIB');
   const [tglMain, setTglMain] = useState('30-03-2022');
   const [jadwalMain, setJadwalMain] = useState(['20.00-21.00', '21.00-22.00']);
-  const [harga, setHarga] = useState('50');
+  const [harga, setHarga] = useState(50);
   const [status, setStatus] = useState('pending');
   const [noRekening, setNoRekening] = useState('2342543 - Bank BCA');
   const [opsiBayar, setOpsiBayar] = useState('DP');
@@ -142,7 +142,7 @@ export default function Home() {
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
-              <input type="email" className="form-control" value={`Rp ${harga}.000`} readOnly />
+              <input type="text" className="form-control" value={`Rp ${harga}.000`} readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">No. Rekening</label>
