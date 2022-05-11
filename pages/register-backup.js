@@ -68,16 +68,18 @@ export default function Register() {
     value = document.getElementById('tim').value
     setTim(oldArray => [...oldArray, value]);
     setTimTemp('')
-    console.log(tim)
-
   };
   const removeItemArray = (index) => {
-    var array = this.state.people;
-    var index = array.indexOf(e.target.value); // Let's say it's Bob.
-    delete array[index];
-    console.log(tim)
-  };
+    const newArray = tim
+    newArray.splice(index, 1)
+    console.log(newArray)
+    setTim(newArray)
+    // const index = tim.indexOf(value); //use id instead of index
+    // if (index > -1) { //make sure you found it
+    //   setTim(prevState => prevState.splice(index, 1));
+    // }
 
+  };
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -135,7 +137,7 @@ export default function Register() {
                   <input type="text" className="form-control" placeholder="Nama Lengkap" required
                     name="nama"
                     onChange={(e) => setNama(e.target.value)}
-                    S
+                    value={nama}
                   />
                 </div>
                 <div className="mt-2 form-radio col-md-12">
@@ -192,13 +194,12 @@ export default function Register() {
                 </div>
                 <div>
                   {tim.length === 0 ? (
-                    <h2>Isi daftar tim</h2>
+                    <h2>No added posts</h2>
                   ) : (
                     <>
-
                       {tim.map((tim, i) => (
                         <div className="btn-group col-md-12">
-                          <input type="text" id={i} className="form-control col-10 mt-2 col-md-10" value={tim} readOnly />
+                          <input type="text" className="form-control col-10 mt-2 col-md-10" placeholder={tim} readOnly />
                           <button className="form-control col-2 mt-2 col-sm-2"
                             value={i}
                             onClick={(e) => removeItemArray(e.target.value)}
@@ -210,6 +211,7 @@ export default function Register() {
                   )}
 
                 </div>
+
 
                 <div className="mt-2 col-md-12"><label className="labels">Username</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
                   <input type="text" className="form-control" placeholder="Username" required

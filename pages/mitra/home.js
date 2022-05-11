@@ -19,15 +19,15 @@ export default function Home() {
                                             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={2} aria-label="Slide 3" />
                                         </div>
                                         <div className="carousel-inner">
-                                            <div className="carousel-item active">
-                                                <img src="http://placekitten.com/100/200" width='170' height='230' className="d-block w-100" />
-                                            </div>
-                                            <div className="carousel-item" >
-                                                <img src="http://placekitten.com/100/200" width='170' height='230' className="d-block w-100" />
-                                            </div>
-                                            <div className="carousel-item">
-                                                <img src="http://placekitten.com/100/200" width='170' height='230' className="d-block w-100" />
-                                            </div>
+                                                <div className="carousel-item active">
+                                                    <img src="../images/slider-1.jpg" className="d-block img-fluid w-100" alt="..." />
+                                                </div>
+                                                <div className="carousel-item">
+                                                    <img src="../images/slider-1.jpg" className="d-block w-100" alt="..." />
+                                                </div>
+                                                <div className="carousel-item">
+                                                    <img src="../images/slider-1.jpg" className="d-block w-100" alt="..." />
+                                                </div>
                                         </div>
                                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                             <span className="carousel-control-prev-icon" aria-hidden="true" />

@@ -1,4 +1,97 @@
+import { useState } from 'react';
+
 export default function Home() {
+  const [nama, setNama] = useState('Yosi');
+  const [noWa, setNoWa] = useState('081');
+  const [tim, setTim] = useState('Ambyar FC');
+  const [namaVenue, setNamaVenue] = useState('Scudetto Futsal');
+  const [tglBooking, setTglBooking] = useState('20-03-2022 09:00 WIB');
+  const [tglMain, setTglMain] = useState('30-03-2022');
+  const [jadwalMain, setJadwalMain] = useState(['20.00-21.00', '21.00-22.00']);
+  const [harga, setHarga] = useState('50');
+  const [status, setStatus] = useState('pending');
+  const [noRekening, setNoRekening] = useState('2342543 - Bank BCA');
+  const [opsiBayar, setOpsiBayar] = useState('DP');
+  const [buktiBayar, setBuktiBayar] = useState('');
+  const [image, setImage] = useState(null);
+  const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const handlePost = async (e) => {
+    e.preventDefault();
+    // reset error and message
+    setError('');
+    setMessage('');
+    // fields check
+    if (!nama || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglBooking || !tglMain || !jadwalMain || !harga || !status)
+      return setError('All fields are required');
+    // post structure
+    let transaksi = {
+      nama,
+      noWa,
+      tim,
+      noRekening,
+      opsiBayar,
+      buktiBayar,
+      namaVenue,
+      tglBooking,
+      tglMain,
+      jadwalMain,
+      harga,
+      status
+    };
+    // save the post
+    let response = await fetch('/api/transaksidb', {
+      method: 'POST',
+      body: JSON.stringify(transaksi),
+    });
+    // get the data
+    let data = await response.json();
+    if (data.success) {
+      // reset the fields
+      setNama('');
+      setNoWa('');
+      setTim('');
+      setNamaVenue('');
+      setTglBooking('');
+      setTglMain('');
+      setNoRekening('');
+      setJadwalMain('');
+      setHarga('');
+      setStatus('');
+      setOpsiBayar('');
+      setBuktiBayar('');
+      setImage(null);
+      setCreateObjectURL(null);
+      // set the message
+      return setMessage(data.message);
+    }
+    else {
+      // set the error
+      console.log(data.message);
+      return setError(data.message);
+    }
+  };
+
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      setBuktiBayar(i.name)
+      setImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
+  const uploadToServer = async (event) => {
+    const body = new FormData();
+    //console.log("file", image)
+    body.append("file", image);
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body
+    });
+  };
+
+
   return (
     <div className="container-xxl p-3">
       <div className="d-flex flex-row justify-content-center">
@@ -30,54 +123,63 @@ export default function Home() {
       </div>
       <div className="mt-4">
         <div className="container-login100">
-          <form>
+          <form onSubmit={handlePost}>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Nama Pemesan : </label>
-              <input type="email" className="form-control" placeholder="name@example.com" readOnly />
+              <input value={nama} type="text" className="form-control" readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">Nama Tim</label>
-              <select className="form-control form-select" id="exampleFormControlSelect1">
-                <option>Ambyar FC</option>
-                <option>Ukrana FC</option>
+              <select className="form-control form-select" id="exampleFormControlSelect1" onChange={(e) => setTim(e.target.value)}>
+                <option>--Pilih Tim--</option>
+                <option value={'Ambyar FC'}>Ambyar FC</option>
+                <option value={'Ukrana FC'}>Ukrana FC</option>
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="exampleFormControlInput1">No. Telp: </label>
-              <input type="email" className="form-control" placeholder="name@example.com" readOnly />
+              <label htmlFor="exampleFormControlInput1">No. WA: </label>
+              <input type="text" className="form-control" value={noWa} readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
-              <input type="email" className="form-control" placeholder="name@example.com" readOnly />
+              <input type="email" className="form-control" value={`Rp ${harga}.000`} readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">No. Rekening</label>
-              <select className="form-control form-select" id="exampleFormControlSelect1">
-                <option>123 - Bank ABC</option>
-                <option>234 - Bank</option>
+              <select className="form-control form-select" id="exampleFormControlSelect1" onChange={(e) => setNoRekening(e.target.value)}>
+                <option>--No. Rekening--</option>
+                <option value={'300 - Bank 333'}>123 - Bank ABC</option>
+                <option value={'400 - Bank 133'}>234 - Bank</option>
               </select>
             </div>
             <div className="form-group">
               <label>Opsi Bayar</label>
-              <select className=" form-select">
-                <option>DP</option>
-                <option>Full Bayar</option>
-                <option>Bayar di Tempat</option>
+              <select className=" form-select" onChange={(e) => setOpsiBayar(e.target.value)}>
+                <option>--Pilih Opsi Bayar--</option>
+                <option value={'DP'}>DP</option>
+                <option value={'Full Bayar'}>Full Bayar</option>
+                <option value={'Bayar di Tempat'}>Bayar di Tempat</option>
               </select>
             </div>
             <div className="form-group">
-              <div className="mt-2 col-md-12"><label className="labels" htmlFor="formFile">Bukti Bayar</label><input type="file" className="form-control form-file" id="formFile" />
+              <div className="mt-2 col-md-12"><label className="labels" htmlFor="formFile">Bukti Bayar</label>
+                <input type="file"
+                  id="validatedCustomFile"
+                  className="form-control form-file"
+                  name="myImage" onChange={uploadToClient}
+                  required
+                />
               </div>
             </div>
 
             <div className="mt-4 text-center">
-              <img src="images/buktiBayar.jpg" className="" height={500}/>
+              <img src={createObjectURL} className="" />
             </div>
             <div className="d-flex flex-row mt-3">
               <span className='font-weight-normal' style={{ color: 'red' }}><b>*Mohon untuk mengupload bukti pembayaran hingga 13:30 WIB atau pembayaran akan di cancel</b></span>
             </div>
             <div class="d-grid gap-2 py-4 ">
-              <button class="btn btn-primary p-3 fw-bold" type="button" style={{ backgroundColor: '#006E61' }}>Kirim</button>
+              <button class="btn btn-primary p-3 fw-bold" type="submit" onClick={uploadToServer} style={{ backgroundColor: '#006E61' }}>Kirim</button>
             </div>
           </form>
         </div>
