@@ -138,7 +138,7 @@ export default function Home() {
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">No. WA: </label>
-              <input type="text" className="form-control" value={noWa} readOnly />
+              <input type="number" className="form-control" value={noWa} readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
