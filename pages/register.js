@@ -15,14 +15,19 @@ export default function Register() {
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  let router = useRouter()
   const handlePost = async (e) => {
     e.preventDefault();
     // reset error and message
     setError('');
     setMessage('');
     // fields check
-    if (!nama || !jenisKelamin || !noWa || !email || !tim || !username || !password)
+    if (!nama || !jenisKelamin || !noWa || !email || !tim || !username || !password) {
+      alert('Harap untuk mengisi semua data');
       return setError('All fields are required');
+    }
+
+
     // post structure
     let user = {
       nama,
@@ -44,6 +49,8 @@ export default function Register() {
     let data = await response.json();
     if (data.success) {
       // reset the fields
+      alert('Register berhasil!')
+      router.push('/')
       setNama('');
       setJenisKelamin('');
       setNoWa('');
@@ -132,10 +139,11 @@ export default function Register() {
               <div className="row mt-2">
                 <div className="mt-2 col-md-12">
                   <label className="labels">Nama Lengkap</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
-                  <input type="text" className="form-control" placeholder="Nama Lengkap" required
+                  <input type="text" className="form-control"
+                    required
                     name="nama"
+                    value={nama}
                     onChange={(e) => setNama(e.target.value)}
-                    S
                   />
                 </div>
                 <div className="mt-2 form-radio col-md-12">
@@ -222,7 +230,7 @@ export default function Register() {
                   <label className="labels">Password</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
                 </div>
                 <div className="btn-group col-md-12">
-                  <input type="text" className="form-control col-10 col-md-10" id='passwordInput' placeholder="Password" required
+                  <input type="password" className="form-control col-10 col-md-10" id='passwordInput' placeholder="Password" required
                     name="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
@@ -233,15 +241,20 @@ export default function Register() {
                   <div className="custom-file">
                     <input type="file" className="custom-file-input" id="validatedCustomFile" name="myImage" onChange={uploadToClient} required />
                     <label className="custom-file-label" htmlFor="validatedCustomFile">Choose file...</label>
-                    <img className='img-fluid d-block' src={createObjectURL} />                    
                   </div>
 
                 </div>
+                <div className="mt-2 col-md-12">
+                  <img className='img-fluid d-block' src={createObjectURL} />
+                </div>
+
               </div>
-              <div class="container-login100-form-btn my-3">
+              <div class="row mt-2 container-login100-form-btn my-3">
                 <button type="submit"
                   onClick={uploadToServer}
-                  className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>DAFTAR</button>
+                  className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
+                  DAFTAR
+                </button>
               </div>
               <div className="txt1 text-center mt-3">
                 <span>
