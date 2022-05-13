@@ -1,6 +1,16 @@
+
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  var currentdate = new Date();
+  var dateTime = currentdate.getDate() + "/"
+    + (currentdate.getMonth() + 1) + "/"
+    + currentdate.getFullYear() + " | "
+    + currentdate.getHours() + ":"
+    + currentdate.getMinutes() + ":"
+    + currentdate.getSeconds();
+
   const [nama, setNama] = useState('Yosi');
   const [noWa, setNoWa] = useState('081');
   const [tim, setTim] = useState('Ambyar FC');
@@ -8,15 +18,19 @@ export default function Home() {
   const [tglBooking, setTglBooking] = useState('20-03-2022 09:00 WIB');
   const [tglMain, setTglMain] = useState('30-03-2022');
   const [jadwalMain, setJadwalMain] = useState(['20.00-21.00', '21.00-22.00']);
+  const [lapangan, setLapangan] = useState('Lapangan 1');
   const [harga, setHarga] = useState(50);
   const [status, setStatus] = useState('pending');
   const [noRekening, setNoRekening] = useState('2342543 - Bank BCA');
   const [opsiBayar, setOpsiBayar] = useState('DP');
+  const [diterima, setDiterima] = useState(dateTime);
   const [buktiBayar, setBuktiBayar] = useState('');
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  let router = useRouter()
+
   const handlePost = async (e) => {
     e.preventDefault();
     // reset error and message
@@ -28,6 +42,7 @@ export default function Home() {
     // post structure
     let transaksi = {
       nama,
+      lapangan,
       noWa,
       tim,
       noRekening,
@@ -38,6 +53,7 @@ export default function Home() {
       tglMain,
       jadwalMain,
       harga,
+      diterima,
       status
     };
     // save the post
@@ -49,6 +65,8 @@ export default function Home() {
     let data = await response.json();
     if (data.success) {
       // reset the fields
+      alert('Transaksi pending, Mohn tunggu persetujuan Mitra!')
+      router.push('/')
       setNama('');
       setNoWa('');
       setTim('');
@@ -61,6 +79,7 @@ export default function Home() {
       setStatus('');
       setOpsiBayar('');
       setBuktiBayar('');
+      setLapangan('');
       setImage(null);
       setCreateObjectURL(null);
       // set the message
@@ -72,6 +91,14 @@ export default function Home() {
       return setError(data.message);
     }
   };
+
+  const aturOpsiBayar = (value) => {
+    if (value === 'DP' || value === 'Bayar di tempat') {
+      setStatus('pending')
+    } else (
+      setStatus('lunas')
+    )
+  }
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -154,7 +181,7 @@ export default function Home() {
             </div>
             <div className="form-group">
               <label>Opsi Bayar</label>
-              <select className=" form-select" onChange={(e) => setOpsiBayar(e.target.value)}>
+              <select className=" form-select" onChange={(e) => aturOpsiBayar(e.target.value)}>
                 <option>--Pilih Opsi Bayar--</option>
                 <option value={'DP'}>DP</option>
                 <option value={'Full Bayar'}>Full Bayar</option>

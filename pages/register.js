@@ -88,6 +88,9 @@ export default function Register() {
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
+      var x = document.getElementById("image");
+      x.width = 150
+      x.height = 150
       const i = event.target.files[0];
       setFotoProfil(i.name)
       setImage(i);
@@ -103,6 +106,7 @@ export default function Register() {
       body
     });
   };
+
 
 
 
@@ -130,7 +134,7 @@ export default function Register() {
               </div>
             ) : null}
             <div className="text-center">
-              <img src="./y.png" style={{ height: '5cm', width: '5cm' }} />
+              <img className='img-fluid d-blok p-5' src="./y.png"  />
             </div>
             <span className="login100-form-title p-b-12">
               DAFTAR
@@ -244,12 +248,12 @@ export default function Register() {
                   </div>
 
                 </div>
-                <div className="mt-2 col-md-12">
-                  <img className='img-fluid d-block' src={createObjectURL} />
+                <div className="mt-2 d-flex flex-row justify-content-center">
+                  <img className='img-fluid d-block  rounded-circle' id='image' src={createObjectURL} />
                 </div>
 
               </div>
-              <div class="row mt-2 container-login100-form-btn my-3">
+              <div class="row mt-3 container-login100-form-btn my-3">
                 <button type="submit"
                   onClick={uploadToServer}
                   className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
@@ -265,9 +269,6 @@ export default function Register() {
                 <span>
                   Daftar dengan
                 </span>
-                <a href="#" className="login100-social-item bg1">
-                  <i className="fa fa-facebook" />
-                </a>
                 <a href="#" className="login100-social-item bg3">
                   <i className="fa fa-google" />
                 </a>
