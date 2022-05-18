@@ -77,10 +77,20 @@ export default function Register() {
     console.log(tim)
 
   };
-  const removeItemArray = (index) => {
-    var array = this.state.people;
-    var index = array.indexOf(e.target.value); // Let's say it's Bob.
-    delete array[index];
+  const removeItemArray = (data) => {
+    console.log(data)
+    console.log('initialSTate:')
+    console.log(tim)
+    var index = tim.indexOf(data)
+    if (index >= 0) {
+      if (tim.length === 0) {
+        setTim([])
+      } else {
+        setTim(tim => [...tim.slice(0, index), ...tim.slice(index + 1)])
+      }
+    }
+
+    console.log('afterState:')
     console.log(tim)
   };
 
@@ -207,12 +217,11 @@ export default function Register() {
                   ) : (
                     <>
 
-                      {tim.map((tim, i) => (
+                        {tim.map((data, i) => (
                         <div className="btn-group col-md-12">
-                          <input type="text" id={i} className="form-control col-10 mt-2 col-md-10" value={tim} readOnly />
+                            <input type="text" id={i} className="form-control col-10 mt-2 col-md-10" value={data} readOnly />
                           <button className="form-control col-2 mt-2 col-sm-2"
-                            value={i}
-                            onClick={(e) => removeItemArray(e.target.value)}
+                              onClick={() => removeItemArray(data)}
                           >
                             <i className="fa fa-trash"></i></button>
                         </div>
