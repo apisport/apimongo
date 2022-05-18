@@ -1,19 +1,19 @@
 const { connectToDatabase } = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
-// mengambil data dari collection Tambahlapangandb
-async function getTambahlapangandb(req, res) {
+// mengambil data dari collection lapangan
+async function getLapangan(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
         // fetch the posts
-        let tambahlapangandb = await db
-            .collection('tambahlapangandb')
+        let lapangan = await db
+            .collection('lapangan')
             .find({})
-            .sort({ idTambahlapangandb: -1 })
+            .sort({ idLapangan: -1 })
             .toArray();
         // return the posts
         return res.json({
-            message: JSON.parse(JSON.stringify(tambahlapangandb)),
+            message: JSON.parse(JSON.stringify(lapangan)),
             success: true,
         });
     } catch (error) {
@@ -24,16 +24,16 @@ async function getTambahlapangandb(req, res) {
         });
     }
 }
-// menambah data kedalam collection Tambahlapangandb
-async function addTambahlapangandb(req, res) {
+// menambah data kedalam collection lapangan
+async function addlapangan(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
         // add the post
-        await db.collection('Tambahlapangandb').insertOne(JSON.parse(req.body));
+        await db.collection('lapangan').insertOne(JSON.parse(req.body));
         // return a message
         return res.json({
-            message: 'Data Tambahlapangandb Telah di Tambahkan',
+            message: 'Data lapangan Telah di Tambahkan',
             success: true,
         });
     } catch (error) {
@@ -49,16 +49,16 @@ export default async function handler(req, res) {
     // switch the methods
     switch (req.method) {
         case 'GET': {
-            return getTambahlapangandb(req, res);
+            return getLapangan(req, res);
         }
         case 'POST': {
-            return addTambahlapangandb(req, res);
+            return addLapangan(req, res);
         }
         case 'PUT': {
-            return updateTambahlapangandb(req, res);
+            return updateLapangan(req, res);
         }
         case 'DELETE': {
-            return deleteTambahlapangandb(req, res);
+            return deleteLapangan(req, res);
         }
     }
 }
