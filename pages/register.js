@@ -71,9 +71,8 @@ export default function Register() {
     }
   };
 
-  const onAddItemArray = (value) => {
-    value = document.getElementById('tim').value
-    setTim(oldArray => [...oldArray, value]);
+  const onAddItemArray = () => {
+    setTim(tim => [...tim, timTemp]);
     setTimTemp('')
     console.log(tim)
 
@@ -197,8 +196,8 @@ export default function Register() {
                     value={timTemp}
                     onChange={(e) => setTimTemp(e.target.value)}
                   />
-                  <button className="form-control col-2 mt-2 col-sm-2" value={timTemp}
-                    onClick={(e) => onAddItemArray(e.target.value)}><i className="fa fa-plus"></i></button>
+                  <button className="form-control col-2 mt-2 col-sm-2"
+                    onClick={onAddItemArray}><i className="fa fa-plus"></i></button>
                 </div>
                 <div className="mt-2 col-md-12"><label className="labels">Daftar Tim</label>
                 </div>

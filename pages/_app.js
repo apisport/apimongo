@@ -21,6 +21,7 @@ import "../styles/user.css"
 import { useRouter } from 'next/router'
 import LayoutUser from '../layout/user/LayoutUser'
 import LayoutMitra from '../layout/admin/LayoutAdmin'
+import LayoutDev from '../layout/dev/LayoutDev'
 
 
 
@@ -32,6 +33,14 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </LayoutMitra>
     )
+  }
+  else if (router.pathname.startsWith('/dev/')) {
+    return (
+      <LayoutDev>
+        <Component {...pageProps} />
+      </LayoutDev>
+    )
+
   }
   else if (router.pathname.startsWith('/')) {
     return (

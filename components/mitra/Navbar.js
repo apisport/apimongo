@@ -1,7 +1,6 @@
 import React from 'react'
-import Helmet from 'react-helmet'
 
-const Navbar = () => {
+const Navbar = ({ props }) => {
     return (
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
@@ -26,7 +25,7 @@ const Navbar = () => {
                                         <a className="nav-link" href="/mitra/home">Beranda</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/mitra/transaksi-pending">Konfirmasi Booking <span className='numberCircle'>30</span></a>
+                                        <a className="nav-link" href="/mitra/transaksi-pending">Konfirmasi Booking <span className='numberCircle'>{props}</span></a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/mitra/data-transaksi">Pembukuan Transaksi</a>
@@ -56,7 +55,7 @@ const Navbar = () => {
                             <a className="nav-link" href="/mitra/home">Beranda</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/mitra/transaksi-pending">Konfirmasi Booking <span className='numberCircle'>30</span></a>
+                            <a className="nav-link" href="/mitra/transaksi-pending">Konfirmasi Booking <span className='numberCircle'>{props}</span></a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/mitra/data-transaksi">Pembukuan Transaksi</a>
