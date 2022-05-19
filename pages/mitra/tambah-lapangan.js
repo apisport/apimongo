@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 export default function Addlapangan() {
-    const [namaVenue, setNamaVenue] = useState('');
-    const [namaLapangan, setNamaLapangan] = useState('Scudetto');
+    const [namaVenue, setNamaVenue] = useState('Scudetto');
+    const [namaLapangan, setNamaLapangan] = useState('');
     const [deskripsi, setDeskripsi] = useState('');
     const [jadwalPagi, setJadwalPagi] = useState({});
     const [jadwalMalam, setJadwalMalam] = useState({});
@@ -292,127 +292,7 @@ export default function Addlapangan() {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div className="container-login100-form-btn">
                             <button type="button" className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>SIMPAN</button>
                         </div>
