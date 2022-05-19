@@ -6,6 +6,7 @@ export default function Addlapangan() {
     const [deskripsi, setDeskripsi] = useState('');
     const [jadwalPagi, setJadwalPagi] = useState({});
     const [jadwalMalam, setJadwalMalam] = useState({});
+    const [jadwalTampilan, setJadwalTampilan] = useState([]);
     const [hargaPagi, setHargaPagi] = useState(0);
     const [hargaMalam, setHargaMalam] = useState(0);
     const [gambar, setGambar] = useState('');
@@ -67,33 +68,82 @@ export default function Addlapangan() {
             return setError(data.message);
         }
     };
-
-    const bagijampagi = () => {
-        
-    }
-    const onAddItemArray = () => {
-        setTim(tim => [...tim, timTemp]);
-        setTimTemp('')
-        console.log(tim)
-
-    };
-    const removeItemArray = (data) => {
-        console.log(data)
-        console.log('initialSTate:')
-        console.log(tim)
-        var index = tim.indexOf(data)
-        if (index >= 0) {
-            if (tim.length === 0) {
-                setTim([])
-            } else {
-                setTim(tim => [...tim.slice(0, index), ...tim.slice(index + 1)])
+    const bagiJamPagi = () => {
+        let pagiMulai = parseInt(document.getElementById('jamPagiMulai').value);
+        let pagiAkhir = parseInt(document.getElementById('jamPagiAkhir').value);
+        let selisih = pagiAkhir - pagiMulai
+        if (Object.keys(jadwalPagi).length > 0) {
+            setJadwalPagi({})
+            for (let i = 0; i < selisih; i++) {
+                if (pagiMulai < 10 && (pagiMulai + 1) >= 10) {
+                    let objectValue = `0${pagiMulai}.00-${pagiMulai + 1}.00`
+                    setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-${pagiMulai + 1}.00`]: 'kosong' }))
+                } else if (pagiMulai < 10 && (pagiMulai + 1) < 10) {
+                    setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-0${pagiMulai + 1}.00`]: 'kosong' }))
+                } else {
+                    setJadwalPagi(Object.assign(jadwalPagi, { [`${pagiMulai}.00-${pagiMulai + 1}.00`]: 'kosong' }))
+                }
+                pagiMulai = pagiMulai + 1
+            }
+        } else {
+            for (let i = 0; i < selisih; i++) {
+                if (pagiMulai < 10 && (pagiMulai + 1) >= 10) {
+                    let objectValue = `0${pagiMulai}.00-${pagiMulai + 1}.00`
+                    setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-${pagiMulai + 1}.00`]: 'kosong' }))
+                } else if (pagiMulai < 10 && (pagiMulai + 1) < 10) {
+                    setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-0${pagiMulai + 1}.00`]: 'kosong' }))
+                } else {
+                    setJadwalPagi(Object.assign(jadwalPagi, { [`${pagiMulai}.00-${pagiMulai + 1}.00`]: 'kosong' }))
+                }
+                pagiMulai = pagiMulai + 1
             }
         }
 
-        console.log('afterState:')
-        console.log(tim)
-    };
+        console.log('Jadwal Pagi:')
+        console.log(jadwalPagi)
+        return selisih
+    }
 
+    const bagiJamMalam = () => {
+        let malamMulai = parseInt(document.getElementById('jamMalamMulai').value);
+        let malamAkhir = parseInt(document.getElementById('jamMalamAkhir').value);
+        let selisih = malamAkhir - malamMulai
+        if (Object.keys(jadwalMalam).length > 0) {
+            setJadwalMalam({})
+            for (let i = 0; i < selisih; i++) {
+                if (malamMulai < 10 && (malamMulai + 1) >= 10) {
+                    setJadwalMalam(Object.assign(jadwalMalam, { [`0${malamMulai}.00-${malamMulai + 1}.00`]: 'kosong' }))
+                } else if (malamMulai < 10 && (malamMulai + 1) < 10) {
+                    setJadwalMalam(Object.assign(jadwalMalam, { [`0${malamMulai}.00-0${malamMulai + 1}.00`]: 'kosong' }))
+                } else {
+                    setJadwalMalam(Object.assign(jadwalMalam, { [`${malamMulai}.00-${malamMulai + 1}.00`]: 'kosong' }))
+                }
+                malamMulai = malamMulai + 1
+            }
+        } else {
+            for (let i = 0; i < selisih; i++) {
+                if (malamMulai < 10 && (malamMulai + 1) >= 10) {
+                    setJadwalMalam(Object.assign(jadwalMalam, { [`0${malamMulai}.00-${malamMulai + 1}.00`]: 'kosong' }))
+                } else if (malamMulai < 10 && (malamMulai + 1) < 10) {
+                    setJadwalMalam(Object.assign(jadwalMalam, { [`0${malamMulai}.00-0${malamMulai + 1}.00`]: 'kosong' }))
+                } else {
+                    setJadwalMalam(Object.assign(jadwalMalam, { [`${malamMulai}.00-${malamMulai + 1}.00`]: 'kosong' }))
+                }
+                malamMulai = malamMulai + 1
+            }
+        }
+
+        console.log('Jadwal Malam:')
+        console.log(jadwalMalam)
+        return selisih
+    }
+
+
+    const lihatJadwal = () => {
+        bagiJamPagi()
+        bagiJamMalam()
+
+    }
 
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -170,14 +220,16 @@ export default function Addlapangan() {
                             <div className='row'>
                                 <div className='col-3 col-lg-3 mb-2'>
                                     <input type="time" className="form-control " placeholder="Mulai"
-                                    
+                                        id='jamPagiMulai'
                                         required />
                                 </div>
                                 <div className='col-1 col-lg-1 mb-2 text-center'>
                                     <strong>_</strong>
                                 </div>
                                 <div className='col-3 col-lg-3 mb-2'>
-                                    <input type="time" className="form-control" placeholder="Akhir" required />
+                                    <input type="time" className="form-control" placeholder="Akhir" required
+                                        id='jamPagiAkhir'
+                                    />
                                 </div>
                                 <div className='col-5 col-lg-5 mb-2'>
                                     <div className='d-flex flex-row'>
@@ -195,12 +247,16 @@ export default function Addlapangan() {
                             </div>
                             <div className='row'>
                                 <div className='col-3 col-lg-3 mb-2'>
-                                    <input type="time" className="form-control " placeholder="Mulai" required /></div>
+                                    <input type="time" className="form-control "
+                                        id='jamMalamMulai'
+                                        placeholder="Mulai" required /></div>
                                 <div className='col-1 col-lg-1 mb-2 text-center'>
                                     <strong>_</strong>
                                 </div>
                                 <div className='col-3 col-lg-3 mb-2'>
-                                    <input type="time" className="form-control" placeholder="Akhir" required />
+                                    <input type="time"
+                                        id='jamMalamAkhir'
+                                        className="form-control" placeholder="Akhir" required />
                                 </div>
                                 <div className='col-5 col-lg-5 mb-2'>
                                     <div className='d-flex flex-row'>
@@ -218,7 +274,7 @@ export default function Addlapangan() {
                                 </div>
                             </div>
                             <div className='d-flex-end flex-row justify-content-end mt-3'>
-                                <button className='btn-fill text-white'>Cek Jadwal</button>
+                                <button className='btn-fill text-white' onClick={lihatJadwal}>Cek Jadwal</button>
                             </div>
 
                         </div>
