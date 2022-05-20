@@ -7,6 +7,7 @@ export default function Addlapangan() {
     const [jadwalPagi, setJadwalPagi] = useState({});
     const [jadwalMalam, setJadwalMalam] = useState({});
     const [jadwalTampilan, setJadwalTampilan] = useState([]);
+    const [hargaTampilan, setHargaTampilan] = useState([]);
     const [hargaPagi, setHargaPagi] = useState(0);
     const [hargaMalam, setHargaMalam] = useState(0);
     const [gambar, setGambar] = useState('');
@@ -147,9 +148,31 @@ export default function Addlapangan() {
         let keyJadwalPagi = Object.keys(jadwalPagi)
         let keyJadwalMalam = Object.keys(jadwalMalam)
         let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
-        gabunganJadwal.map(Number)
-        gabunganJadwal.sort(function (a, b) { return a - b });
         return gabunganJadwal
+    }
+
+    const gabungHarga = () => {
+        let hargaPagiValue = hargaPagi;
+        let hargaMalamValue = hargaMalam;
+        let gabunganHarga = []
+
+        //Pagi
+        let pagiMulai = parseInt(document.getElementById('jamPagiMulai').value);
+        let pagiAkhir = parseInt(document.getElementById('jamPagiAkhir').value);
+        let selisihPagi = pagiAkhir - pagiMulai
+        for (let i = 0; i < selisihPagi; i++) {
+            gabunganHarga.push(hargaPagi)
+        }
+
+        //Malam
+        let malamMulai = parseInt(document.getElementById('jamMalamMulai').value);
+        let malamAkhir = parseInt(document.getElementById('jamMalamAkhir').value);
+        let selisihMalam = malamAkhir - malamMulai
+        for (let i = 0; i < selisihMalam; i++) {
+            gabunganHarga.push(hargaMalam)
+        }
+
+        return gabunganHarga
     }
 
     const lihatJadwal = () => {
@@ -157,9 +180,16 @@ export default function Addlapangan() {
         bagiJamPagi()
         bagiJamMalam()
         let gabunganJadwal = gabungJadwal()
-        console.log('Jadwal Gabung')
-        console.log(gabunganJadwal)
-
+        let gabunganHarga = gabungHarga()
+        setJadwalTampilan(gabunganJadwal)
+        setHargaTampilan(gabunganHarga)
+        console.log(jadwalTampilan)
+        console.log(hargaTampilan)
+        
+        // console.log('Jadwal Gabung')
+        // console.log(gabunganJadwal)
+        // console.log('Harga Gabung')
+        // console.log(gabunganHarga)
 
     }
 
@@ -255,7 +285,11 @@ export default function Addlapangan() {
                                             <input className="form-control" value={'Rp'} readOnly required />
                                         </div>
                                         <div className='col-7 col-sm-6'>
-                                            <input type="number" className="form-control" placeholder="Harga Pagi" required />
+                                            <input type="number" className="form-control" placeholder="Harga Pagi"
+                                                required
+                                                value={hargaPagi}
+                                                onChange={(e) => setHargaPagi(e.target.value)}
+                                            />
                                         </div>
                                         <div className='col-3 col-sm-4'>
                                             <input type="text" className="form-control" value={'.000,-'} readOnly required />
@@ -282,7 +316,11 @@ export default function Addlapangan() {
                                             <input className="form-control" value={'Rp'} readOnly required />
                                         </div>
                                         <div className='col-7 col-sm-6'>
-                                            <input type="number" className="form-control" placeholder="Harga Malam" required />
+                                            <input type="number" className="form-control"
+                                                placeholder="Harga Malam"
+                                                value={hargaMalam}
+                                                onChange={(e) => setHargaMalam(e.target.value)}
+                                                required />
                                         </div>
                                         <div className='col-3 col-sm-4'>
                                             <input type="text" className="form-control" value={'.000,-'} readOnly required />
@@ -301,19 +339,29 @@ export default function Addlapangan() {
                 <div className='mt-3'>
                     <h4>Jadwal</h4>
                     <hr></hr>
-                    <div className='row'>
-                        <div className='col-3 col-sm-3 mb-2'>
-                            <div className='card text-center'>
-                                <div className='card-body'>
-                                    <span>08.00-09.00</span><br></br>
-                                    <span>Rp 100.000</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="container-login100-form-btn">
-                            <button type="button" className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>SIMPAN</button>
-                        </div>
+                    <div className='row' id='divJadwal'>
+
+                        {jadwalTampilan.length === 0 ? (
+                            <h2>Isi daftar tim</h2>
+                        ) : (
+                            <>
+
+                                {jadwalTampilan.map((data, i) => (
+                                    <div className='col-3 col-sm-3 mb-2'>
+                                        <div className='card text-center'>
+                                            <div className='card-body'>
+                                                <span>{data}</span><br></br>
+                                                <span>Rp {hargaTampilan[i]}.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+
+                    </div>
+                    <div className="container-login100-form-btn">
+                        <button type="button" className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>SIMPAN</button>
                     </div>
                 </div>
             </div>
