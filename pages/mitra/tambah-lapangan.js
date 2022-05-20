@@ -72,11 +72,13 @@ export default function Addlapangan() {
         let pagiMulai = parseInt(document.getElementById('jamPagiMulai').value);
         let pagiAkhir = parseInt(document.getElementById('jamPagiAkhir').value);
         let selisih = pagiAkhir - pagiMulai
+        console.log(`Initial value: ${pagiMulai}`)
         if (Object.keys(jadwalPagi).length > 0) {
-            setJadwalPagi({})
+            for (let key in jadwalPagi) {
+                delete jadwalPagi[key]
+            }
             for (let i = 0; i < selisih; i++) {
                 if (pagiMulai < 10 && (pagiMulai + 1) >= 10) {
-                    let objectValue = `0${pagiMulai}.00-${pagiMulai + 1}.00`
                     setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-${pagiMulai + 1}.00`]: 'kosong' }))
                 } else if (pagiMulai < 10 && (pagiMulai + 1) < 10) {
                     setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-0${pagiMulai + 1}.00`]: 'kosong' }))
@@ -88,7 +90,6 @@ export default function Addlapangan() {
         } else {
             for (let i = 0; i < selisih; i++) {
                 if (pagiMulai < 10 && (pagiMulai + 1) >= 10) {
-                    let objectValue = `0${pagiMulai}.00-${pagiMulai + 1}.00`
                     setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-${pagiMulai + 1}.00`]: 'kosong' }))
                 } else if (pagiMulai < 10 && (pagiMulai + 1) < 10) {
                     setJadwalPagi(Object.assign(jadwalPagi, { [`0${pagiMulai}.00-0${pagiMulai + 1}.00`]: 'kosong' }))
@@ -100,6 +101,7 @@ export default function Addlapangan() {
         }
 
         console.log('Jadwal Pagi:')
+        console.log(pagiMulai)
         console.log(jadwalPagi)
         return selisih
     }
@@ -109,7 +111,9 @@ export default function Addlapangan() {
         let malamAkhir = parseInt(document.getElementById('jamMalamAkhir').value);
         let selisih = malamAkhir - malamMulai
         if (Object.keys(jadwalMalam).length > 0) {
-            setJadwalMalam({})
+            for (let key in jadwalMalam) {
+                delete jadwalMalam[key]
+            }
             for (let i = 0; i < selisih; i++) {
                 if (malamMulai < 10 && (malamMulai + 1) >= 10) {
                     setJadwalMalam(Object.assign(jadwalMalam, { [`0${malamMulai}.00-${malamMulai + 1}.00`]: 'kosong' }))
@@ -134,14 +138,28 @@ export default function Addlapangan() {
         }
 
         console.log('Jadwal Malam:')
+        console.log(malamMulai)
         console.log(jadwalMalam)
         return selisih
     }
 
+    const gabungJadwal = () => {
+        let keyJadwalPagi = Object.keys(jadwalPagi)
+        let keyJadwalMalam = Object.keys(jadwalMalam)
+        let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
+        gabunganJadwal.map(Number)
+        gabunganJadwal.sort(function (a, b) { return a - b });
+        return gabunganJadwal
+    }
 
     const lihatJadwal = () => {
+
         bagiJamPagi()
         bagiJamMalam()
+        let gabunganJadwal = gabungJadwal()
+        console.log('Jadwal Gabung')
+        console.log(gabunganJadwal)
+
 
     }
 
