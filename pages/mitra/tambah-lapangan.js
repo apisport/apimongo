@@ -60,6 +60,7 @@ export default function Addlapangan() {
             setGambar('');
             setImage(null);
             setCreateObjectURL(null);
+            router.push('/mitra/home')
             // set the message
             return setMessage(data.message);
         }
@@ -152,8 +153,6 @@ export default function Addlapangan() {
     }
 
     const gabungHarga = () => {
-        let hargaPagiValue = hargaPagi;
-        let hargaMalamValue = hargaMalam;
         let gabunganHarga = []
 
         //Pagi
@@ -330,40 +329,48 @@ export default function Addlapangan() {
                                 </div>
                             </div>
                             <div className='d-flex-end flex-row justify-content-end mt-3'>
-                                <button className='btn-fill text-white' onClick={lihatJadwal}>Cek Jadwal</button>
+                                <input type='button' className='btn-fill text-white' onClick={lihatJadwal} value ='CEKJADWAL'/>
                             </div>
 
                         </div>
                     </div>
-                </form>
-                <div className='mt-3'>
-                    <h4>Jadwal</h4>
-                    <hr></hr>
-                    <div className='row' id='divJadwal'>
+                    <div className='mt-3'>
+                        <h4>Jadwal</h4>
+                        <hr></hr>
+                        <div className='row' id='divJadwal'>
 
-                        {jadwalTampilan.length === 0 ? (
-                            <h2>Isi daftar tim</h2>
-                        ) : (
-                            <>
+                            {jadwalTampilan.length === 0 ? (
+                                <h2>Isi daftar tim</h2>
+                            ) : (
+                                <>
 
-                                {jadwalTampilan.map((data, i) => (
-                                    <div className='col-3 col-sm-3 mb-2'>
-                                        <div className='card text-center'>
-                                            <div className='card-body'>
-                                                <span>{data}</span><br></br>
-                                                <span>Rp {hargaTampilan[i]}.000</span>
+                                        {jadwalTampilan.map((data, i) => (
+                                            <div className='col-3 col-sm-3 mb-2'>
+                                                <div className='card text-center'>
+                                                    <div className='card-body'>
+                                                        <span>{data}</span><br></br>
+                                                        <span>Rp {hargaTampilan[i]}.000</span>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        ))}
+                                        <div className="container-login100-form-btn">
+                                            <button type="submit" className="btn btn-outline-secondary"
+                                                style={{
+                                                    backgroundColor: '#006E61', color: 'rgb(255, 255, 255)',
+                                                    borderRadius: '5cm', width: 500, height: 50
+                                                }}
+                                                onClick={uploadToServer}
+                                            >SIMPAN</button>
                                         </div>
-                                    </div>
-                                ))}
-                            </>
-                        )}
+                                </>
+                            )}
+
+                        </div>
 
                     </div>
-                    <div className="container-login100-form-btn">
-                        <button type="button" className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>SIMPAN</button>
-                    </div>
-                </div>
+                </form>
+
             </div>
 
         </div>

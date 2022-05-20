@@ -25,7 +25,7 @@ async function getLapangan(req, res) {
     }
 }
 // menambah data kedalam collection lapangan
-async function addlapangan(req, res) {
+async function addLapangan(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
