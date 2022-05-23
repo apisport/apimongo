@@ -213,7 +213,7 @@ export default function Register() {
                 </div>
                 <div>
                   {tim.length === 0 ? (
-                    <h2>Isi daftar tim</h2>
+                    <h2>Isi Daftar Tim</h2>
                   ) : (
                     <>
 
