@@ -1,12 +1,14 @@
 import CardJadwal from "./CardJadwal"
 import Carousel from "./Carousel"
 import Link from 'next/link'
+import { useState } from "react"
 
 export default function CardLapangan({ props }) {
     let keyJadwalPagi = Object.keys(props.jadwalPagi)
     let keyJadwalMalam = Object.keys(props.jadwalMalam)
     let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
     let gabunganHarga = []
+    const [deleting, setDeleting] = useState(false)
 
     for (let i = 0; i < keyJadwalPagi.length; i++) {
         gabunganHarga.push(props.hargaPagi)
@@ -15,6 +17,38 @@ export default function CardLapangan({ props }) {
     for (let i = 0; i < keyJadwalMalam.length; i++) {
         gabunganHarga.push(props.hargaMalam)
     }
+
+
+    // const deleteLapangan = () => {
+    //     console.log(props._id)
+    // }
+
+    const deleteLapangan = async () => {
+        //change deleting state
+        setDeleting(true);
+        try {
+            console.log('Try')
+            // Delete post
+            await fetch('/api/lapangandb', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    _id: props._id
+                }),
+            });
+            // reset the deleting state
+            setDeleting(false);
+            // reload the page
+            alert('Hapus Lapangan Berhasil')
+            router.push('/mitra/home')
+        } catch (error) {
+            console.log('Catch')
+            // stop deleting state
+            return setDeleting(false);
+        }
+    };
 
     return (
         <div className="row text-start" >
@@ -86,9 +120,12 @@ export default function CardLapangan({ props }) {
                                     </button></a>
                                 </div>
                                 <div className='text-center justify-content-center mt-2 mb-2'>
-                                    <a href='/detail-lapangan'><button className='btn btn-success text-white p-2' style={{ backgroundColor: '#ed0010', color: 'rgb(255, 255, 255)' }}>
+                                    <button className='btn btn-success text-white p-2'
+                                        style={{ backgroundColor: '#ed0010', color: 'rgb(255, 255, 255)' }}
+                                        onClick={() => deleteLapangan()}
+                                    >
                                         <icon className='fa fa-trash'></icon >&nbsp;Hapus Lapangan
-                                    </button></a>
+                                    </button>
                                 </div>
                             </div>
 

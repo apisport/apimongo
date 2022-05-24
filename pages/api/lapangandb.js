@@ -90,6 +90,31 @@ async function updateLapangan(req, res) {
     }
 }
 
+async function deleteLapangan(req, res) {
+    var ObjectId = require('mongodb').ObjectId;
+    const { _id } = req.body;
+    const convertedObjectId = new ObjectId(_id);
+    try {
+        // Connecting to the database
+        let { db } = await connectToDatabase();
+        // Deleting the post
+        await db.collection('lapangan').deleteOne({
+            '_id': convertedObjectId
+        });
+        // returning a message
+        return res.json({
+            message: 'Post deleted successfully',
+            success: true,
+        });
+    } catch (error) {
+        // returning an error
+        return res.json({
+            message: new Error(error).message,
+            success: false,
+        });
+    }
+}
+
 // CRUD handler
 export default async function handler(req, res) {
     // switch the methods

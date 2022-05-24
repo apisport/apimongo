@@ -89,8 +89,8 @@ export default function Addlapangan() {
                 }),
             });
             // reload the page
-            console.log('Test Working')
-            return router.push(router.asPath);
+            alert('Data sukses diupdate')
+            return router.push('/mitra/home');
         } catch (error) {
             // Stop publishing state
             console.log('Not Working')
