@@ -17,7 +17,7 @@ export default function TransaksiPending() {
 
     let transaksi = data['message']
     let transaksiPending = transaksi.filter(data => data.opsiBayar != "Full Bayar" && data.status == 'pending')
-    let transaksiDPBelumLunas = transaksi.filter(data => data.opsiBayar == "DPr" && data.status == 'belum lunas')
+    let transaksiDPBelumLunas = transaksi.filter(data => data.opsiBayar == "DP" && data.status == 'belum lunas')
     let transaksiBayarDiTempat = transaksi.filter(data => data.opsiBayar == "Bayar di Tempat" && data.status == 'belum lunas')
 
     return (
@@ -67,7 +67,7 @@ export default function TransaksiPending() {
                             <div className="row p-0" style={{ backgroundColor: 'white' }}>
                                 {/* ROW CONTENT */}
                                 <div className="row p-3 justify-content-center">
-                                    <CardDPBelumLunas transaksi={transaksiDPBelumLunas} />
+                                    <CardDPBelumLunas props={transaksiDPBelumLunas} />
                                 </div>
                                 {/* END ROW */}
                             </div>
@@ -82,7 +82,7 @@ export default function TransaksiPending() {
                             <div className="row p-0" style={{ backgroundColor: 'white' }}>
                                 {/* ROW CONTENT */}
                                 <div className="row p-3 justify-content-center">
-                                    <CardBayarDiTempat transaksi={transaksiBayarDiTempat} />
+                                    <CardBayarDiTempat props={transaksiBayarDiTempat} />
                                 </div>
                                 {/* END ROW */}
                             </div>

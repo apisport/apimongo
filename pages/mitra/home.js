@@ -1,6 +1,22 @@
 import CardLapangan from "../../components/mitra/home/CardLapangan";
+import useSWR from 'swr'
 
 export default function Home() {
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const { data: data, error } = useSWR('/api/lapangandb', fetcher)
+
+
+
+    if (!data) {
+        return <div>Loading...</div>
+    } else if (error) {
+        return <div>Something went wrong</div>
+    }
+
+
+    let lapangan = data['message']
+    console.log(lapangan)
+
     return (
         <div className="container">
             <h1>Detail Venue</h1>
@@ -19,15 +35,15 @@ export default function Home() {
                                             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={2} aria-label="Slide 3" />
                                         </div>
                                         <div className="carousel-inner">
-                                                <div className="carousel-item active">
-                                                    <img src="../images/slider-1.jpg" className="d-block img-fluid w-100" alt="..." />
-                                                </div>
-                                                <div className="carousel-item">
-                                                    <img src="../images/slider-1.jpg" className="d-block w-100" alt="..." />
-                                                </div>
-                                                <div className="carousel-item">
-                                                    <img src="../images/slider-1.jpg" className="d-block w-100" alt="..." />
-                                                </div>
+                                            <div className="carousel-item active">
+                                                <img src="../images/slider-1.jpg" className="d-block img-fluid w-100" alt="..." />
+                                            </div>
+                                            <div className="carousel-item">
+                                                <img src="../images/slider-1.jpg" className="d-block w-100" alt="..." />
+                                            </div>
+                                            <div className="carousel-item">
+                                                <img src="../images/slider-1.jpg" className="d-block w-100" alt="..." />
+                                            </div>
                                         </div>
                                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                             <span className="carousel-control-prev-icon" aria-hidden="true" />
@@ -79,10 +95,15 @@ export default function Home() {
             <div className='mt-3'>
                 <h4 className='text-start'> Daftar Lapangan</h4>
                 <hr></hr>
-                <CardLapangan />
-                <CardLapangan />
-                <CardLapangan />
-                <CardLapangan />
+                {lapangan.length === 0 ? (
+                    <h2>Tidak ada data Lapangan</h2>
+                ) : (
+                    <>
+                        {lapangan.map((data, index) => (
+                            <CardLapangan props={data} />
+                        ))}
+                    </>
+                )}
             </div>
 
             <div className='row'>

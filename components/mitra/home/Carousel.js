@@ -1,14 +1,14 @@
-export default function Carousel() {
+export default function Carousel({ gambar }) {
     return (
         <>
             <div className="carousel-item active">
-                <img src="/lapangan/lapangan1.jpg" className=" img-fluid" />
+                <img src={`/uploads/${gambar}`} className=" img-fluid" />
             </div>
             <div className="carousel-item" >
-                <img src="/lapangan/lapangan1.jpg" className=" img-fluid" />
+                <img src={`/uploads/${gambar}`} className=" img-fluid" />
             </div>
             <div className="carousel-item">
-                <img src="/lapangan/lapangan1.jpg" className=" img-fluid" />
+                <img src={`/uploads/${gambar}`} className=" img-fluid" />
             </div>
         </>
     )

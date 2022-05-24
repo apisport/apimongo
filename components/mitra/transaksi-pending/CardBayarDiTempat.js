@@ -1,11 +1,11 @@
-export default function CardBayarDiTempat({ transaksi }) {
+export default function CardBayarDiTempat({ props }) {
     return (
         <>
-            {transaksi.length === 0 ? (
+            {props.length === 0 ? (
                 <h2>Tidak ada data</h2>
             ) : (
                 <>
-                    {transaksi.map((data, index) => (
+                    {props.map((data, index) => (
                         <div key={index} className="shadow-sm col-12 col-lg-5 border border-2 mb-4 ml-3 p-3 text-start">
                             <h1>{data.lapangan}</h1>
                             <h4><b>Nama Pemesan:</b>{data.nama}</h4>

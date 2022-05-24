@@ -1,6 +1,19 @@
 import CardJadwal from "./CardJadwal"
 import Carousel from "./Carousel"
-export default function CardLapangan() {
+export default function CardLapangan({ props }) {
+    let keyJadwalPagi = Object.keys(props.jadwalPagi)
+    let keyJadwalMalam = Object.keys(props.jadwalMalam)
+    let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
+    let gabunganHarga = []
+
+    for (let i = 0; i < keyJadwalPagi.length; i++) {
+        gabunganHarga.push(props.hargaPagi)
+    }
+
+    for (let i = 0; i < keyJadwalMalam.length; i++) {
+        gabunganHarga.push(props.hargaMalam)
+    }
+
     return (
         <div className="row text-start" >
             <div className="card border-0 mb-3 shadow-sm">
@@ -16,7 +29,7 @@ export default function CardLapangan() {
                                     <button type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide-to={2} aria-label="Slide 3" />
                                 </div>
                                 <div className="carousel-inner">
-                                    <Carousel />
+                                    <Carousel gambar={props.gambar} />
 
                                 </div>
                                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide="prev">
@@ -28,7 +41,7 @@ export default function CardLapangan() {
                                     <span className="visually-hidden">Next</span>
                                 </button>
                             </div>
-                            <h5 className="card-title mt-2 justify-content-center text-center" style={{ color: "black" }}><strong>Lapangan 1</strong></h5>
+                            <h5 className="card-title mt-2 justify-content-center text-center" style={{ color: "black" }}><strong>{props.namaLapangan}</strong></h5>
 
 
                             {/* END SLIDER */}
@@ -40,14 +53,22 @@ export default function CardLapangan() {
                             </div>
 
                             <div className='row' >
-                                <CardJadwal />
-                                <CardJadwal />
-                                <CardJadwal />
-                                <CardJadwal />
-                                <CardJadwal />
-                                <CardJadwal />
-                                <CardJadwal />
-                                <CardJadwal />
+                                {gabunganJadwal.length === 0 ? (
+                                    <h2>Tidak ada data</h2>
+                                ) : (
+                                    <>
+                                        {gabunganJadwal.map((data, index) => (
+                                            <div className='col-6 col-sm-3 mb-2'>
+                                                <div className='card'>
+                                                    <div className='card-body'>
+                                                        <span>{data}</span><br></br>
+                                                        <span>{`Rp ${gabunganHarga[index]}.000`}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
                             </div>
                             <div className="d-flex flex-row justify-content-evenly">
                                 <div className='text-center justify-content-center mt-2 mb-2'>
