@@ -44,6 +44,52 @@ async function addLapangan(req, res) {
         });
     }
 }
+
+async function updateLapangan(req, res) {
+    const { namaVenue,
+        namaLapangan,
+        namaLapanganOld,
+        deskripsi,
+        gambar,
+        jadwalPagi,
+        jadwalMalam,
+        hargaPagi,
+        hargaMalam } = req.body
+    try {
+        // connect to the database
+        let { db } = await connectToDatabase();
+        // update the published status of the post
+        await db.collection('lapangan').updateOne(
+            {
+                'namaVenue': namaVenue,
+                'namaLapangan': namaLapanganOld
+            },
+            {
+                $set: {
+                    'namaLapangan': namaLapangan,
+                    'deskripsi': deskripsi,
+                    'gambar': gambar,
+                    'jadwalPagi': jadwalPagi,
+                    'jadwalMalam': jadwalMalam,
+                    'hargaPagi': hargaPagi,
+                    'hargaMalam': hargaMalam
+                }
+            }
+        );
+        // return a message
+        return res.json({
+            message: 'Post updated successfully',
+            success: true,
+        });
+    } catch (error) {
+        // return an error
+        return res.json({
+            message: new Error(error).message,
+            success: false,
+        });
+    }
+}
+
 // CRUD handler
 export default async function handler(req, res) {
     // switch the methods

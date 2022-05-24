@@ -1,5 +1,7 @@
 import CardJadwal from "./CardJadwal"
 import Carousel from "./Carousel"
+import Link from 'next/link'
+
 export default function CardLapangan({ props }) {
     let keyJadwalPagi = Object.keys(props.jadwalPagi)
     let keyJadwalMalam = Object.keys(props.jadwalMalam)
@@ -72,9 +74,11 @@ export default function CardLapangan({ props }) {
                             </div>
                             <div className="d-flex flex-row justify-content-evenly">
                                 <div className='text-center justify-content-center mt-2 mb-2'>
-                                    <a href='/detail-lapangan'><button className='btn btn-success text-white p-2' style={{ backgroundColor: '#00cc36', color: 'rgb(255, 255, 255)' }}>
-                                        <icon className='fa fa-pencil'></icon >&nbsp;Edit Lapangan
-                                    </button></a>
+                                    <Link href={`/mitra/update-lapangan?namaVenue=${props.namaVenue}&namaLapangan=${props.namaLapangan}&deskripsi=${props.deskripsi}&gambar=${props.gambar}&jadwalPagi=${JSON.stringify(props.jadwalPagi)}&jadwalMalam=${JSON.stringify(props.jadwalMalam)}&hargaPagi=${props.hargaPagi}&hargaMalam=${props.hargaMalam}`}>
+                                        <button className='btn btn-success text-white p-2' style={{ backgroundColor: '#00cc36', color: 'rgb(255, 255, 255)' }}>
+                                            <icon className='fa fa-pencil'></icon >&nbsp;Edit Lapangan
+                                        </button>
+                                    </Link>
                                 </div>
                                 <div className='text-center justify-content-center mt-2 mb-2'>
                                     <a href='/mitra/detail-lapangan'><button className='btn btn-success text-white p-2' style={{ backgroundColor: '#2b7ead', color: 'rgb(255, 255, 255)' }}>
