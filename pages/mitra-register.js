@@ -195,7 +195,7 @@ export default function Register() {
                   <label className="labels">Nama Venue</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text"
                     className="form-control"
-                    placeholder="Nama Venue"
+                    
                     value={namaVenue}
                     onChange={(e) => setNamaVenue(e.target.value)}
                     required />
@@ -205,7 +205,7 @@ export default function Register() {
                   <input type="text" className="form-control"
                     value={namaPemilikVenue}
                     onChange={(e) => setNamaPemilikVenue(e.target.value)}
-                    placeholder="Nama Pemilik Lapangan"
+                    
                     required />
                 </div>
                 <div className="mt-2 col-md-12"><label className="labels">Alamat</label>
@@ -213,7 +213,7 @@ export default function Register() {
                   <textarea class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
-                    placeholder="Masukkan Alamat"
+                    
                     value={alamat}
                     onChange={(e) => setAlamat(e.target.value)}
                     required></textarea>
@@ -222,7 +222,7 @@ export default function Register() {
                   <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text"
                     className="form-control"
-                    placeholder="Masukkan No. WhatsApp"
+                    
                     value={noWa}
                     onChange={(e) => setNoWa(e.target.value)}
                     required />
@@ -232,7 +232,7 @@ export default function Register() {
                     value={instagram}
                     onChange={(e) => setInstagram(e.target.value)}
                     className="form-control"
-                    placeholder="Masukkan Media Sosial" />
+                     />
                 </div>
                 <div className="form-group mt-2 col-md-12">
                   <label htmlFor="exampleFormControlSelect1">Kategori Olahraga</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
@@ -282,12 +282,12 @@ export default function Register() {
                   <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <div className='row'>
                     <div className='col-5 col-lg-5 mb-2'>
-                      <input type="time" className="form-control " placeholder="Mulai" id="jamOperasionalMulai" required /></div>
+                      <input type="time" className="form-control " id="jamOperasionalMulai" required /></div>
                     <div className='col-2 col-lg-2 mb-2 text-center'>
                       <strong>_</strong>
                     </div>
                     <div className='col-5 col-lg-5 mb-2'>
-                      <input type="time" className="form-control" placeholder="Akhir" id="jamOperasionalAkhir" required />
+                      <input type="time" className="form-control" id="jamOperasionalAkhir" required />
                     </div>
                   </div>
                 </div>
@@ -319,20 +319,20 @@ export default function Register() {
                   <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <div>
                     <div className="form-check">
-                      <input className="form-check-input" value={'Full Bayar Transfer'} type="checkbox" id="flexCheckDefault" name='opsiBayar' />
+                      <input className="form-check-input" value={'Full Bayar Transfer'} type="checkbox" id="flexCheckDefault" onClick={() => setCheck()} name='opsiBayar' />
                       <label className="form-check-label" htmlFor="flexCheckDefault">
                         Full Bayar Transfer
                       </label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" value={'DP'} type="checkbox" id="flexCheckChecked" name='opsiBayar' />
+                      <input className="form-check-input" value={'DP'} type="checkbox" onClick={() => setCheck()} id="flexCheckChecked" name='opsiBayar' />
                       <label className="form-check-label" htmlFor="flexCheckChecked">
                         DP
                       </label>
                     </div>
                   </div>
                   <div className="form-check">
-                    <input className="form-check-input" value={'Bayar di Tempat'} type="checkbox" defaultValue id="flexCheckChecked" name='opsiBayar' />
+                    <input className="form-check-input" value={'Bayar di Tempat'} type="checkbox" onClick={() => setCheck()} defaultValue id="flexCheckChecked" name='opsiBayar' />
                     <label className="form-check-label" htmlFor="flexCheckChecked">
                       Bayar Di Tempat
                     </label>
@@ -343,7 +343,6 @@ export default function Register() {
                   <textarea class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
-                    placeholder="Masukkan Fasilitas"
                     required
                     value={fasilitas}
                     onChange={(e) => setFasilitas(e.target.value)}></textarea>
@@ -354,9 +353,9 @@ export default function Register() {
                 <div className="d-flex flex-row">
                   <div className='row'>
                     <div className='btn-group col-12 col-lg- mb-2'>
-                      <input type="text" className='form-control col-3 col-md-3' placeholder="Bank" id='bank' />
+                      <input type="text" className='form-control col-3 col-md-3' id='bank' />
                       <strong className='col-1 col-md-1'>_</strong>
-                      <input type="text" className="form-control col-6 col-md-6" placeholder="No. Rekening" id='rekening' />
+                      <input type="text" className="form-control col-6 col-md-6" id='rekening' />
                       <button onClick={onAddItemArray} className="form-control col-2 col-md-2"><i className="fa fa-plus"></i></button>
                     </div>
                   </div>
@@ -390,7 +389,6 @@ export default function Register() {
                   <label className="labels">Nama Admin</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text"
                     className="form-control"
-                    placeholder="Nama Admin"
                     value={namaAdmin}
                     onChange={(e) => setNamaAdmin(e.target.value)}
                     required />
@@ -398,7 +396,6 @@ export default function Register() {
                 <div className="mt-1 col-md-12">
                   <label className="labels">No. Whatsapp Admin</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text" className="form-control"
-                    placeholder="Username"
                     value={noWaAdmin}
                     onChange={(e) => setNoWaAdmin(e.target.value)}
                     required />
@@ -407,7 +404,6 @@ export default function Register() {
                   <label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text"
                     className="form-control"
-                    placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required />
@@ -420,8 +416,7 @@ export default function Register() {
                     className="form-control col-10 col-sm-10"
                     id='passwordInput'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password" required />
+                    onChange={(e) => setPassword(e.target.value)} required />
                   <button onClick={() => { myFunction() }} className="form-control col-2 col-sm-2"><i className="fa fa-eye"></i></button>
                 </div>
               </div>

@@ -3,7 +3,7 @@ export default function MitraDev() {
         <>
             <div class="container-fluid">
                 <div className="d-flex flex-row justify-content-center mb-5">
-                    <h1>Data Mitra Terdaftar</h1>
+                    <h1>Data Mitra Terdaftar dan Tersetujui</h1>
                 </div>
 
                 <div class="row flex-row flex-nowrap mt-3">
@@ -88,5 +88,5 @@ export default function MitraDev() {
 
             </div>
         </>
-)
+    )
 }

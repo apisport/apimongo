@@ -1,10 +1,15 @@
 import useSWR from "swr"
 import Link from 'next/link'
 import { useState } from "react"
+import Pagination from "../../components/Pagination"
 
 export default function MitraDev() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
     const { data: data, error } = useSWR('/api/mitrapendingdb', fetcher)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(1)
+    const [filterSearch, setFilterSearch] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
 
 
 
@@ -17,6 +22,34 @@ export default function MitraDev() {
 
     let mitrapending = data['message']
     console.log(mitrapending)
+
+    let searchArr = mitrapending.filter((tblDat) => {
+        if (searchTerm == "") {
+            return tblDat
+        } else if (tblDat.index_buku.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return tblDat
+        } else if (tblDat.no_klasifikasi.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return tblDat
+        } else if (tblDat.judul.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return tblDat
+        }
+        else if (tblDat.pengarang.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return tblDat
+        } else if (tblDat.penerbit.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return tblDat
+        } else if (tblDat.status.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return tblDat
+        }
+    })
+
+    //Tambahan Pagination
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    //Fixed Pagintion CurrentPosts hapus filter di bawah
+    let currentPosts = searchArr.slice(indexOfFirstPost, indexOfLastPost)
+    //Fixed Pagination CurrentPosts
+    const howManyPages = Math.ceil(searchArr.length / postsPerPage)
+    //Tambahan Pagination Current Post Map
 
     return (
         <>
@@ -39,7 +72,7 @@ export default function MitraDev() {
                         <div className="text-md-end dataTables_filter" id="dataTable_filter">
                             <div>
 
-                                <select className=" form-select" id="filterInput" onChange={event => { myFunction() }}>
+                                <select className=" form-select" id="filterInput">
                                     <option>--Filter Search--</option>
                                     <option value={'Nama Venue'}>Nama Venue</option>
                                 </select>
@@ -51,7 +84,7 @@ export default function MitraDev() {
                             <input type="search"
                                 className="form-control form-control-md"
                                 aria-controls="dataTable" placeholder="Search" id="searchInput"
-                                onChange={event => { setSearchTerm(event.target.value) }} />
+                                onChange={(event) => { setSearchTerm(event.target.value) }} />
                         </div>
                     </div>
                 </div>
@@ -71,12 +104,12 @@ export default function MitraDev() {
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {mitrapending.length === 0 ? (
-                                <h2>Tidak ada data Mitra Pending</h2>
-                            ) : (
-                                <>
-                                    {mitrapending.map((data, index) => (
+                        {currentPosts.length === 0 ? (
+                            <h2>Tidak ada data Mitra Pending</h2>
+                        ) : (
+                            <>
+                                {currentPosts.map((data, index) => (
+                                    <tbody>
                                         <tr>
                                             <td>{index + 1}</td>
                                             <td>{data.namaVenue}</td>
@@ -86,10 +119,30 @@ export default function MitraDev() {
                                             <td>{data.username}</td>
                                             <td>{data.password}</td>
                                             <td><div className="btn-group-vertical btn-group-sm">
-                                                <Link href={`/dev/detail-mitra-pending?namaVenue=${data.namaVenue}&namaPemilikVenue=${data.namaPemilikVenue}&alamat=${data.alamat}&noWa=${data.noWa}&instagram=${data.instagram}&kategori=${data.kategori}&hariOperasional=${data.hariOperasional}&jamOperasional=${data.jamOperasional}&fasilitas=${data.fasilitas}&opsiBayarStringify=${JSON.stringify(data.opsiBayar)}&rekeningStringify=${JSON.stringify(data.rekening)}&objectId=${data._id}`}>
-                                                    {/* <Link href={{
-                                                    pathname: '/dev/detail-mitra-pending'
-                                                }}> */}
+                                                {/* <Link href={`/dev/detail-mitra-pending?namaVenue=${data.namaVenue}&namaPemilikVenue=${data.namaPemilikVenue}&alamat=${data.alamat}&noWa=${data.noWa}&instagram=${data.instagram}&kategori=${data.kategori}&hariOperasional=${data.hariOperasional}&jamOperasional=${data.jamOperasional}&fasilitas=${data.fasilitas}&opsiBayarStringify=${JSON.stringify(data.opsiBayar)}&rekeningStringify=${JSON.stringify(data.rekening)}&namaAdmin=${data.namaAdmin}&noWaAdmin=${data.noWaAdmin}&username=${data.username}&password=${data.password}&fotoVenue=${data.fotoVenue}objectId=${data._id}`}> */}
+                                                <Link href={{
+                                                    pathname: '/dev/detail-mitra-pending',
+                                                    query: {
+                                                        namaVenue: data.namaVenue,
+                                                        namaPemilikVenue: data.namaPemilikVenue,
+                                                        alamat: data.alamat,
+                                                        noWa: data.noWa,
+                                                        instagram: data.instagram,
+                                                        kategori: data.kategori,
+                                                        hariOperasional: data.hariOperasional,
+                                                        jamOperasional: data.jamOperasional,
+                                                        fasilitas: data.fasilitas,
+                                                        opsiBayarStringify: JSON.stringify(data.opsiBayar),
+                                                        rekeningStringify: JSON.stringify(data.rekening),
+                                                        namaAdmin: data.namaAdmin,
+                                                        noWaAdmin: data.noWaAdmin,
+                                                        username: data.username,
+                                                        password: data.password,
+                                                        fotoVenue: data.fotoVenue,
+                                                        objectId: data._id
+                                                    }
+
+                                                }}>
                                                     <button className="btn btn-success text-white mb-2"
                                                         type="button"
                                                         style={{ marginLeft: 'auto', background: 'green' }}
@@ -100,14 +153,15 @@ export default function MitraDev() {
                                             </div>
                                             </td>
                                         </tr>
-                                    ))}
-                                </>
-                            )}
+                                    </tbody>
+                                ))}
+                            </>
+                        )}
 
-                        </tbody>
                     </table>
-                </div>
 
+                </div>
+                <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
             </div>
         </>
     )

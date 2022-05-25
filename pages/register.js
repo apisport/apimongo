@@ -183,14 +183,14 @@ export default function Register() {
                   </div>
                 </div>
                 <div className="mt-2 col-md-12"><label className="labels">No . WhatsApp</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
-                  <input type="text" className="form-control" placeholder="Masukkan No. WhatsApp" required
+                  <input type="text" className="form-control" required
                     name="noWa"
                     onChange={(e) => setNoWa(e.target.value)}
                     value={noWa}
                   />
                 </div>
                 <div className="mt-2 col-md-12"><label className="labels">Email</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
-                  <input type="text" className="form-control" placeholder="Masukkan Email" required
+                  <input type="text" className="form-control" required
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
@@ -200,7 +200,7 @@ export default function Register() {
                   <label className="labels">Tambah Tim</label>
                 </div>
                 <div className="btn-group col-md-12">
-                  <input type="text" className="form-control col-10 mt-2 col-md-10" placeholder="Tambah Tim"
+                  <input type="text" className="form-control col-10 mt-2 col-md-10"
                     id="tim"
                     name="tim"
                     value={timTemp}
@@ -232,7 +232,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-2 col-md-12"><label className="labels">Username</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
-                  <input type="text" className="form-control" placeholder="Username" required
+                  <input type="text" className="form-control" required
                     name="username"
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
@@ -242,7 +242,7 @@ export default function Register() {
                   <label className="labels">Password</label><i style={{color:'#ff0000', fontSize: 'larger'}}>*</i>
                 </div>
                 <div className="btn-group col-md-12">
-                  <input type="password" className="form-control col-10 col-md-10" id='passwordInput' placeholder="Password" required
+                  <input type="password" className="form-control col-10 col-md-10" id='passwordInput' required
                     name="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
@@ -289,6 +289,13 @@ export default function Register() {
                   Sudah punya akun?
                   <a href="./login" className="txt2">
                   &nbsp;<u>LOGIN</u>
+                  </a>
+                </span>
+              </div>
+              <div className="flex-col-c mt-3">
+                <span className="txt1 p-b-10">
+                  <a href="/mitra-register" className="txt2">
+                  &nbsp;<u>REGISTER SEBAGAI MITRA</u>
                   </a>
                 </span>
               </div>

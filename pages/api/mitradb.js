@@ -30,10 +30,10 @@ async function addMitra(req, res) {
         // connect to the database
         let { db } = await connectToDatabase();
         // add the post
-        await db.collection('mitraPending').insertOne(JSON.parse(req.body));
+        await db.collection('mitra').insertOne(JSON.parse(req.body));
         // return a message
         return res.json({
-            message: 'Mitra Pending Telah di Tambahkan',
+            message: 'Mitra Telah di Tambahkan',
             success: true,
         });
     } catch (error) {

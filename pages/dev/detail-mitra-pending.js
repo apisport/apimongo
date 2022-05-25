@@ -21,6 +21,9 @@ export default function Register() {
         fotoVenue,
         objectId } = router.query
 
+    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+
     let opsiBayar = JSON.parse(opsiBayarStringify)
     let rekening = JSON.parse(rekeningStringify)
 
@@ -39,21 +42,15 @@ export default function Register() {
             });
             // reset the deleting state
             // reload the page
-            alert('Permintaan Ditolak Berhasil')
+            alert('Mitra Pending Terhapus')
             router.push('/dev/mitra-pending')
         } catch (error) {
             // stop deleting state
-            return setDeleting(false);
         }
     };
 
     const handlePost = async (e) => {
         e.preventDefault();
-        setJam()
-        setHari()
-        // reset error and message
-        setError('');
-        setMessage('');
         // fields check
         if (!namaVenue || !namaPemilikVenue || !alamat || !noWa || !instagram || !kategori || !hariOperasional ||
             !jamOperasional || !fasilitas || !opsiBayar || !rekening || !namaAdmin || !noWaAdmin || !username || !password || !fotoVenue) {
@@ -61,7 +58,7 @@ export default function Register() {
             return setError('Isi Semua Data');
         }
         // post structure
-        let mitraPending = {
+        let mitra = {
             namaVenue,
             namaPemilikVenue,
             alamat,
@@ -80,16 +77,17 @@ export default function Register() {
             fotoVenue
         };
         // save the post
-        let response = await fetch('/api/mitrapendingdb', {
+        let response = await fetch('/api/mitradb', {
             method: 'POST',
-            body: JSON.stringify(mitraPending),
+            body: JSON.stringify(mitra),
         });
         // get the data
         let data = await response.json();
         if (data.success) {
+            deleteMitraPending()
             // reset the fields
-            alert('Register berhasil! Mohon Tunggu untuk Persetujuan')
-            router.push('/')
+            alert('Persetujuan Sukses')
+            router.push('/dev/mitra-dev')
             return setMessage(data.message);
         }
         else {
@@ -99,109 +97,16 @@ export default function Register() {
         }
     };
 
-    const setJam = () => {
-        let valueJamMulai = document.getElementById('jamOperasionalMulai').value
-        let valueJamAkhir = document.getElementById('jamOperasionalAkhir').value
-        let jadi = `${valueJamMulai} - ${valueJamAkhir}`
-        setJamOperasional(jadi)
-    }
-
-    const setHari = () => {
-        let hariMulai = document.getElementById('hariOperasionalMulai').value
-        let hariAkhir = document.getElementById('hariOperasionalAkhir').value
-        let jadi = `${hariMulai} - ${hariAkhir}`
-        setHariOperasional(jadi)
-    }
-
-    const setCheck = () => {
-        let check = document.getElementsByName('opsiBayar')
-        let len = check.length
-        setOpsiBayar([])
-        for (var i = 0; i < len; i++) {
-            if (check[i].checked) {
-                setOpsiBayar(arr => [...arr, check[i].value]);
-            }
-        }
-
-    };
-
-    const onAddItemArray = () => {
-        setCheck()
-        setHari()
-        setJam()
-        let valueBank = document.getElementById('bank').value
-        let valueNoRek = document.getElementById('rekening').value
-        let jadi = `${valueBank} - ${valueNoRek}`
-        setRekening(arr => [...arr, jadi]);
-        document.getElementById('bank').value = ''
-        document.getElementById('rekening').value = ''
-        console.log(`Alamat: ${alamat}`)
-        console.log(`Fasilitas: ${fasilitas}`)
-
-
-    };
-
-    const removeItemArray = (data) => {
-        console.log(data)
-        console.log('initialSTate:')
-        console.log(rekening)
-        var index = rekening.indexOf(data)
-        if (index >= 0) {
-            if (rekening.length === 0) {
-                setRekening([])
-            } else {
-                setRekening(tim => [...tim.slice(0, index), ...tim.slice(index + 1)])
-            }
-        }
-
-        console.log('afterState:')
-
-    };
-
-
-    const uploadToClient = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            var x = document.getElementById("image");
-            x.width = 150
-            x.height = 150
-            const i = event.target.files[0];
-            setFotoVenue(i.name)
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
-        }
-    };
-    const uploadToServer = async (event) => {
-        const body = new FormData();
-        //console.log("file", image)
-        body.append("file", image);
-        const response = await fetch("/api/upload", {
-            method: "POST",
-            body
-        });
-    };
-
-    function myFunction() {
-        var x = document.getElementById("passwordInput");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-        console.log(opsiBayar)
-        console.log(rekening)
-        console.log(hariOperasional)
-        console.log(jamOperasional)
-    }
     return (
         <div className="limiter">
             <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>
                 <form className="login100-form validate-form">
-                    <span className="login100-form-title p-b-12">
+                    <span className="login100-form-title">
                         MITRA PENDING
                     </span>
                     <div className="p-3 py-5">
-                        <div className="row mt-2">
-                            <div className="mt-2 col-md-12">
+                        <div className="row">
+                            <div className=" col-md-12">
                                 <label className="labels">Nama Venue</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                                 <input type="text" className="form-control"
                                     required
@@ -235,7 +140,7 @@ export default function Register() {
                         <div className="row mt-2">
                             <div className="mt-2 col-md-12">
                                 <label className="labels">No. WA Venue</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
-                                <textarea type="text" className="form-control"
+                                <input type="text" className="form-control"
                                     required
                                     value={noWa}
                                     readOnly
@@ -245,17 +150,126 @@ export default function Register() {
                         <div className="row mt-2">
                             <div className="mt-2 col-md-12">
                                 <label className="labels">Instagram</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
-                                <textarea type="text" className="form-control"
+                                <input type="text" className="form-control"
                                     required
-                                    value={instagram}
+                                    value={`@${instagram}`}
                                     readOnly
                                 />
                             </div>
                         </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Kategori</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={kategori}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Hari Operasional</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={hariOperasional}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Hari Operasional</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={jamOperasional}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Fasilitas</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <textarea type="text" className="form-control"
+                                    required
+                                    value={fasilitas}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Opsi Bayar</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <ul className='list-group'>
+                                    {opsiBayar.map((data, index) => (
+                                        <li className='list-group-item'>{data}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">No. Rekening</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <ul className='list-group'>
+                                    {rekening.map((data, index) => (
+                                        <li className='list-group-item'>{data}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <hr></hr>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Nama Admin</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={namaAdmin}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">No WA Admin</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={noWaAdmin}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={username}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Password</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <input type="text" className="form-control"
+                                    required
+                                    value={password}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">Gambar</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i><br></br>
+                                <img src={`/uploads/${fotoVenue}`} height={300} />
+                            </div>
+                        </div>
+
+
                         <div class="row mt-3 container-login100-form-btn my-3 g-3">
                             <button type="submit"
-                                onClick={uploadToServer}
-                                className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
+                                className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}
+                                onClick={handlePost}>
                                 TERIMA
                             </button>
                             <button type="button"
@@ -263,23 +277,6 @@ export default function Register() {
                                 className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#c41d0e', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
                                 TOLAK
                             </button>
-                        </div>
-                        <div className="txt1 text-center mt-3">
-                            <span>
-                                atau
-                            </span>
-                        </div>
-
-                        <div className='mt-2 col-md-12 text-center' style={{ color: 'red' }}>
-                            <span><small>*Setelah Register, e-mail dan username tidak dapat diubah</small></span>
-                        </div>
-                        <div className="flex-col-c mt-3">
-                            <span className="txt1 p-b-10">
-                                Sudah punya akun?
-                                <a href="./login" className="txt2">
-                                    &nbsp;<u>LOGIN</u>
-                                </a>
-                            </span>
                         </div>
                     </div>
                 </form>
