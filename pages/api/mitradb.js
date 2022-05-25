@@ -1,13 +1,13 @@
 const { connectToDatabase } = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
-async function getMitraPending(req, res) {
+async function getMitra(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
         // fetch the posts
-        let mitraPending = await db
-            .collection('mitraPending')
+        let mitra = await db
+            .collection('mitra')
             .find({})
             .sort({ idMitra: -1 })
             .toArray();
@@ -25,7 +25,7 @@ async function getMitraPending(req, res) {
     }
 }
 // menambah data kedalam collection Transaksi
-async function addMitraPending(req, res) {
+async function addMitra(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
@@ -44,47 +44,21 @@ async function addMitraPending(req, res) {
         });
     }
 }
-
-async function deleteMitraPending(req, res) {
-    var ObjectId = require('mongodb').ObjectId;
-    const { _id } = req.body;
-    const convertedObjectId = new ObjectId(_id);
-    try {
-        // Connecting to the database
-        let { db } = await connectToDatabase();
-        // Deleting the post
-        await db.collection('mitraPending').deleteOne({
-            '_id': convertedObjectId
-        });
-        // returning a message
-        return res.json({
-            message: 'Post deleted successfully',
-            success: true,
-        });
-    } catch (error) {
-        // returning an error
-        return res.json({
-            message: new Error(error).message,
-            success: false,
-        });
-    }
-}
-
 // CRUD handler
 export default async function handler(req, res) {
     // switch the methods
     switch (req.method) {
         case 'GET': {
-            return getMitraPending(req, res);
+            return getMitra(req, res);
         }
         case 'POST': {
-            return addMitraPending(req, res);
+            return addMitra(req, res);
         }
         case 'PUT': {
-            return updateMitraPending(req, res);
+            return updateMitra(req, res);
         }
         case 'DELETE': {
-            return deleteMitraPending(req, res);
+            return deleteMitra(req, res);
         }
     }
 }

@@ -31,6 +31,7 @@ export default function Register() {
 
   const handlePost = async (e) => {
     e.preventDefault();
+    setCheck()
     setJam()
     setHari()
     // reset error and message
@@ -99,9 +100,9 @@ export default function Register() {
   }
 
   const setCheck = () => {
+    setOpsiBayar([])
     let check = document.getElementsByName('opsiBayar')
     let len = check.length
-    setOpsiBayar([])
     for (var i = 0; i < len; i++) {
       if (check[i].checked) {
         setOpsiBayar(arr => [...arr, check[i].value]);
