@@ -20,10 +20,10 @@ export default function FavoritDev() {
     }
 
 
-    let mitrapending = data['message']
-    console.log(mitrapending)
+    let favorit = data['message']
+    console.log(favorit)
 
-    let searchArr = mitrapending.filter((tblDat) => {
+    let searchArr = favorit.filter((tblDat) => {
         if (searchTerm == "") {
             return tblDat
         } else if (tblDat.namaVenue.toLowerCase().includes(searchTerm.toLowerCase())) {

@@ -33,7 +33,7 @@ async function addFavorit(req, res) {
         await db.collection('favorit').insertOne(JSON.parse(req.body));
         // return a message
         return res.json({
-            message: 'favorit Telah di Tambahkan',
+            message: 'Favorit Telah di Tambahkan',
             success: true,
         });
     } catch (error) {

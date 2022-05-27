@@ -85,10 +85,8 @@ export default function Register() {
         // get the data
         let data = await response.json();
         if (data.success) {
-            deleteMitra()
             // reset the fields
-            alert('Persetujuan Sukses')
-            router.push('/dev/mitra-dev')
+            alert('Penambahan Favorit Sukses')
             return setMessage(data.message);
         }
         else {
@@ -101,9 +99,9 @@ export default function Register() {
     return (
         <div className="limiter">
             <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>
-                <form className="login100-form validate-form">
+                <form className="login100-form validate-form" onSubmit={handlePost}>
                     <span className="login100-form-title">
-                        MITRA PENDING
+                        MITRA
                     </span>
                     <div className="p-3 py-5">
                         <div className="row">
@@ -286,11 +284,11 @@ export default function Register() {
                         <div class="row mt-3 container-login100-form-btn my-3 g-3">
                             <button type="submit"
                                 className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}
-                                onClick={handlePost}>
+                                >
                                 EDIT
                             </button>
                             <button type="button"
-                                onClick={() => deleteMitra()}
+                                onClick={handlePost}
                                 className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#ba8b1e', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
                                 FAVORIT
                             </button>

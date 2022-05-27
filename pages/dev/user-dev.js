@@ -84,7 +84,7 @@ export default function UserDev() {
                             </tr>
                         </thead>
                         {currentPosts.length === 0 ? (
-                            <h2>Tidak ada data Mitra Pending</h2>
+                            <h2>Tidak ada data Favorit ditemukan</h2>
                         ) : (
                             <>
                                 {currentPosts.map((data, index) => (

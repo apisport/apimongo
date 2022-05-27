@@ -13,8 +13,8 @@ export default function Homedev() {
           </div>
         </section>
         <div className="py-3 bg-light">
-          <div className="container">
-            <div className="row row-cols-1 row-cols-md-3">
+          <div className="container-xxl">
+            <div className="row row-cols-2 row-cols-md-4">
               <div className="col-md-4 col-12">
                 <div className="card shadow-sm ">
                   <div className="card-body">
@@ -51,7 +51,7 @@ export default function Homedev() {
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 col-12">
+              <div className="col-md-4 mt-3 col-12">
                 <div className="card shadow-sm">
                   <div className="card-body">
                     <h2>FAVORIT</h2>
