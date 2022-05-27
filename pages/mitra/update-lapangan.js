@@ -320,7 +320,7 @@ export default function Addlapangan() {
                     <div className="row p-4">
                         <div className='col-6 col-lg-12 mb-4'>
                             <img className='img-fluid rounded d-block' id='image' width={300}
-                                height={300} src={_gambar === gambar ? (`/uploads/${_gambar}`) : ({ createObjectURL })} />
+                                height={300} src={createObjectURL === null ? (`/uploads/${_gambar}`) : ({ createObjectURL })} />
                         </div>
                     </div>
                     <div className='card p-3'>
