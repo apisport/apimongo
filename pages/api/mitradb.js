@@ -13,7 +13,7 @@ async function getMitra(req, res) {
             .toArray();
         // return the posts
         return res.json({
-            message: JSON.parse(JSON.stringify(mitraPending)),
+            message: JSON.parse(JSON.stringify(mitra)),
             success: true,
         });
     } catch (error) {

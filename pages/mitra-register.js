@@ -21,9 +21,9 @@ export default function Register() {
   const [password, setPassword] = useState('');
 
   //Gambar
-  const [fotoVenue, setFotoVenue] = useState('');
-  const [image, setImage] = useState(null);
-  const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [fotoVenue, setFotoVenue] = useState([]);
+  const [image, setImage] = useState([]);
+  const [createObjectURL, setCreateObjectURL] = useState([]);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
@@ -144,16 +144,33 @@ export default function Register() {
 
   };
 
+  const removeItemArrayGambar = (data) => {
+    var index = fotoVenue.indexOf(data)
+    if (index >= 0) {
+      if (fotoVenue.length === 0) {
+        setFotoVenue([])
+        setImage([])
+        setCreateObjectURL([])
+      } else {
+        setFotoVenue(array => [...array.slice(0, index), ...array.slice(index + 1)])
+        setImage(array => [...array.slice(0, index), ...array.slice(index + 1)])
+        setCreateObjectURL(array => [...array.slice(0, index), ...array.slice(index + 1)])
+      }
+    }
+
+    console.log('afterState:')
+
+  };
+
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
       var x = document.getElementById("image");
-      x.width = 150
-      x.height = 150
+
       const i = event.target.files[0];
-      setFotoVenue(i.name)
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
+      setFotoVenue(array => [...array, i.name])
+      setImage(array => [...array, i]);
+      setCreateObjectURL(array => [...array, URL.createObjectURL(i)]);
     }
   };
   const uploadToServer = async (event) => {
@@ -195,7 +212,7 @@ export default function Register() {
                   <label className="labels">Nama Venue</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text"
                     className="form-control"
-                    
+
                     value={namaVenue}
                     onChange={(e) => setNamaVenue(e.target.value)}
                     required />
@@ -205,7 +222,7 @@ export default function Register() {
                   <input type="text" className="form-control"
                     value={namaPemilikVenue}
                     onChange={(e) => setNamaPemilikVenue(e.target.value)}
-                    
+
                     required />
                 </div>
                 <div className="mt-2 col-md-12"><label className="labels">Alamat</label>
@@ -213,7 +230,7 @@ export default function Register() {
                   <textarea class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
-                    
+
                     value={alamat}
                     onChange={(e) => setAlamat(e.target.value)}
                     required></textarea>
@@ -222,7 +239,7 @@ export default function Register() {
                   <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <input type="text"
                     className="form-control"
-                    
+
                     value={noWa}
                     onChange={(e) => setNoWa(e.target.value)}
                     required />
@@ -232,7 +249,7 @@ export default function Register() {
                     value={instagram}
                     onChange={(e) => setInstagram(e.target.value)}
                     className="form-control"
-                     />
+                  />
                 </div>
                 <div className="form-group mt-2 col-md-12">
                   <label htmlFor="exampleFormControlSelect1">Kategori Olahraga</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
@@ -309,8 +326,34 @@ export default function Register() {
                         </label>
                       </div>
                     </div>
-                    <div className="mt-1 mb-2 d-flex flex-row justify-content-center">
-                      <img id='image' className='img-fluid d-block  rounded-circle' src={createObjectURL} />
+                    <div className="className='col-12 col-md-12">
+                      {fotoVenue.length === 0 ? (
+                        <h2>Daftar Foto</h2>
+                      ) : (
+                        <>
+
+                          {fotoVenue.map((data, i) => (
+                            <>
+                              <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                <div className='cols-1 col-md-6'>
+                                  <img id='image' className='img-fluid d-block border border-dark' width={150} height={150} src={createObjectURL[i]} />
+                                </div>
+                                <div className='cols-1 col-md-6'>
+                                  <button className="form-control"
+                                    onClick={() => removeItemArrayGambar(data)}
+                                  >
+                                    <i className="fa fa-trash"></i></button>
+                                </div>
+
+
+                              </div>
+                            </>
+
+
+                          ))}
+                        </>
+                      )}
+
                     </div>
                   </div>
                 </div>
