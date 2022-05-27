@@ -1,19 +1,19 @@
 const { connectToDatabase } = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
-async function getMitra(req, res) {
+async function getFavorit(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
         // fetch the posts
-        let mitra = await db
-            .collection('mitra')
+        let favorit = await db
+            .collection('favorit')
             .find({})
-            .sort({ idMitra: -1 })
+            .sort({ idfavorit: -1 })
             .toArray();
         // return the posts
         return res.json({
-            message: JSON.parse(JSON.stringify(mitra)),
+            message: JSON.parse(JSON.stringify(favorit)),
             success: true,
         });
     } catch (error) {
@@ -25,15 +25,15 @@ async function getMitra(req, res) {
     }
 }
 // menambah data kedalam collection Transaksi
-async function addMitra(req, res) {
+async function addFavorit(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
         // add the post
-        await db.collection('mitra').insertOne(JSON.parse(req.body));
+        await db.collection('favorit').insertOne(JSON.parse(req.body));
         // return a message
         return res.json({
-            message: 'Mitra Telah di Tambahkan',
+            message: 'favorit Telah di Tambahkan',
             success: true,
         });
     } catch (error) {
@@ -45,7 +45,7 @@ async function addMitra(req, res) {
     }
 }
 
-async function deleteMitra(req, res) {
+async function deleteFavorit(req, res) {
     var ObjectId = require('mongodb').ObjectId;
     const { _id } = req.body;
     const convertedObjectId = new ObjectId(_id);
@@ -53,7 +53,7 @@ async function deleteMitra(req, res) {
         // Connecting to the database
         let { db } = await connectToDatabase();
         // Deleting the post
-        await db.collection('mitra').deleteOne({
+        await db.collection('favorit').deleteOne({
             '_id': convertedObjectId
         });
         // returning a message
@@ -75,16 +75,16 @@ export default async function handler(req, res) {
     // switch the methods
     switch (req.method) {
         case 'GET': {
-            return getMitra(req, res);
+            return getFavorit(req, res);
         }
         case 'POST': {
-            return addMitra(req, res);
+            return addFavorit(req, res);
         }
         case 'PUT': {
-            return updateMitra(req, res);
+            return updateFavorit(req, res);
         }
         case 'DELETE': {
-            return deleteMitra(req, res);
+            return deleteFavorit(req, res);
         }
     }
 }

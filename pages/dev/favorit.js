@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { useState } from "react"
 import Pagination from "../../components/Pagination"
 
-export default function UserDev() {
+export default function FavoritDev() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data: data, error } = useSWR('/api/userdb', fetcher)
+    const { data: data, error } = useSWR('/api/favoritdb', fetcher)
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage, setPostsPerPage] = useState(5)
     const [filterSearch, setFilterSearch] = useState('')
@@ -20,13 +20,13 @@ export default function UserDev() {
     }
 
 
-    let user = data['message']
-    console.log(user)
+    let mitrapending = data['message']
+    console.log(mitrapending)
 
-    let searchArr = user.filter((tblDat) => {
+    let searchArr = mitrapending.filter((tblDat) => {
         if (searchTerm == "") {
             return tblDat
-        } else if (tblDat.nama.toLowerCase().includes(searchTerm.toLowerCase())) {
+        } else if (tblDat.namaVenue.toLowerCase().includes(searchTerm.toLowerCase())) {
             return tblDat
         }
     })
@@ -44,7 +44,7 @@ export default function UserDev() {
         <>
             <div class="container-fluid">
                 <div className="d-flex flex-row justify-content-center mb-5">
-                    <h1>Data User </h1>
+                    <h1>Data Mitra Favorit</h1>
                 </div>
 
                 <div class="row flex-row flex-nowrap mt-3">
@@ -68,16 +68,16 @@ export default function UserDev() {
                     </div>
                 </div>
                 {/* Tambahan Pagination Make Sure Math.ceil adalah searchArr.length */}
-                <p>Memuat {user.length} data, Jumlah keseluruhan data adalah 1333 data</p>
+                <p>Memuat {favorit.length} data, Jumlah keseluruhan data adalah 1333 data</p>
                 <div className='d-flex flex-row justify-content-center'>
                     <table className="table table-responsive my-0" id="dataTable">
                         <thead>
                             <tr>
                                 <th style={{ width: 56 }}>No</th>
-                                <th>Nama User</th>
-                                <th>Jenis Kelamin</th>
-                                <th>No. WA</th>
-                                <th>E-mail</th>
+                                <th>Nama Venue</th>
+                                <th>Nama Pemilik Venue</th>
+                                <th>Nama Admin</th>
+                                <th>No. WA Admin</th>
                                 <th>Username</th>
                                 <th>Password</th>
                                 <th>Aksi</th>
@@ -91,10 +91,10 @@ export default function UserDev() {
                                     <tbody>
                                         <tr>
                                             <td>{index + 1}</td>
-                                            <td>{data.nama}</td>
-                                            <td>{data.jenisKelamin}</td>
-                                            <td>{data.noWa}</td>
-                                            <td>{data.email}</td>
+                                            <td>{data.namaVenue}</td>
+                                            <td>{data.namaPemilikVenue}</td>
+                                            <td>{data.namaAdmin}</td>
+                                            <td>{data.noWaAdmin}</td>
                                             <td>{data.username}</td>
                                             <td>{data.password}</td>
                                             <td><div className="btn-group-vertical btn-group-sm">
@@ -102,6 +102,22 @@ export default function UserDev() {
                                                 <Link href={{
                                                     pathname: '/dev/detail-mitra',
                                                     query: {
+                                                        namaVenue: data.namaVenue,
+                                                        namaPemilikVenue: data.namaPemilikVenue,
+                                                        alamat: data.alamat,
+                                                        noWa: data.noWa,
+                                                        instagram: data.instagram,
+                                                        kategori: data.kategori,
+                                                        hariOperasional: data.hariOperasional,
+                                                        jamOperasional: data.jamOperasional,
+                                                        fasilitas: data.fasilitas,
+                                                        opsiBayarStringify: JSON.stringify(data.opsiBayar),
+                                                        rekeningStringify: JSON.stringify(data.rekening),
+                                                        namaAdmin: data.namaAdmin,
+                                                        noWaAdmin: data.noWaAdmin,
+                                                        username: data.username,
+                                                        password: data.password,
+                                                        fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                                         objectId: data._id
                                                     }
 

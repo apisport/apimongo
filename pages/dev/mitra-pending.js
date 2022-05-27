@@ -7,7 +7,7 @@ export default function MitraDev() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
     const { data: data, error } = useSWR('/api/mitrapendingdb', fetcher)
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(5)
     const [filterSearch, setFilterSearch] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
 
@@ -26,18 +26,7 @@ export default function MitraDev() {
     let searchArr = mitrapending.filter((tblDat) => {
         if (searchTerm == "") {
             return tblDat
-        } else if (tblDat.index_buku.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.no_klasifikasi.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.judul.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        }
-        else if (tblDat.pengarang.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.penerbit.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.status.toLowerCase().includes(searchTerm.toLowerCase())) {
+        } else if (tblDat.namaVenue.toLowerCase().includes(searchTerm.toLowerCase())) {
             return tblDat
         }
     })
@@ -61,29 +50,19 @@ export default function MitraDev() {
                 <div class="row flex-row flex-nowrap mt-3">
                     <div className="col-5 col-md-5 text-nowrap">
                         <div id="dataTable_length" className="dataTables_length" aria-controls="dataTable"><label className="form-label">Show&nbsp;
-                            <select className="d-inline-block form-select form-select-sm" value='tes'>
+                            <select className="d-inline-block form-select form-select-sm" value={postsPerPage} onChange={(e) => setPostsPerPage(e.target.value)}>
                                 <option value={5}>5</option>
                                 <option value={10}>10</option>
                                 <option value={20}>20</option>
                                 <option value={30}>30</option>
                             </select>&nbsp;</label></div>
                     </div>
-                    <div className="col-2 col-md-2">
-                        <div className="text-md-end dataTables_filter" id="dataTable_filter">
-                            <div>
-
-                                <select className=" form-select" id="filterInput">
-                                    <option>--Filter Search--</option>
-                                    <option value={'Nama Venue'}>Nama Venue</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <div className="col-5 col-md-5">
                         <div className="text-md-end dataTables_filter" id="dataTable_filter">
                             <input type="search"
                                 className="form-control form-control-md"
                                 aria-controls="dataTable" placeholder="Search" id="searchInput"
+                                value={searchTerm}
                                 onChange={(event) => { setSearchTerm(event.target.value) }} />
                         </div>
                     </div>
@@ -138,7 +117,7 @@ export default function MitraDev() {
                                                         noWaAdmin: data.noWaAdmin,
                                                         username: data.username,
                                                         password: data.password,
-                                                        fotoVenue: data.fotoVenue,
+                                                        fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                                         objectId: data._id
                                                     }
 

@@ -18,7 +18,7 @@ export default function Register() {
         noWaAdmin,
         username,
         password,
-        fotoVenue,
+        fotoVenueStringify,
         objectId } = router.query
 
     const [error, setError] = useState('');
@@ -26,12 +26,13 @@ export default function Register() {
 
     let opsiBayar = JSON.parse(opsiBayarStringify)
     let rekening = JSON.parse(rekeningStringify)
+    let fotoVenue = JSON.parse(fotoVenueStringify)
 
-    const deleteMitraPending = async () => {
+    const deleteMitra = async () => {
         try {
             console.log('Try')
             // Delete post
-            await fetch('/api/mitrapendingdb', {
+            await fetch('/api/mitradb', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,8 +43,8 @@ export default function Register() {
             });
             // reset the deleting state
             // reload the page
-            alert('Mitra Pending Terhapus')
-            router.push('/dev/mitra-pending')
+            alert('Mitra Terhapus')
+            router.push('/dev/mitra-dev')
         } catch (error) {
             // stop deleting state
         }
@@ -77,14 +78,14 @@ export default function Register() {
             fotoVenue
         };
         // save the post
-        let response = await fetch('/api/mitradb', {
+        let response = await fetch('/api/favoritdb', {
             method: 'POST',
             body: JSON.stringify(mitra),
         });
         // get the data
         let data = await response.json();
         if (data.success) {
-            deleteMitraPending()
+            deleteMitra()
             // reset the fields
             alert('Persetujuan Sukses')
             router.push('/dev/mitra-dev')
@@ -102,7 +103,7 @@ export default function Register() {
             <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>
                 <form className="login100-form validate-form">
                     <span className="login100-form-title">
-                        DATA MITRA
+                        MITRA PENDING
                     </span>
                     <div className="p-3 py-5">
                         <div className="row">
@@ -258,11 +259,27 @@ export default function Register() {
                                 />
                             </div>
                         </div>
-                        <div className="row mt-2">
-                            <div className="mt-2 col-md-12">
-                                <label className="labels">Gambar</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i><br></br>
-                                <img src={`/uploads/${fotoVenue}`} height={300} />
-                            </div>
+                        <div className="col-12 col-md-12">
+                            {fotoVenue.length === 0 ? (
+                                <h2>Daftar Foto</h2>
+                            ) : (
+                                <>
+
+                                    {fotoVenue.map((data, i) => (
+                                        <>
+                                            <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                                <div className='cols-1 col-md-6'>
+                                                    <img id='image' className='img-fluid d-block border border-dark' width={150} height={150} src={`/uploads/${fotoVenue[i]}`} />
+                                                </div>
+
+
+                                            </div>
+                                        </>
+
+
+                                    ))}
+                                </>
+                            )}
                         </div>
 
 
@@ -273,7 +290,12 @@ export default function Register() {
                                 EDIT
                             </button>
                             <button type="button"
-                                onClick={() => deleteMitraPending()}
+                                onClick={() => deleteMitra()}
+                                className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#ba8b1e', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
+                                FAVORIT
+                            </button>
+                            <button type="button"
+                                onClick={() => deleteMitra()}
                                 className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#c41d0e', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
                                 HAPUS
                             </button>

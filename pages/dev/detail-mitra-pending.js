@@ -18,7 +18,7 @@ export default function Register() {
         noWaAdmin,
         username,
         password,
-        fotoVenue,
+        fotoVenueStringify,
         objectId } = router.query
 
     const [error, setError] = useState('');
@@ -26,6 +26,7 @@ export default function Register() {
 
     let opsiBayar = JSON.parse(opsiBayarStringify)
     let rekening = JSON.parse(rekeningStringify)
+    let fotoVenue = JSON.parse(fotoVenueStringify)
 
     const deleteMitraPending = async () => {
         try {
@@ -258,11 +259,27 @@ export default function Register() {
                                 />
                             </div>
                         </div>
-                        <div className="row mt-2">
-                            <div className="mt-2 col-md-12">
-                                <label className="labels">Gambar</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i><br></br>
-                                <img src={`/uploads/${fotoVenue}`} height={300} />
-                            </div>
+                        <div className="col-12 col-md-12">
+                            {fotoVenue.length === 0 ? (
+                                <h2>Daftar Foto</h2>
+                            ) : (
+                                <>
+
+                                    {fotoVenue.map((data, i) => (
+                                        <>
+                                            <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                                <div className='cols-1 col-md-6'>
+                                                    <img id='image' className='img-fluid d-block border border-dark' width={150} height={150} src={`/uploads/${fotoVenue[i]}`} />
+                                                </div>
+
+
+                                            </div>
+                                        </>
+
+
+                                    ))}
+                                </>
+                            )}
                         </div>
 
 

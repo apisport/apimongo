@@ -20,24 +20,13 @@ export default function MitraDev() {
     }
 
 
-    let mitra = data['message']
-    console.log(mitra)
+    let mitrapending = data['message']
+    console.log(mitrapending)
 
-    let searchArr = mitra.filter((tblDat) => {
+    let searchArr = mitrapending.filter((tblDat) => {
         if (searchTerm == "") {
             return tblDat
-        } else if (tblDat.index_buku.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.no_klasifikasi.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.judul.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        }
-        else if (tblDat.pengarang.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.penerbit.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return tblDat
-        } else if (tblDat.status.toLowerCase().includes(searchTerm.toLowerCase())) {
+        } else if (tblDat.namaVenue.toLowerCase().includes(searchTerm.toLowerCase())) {
             return tblDat
         }
     })
@@ -68,28 +57,18 @@ export default function MitraDev() {
                                 <option value={30}>30</option>
                             </select>&nbsp;</label></div>
                     </div>
-                    <div className="col-2 col-md-2">
-                        <div className="text-md-end dataTables_filter" id="dataTable_filter">
-                            <div>
-
-                                <select className=" form-select" id="filterInput">
-                                    <option>--Filter Search--</option>
-                                    <option value={'Nama Venue'}>Nama Venue</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <div className="col-5 col-md-5">
                         <div className="text-md-end dataTables_filter" id="dataTable_filter">
                             <input type="search"
                                 className="form-control form-control-md"
                                 aria-controls="dataTable" placeholder="Search" id="searchInput"
+                                value={searchTerm}
                                 onChange={(event) => { setSearchTerm(event.target.value) }} />
                         </div>
                     </div>
                 </div>
                 {/* Tambahan Pagination Make Sure Math.ceil adalah searchArr.length */}
-                <p>Memuat {mitra.length} data, Jumlah keseluruhan data adalah 1333 data</p>
+                <p>Memuat {mitrapending.length} data, Jumlah keseluruhan data adalah 1333 data</p>
                 <div className='d-flex flex-row justify-content-center'>
                     <table className="table table-responsive my-0" id="dataTable">
                         <thead>
@@ -138,7 +117,7 @@ export default function MitraDev() {
                                                         noWaAdmin: data.noWaAdmin,
                                                         username: data.username,
                                                         password: data.password,
-                                                        fotoVenue: data.fotoVenue,
+                                                        fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                                         objectId: data._id
                                                     }
 
