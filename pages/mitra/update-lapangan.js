@@ -67,12 +67,12 @@ export default function Addlapangan() {
 
     const handlePost = async (e) => {
         e.preventDefault();
-        
+
         // reset error and message
         setError('');
         setMessage('');
         // fields check
-        
+        gabungGambar()
         try {
             // Update post
             await fetch('/api/lapangandb', {
@@ -93,7 +93,6 @@ export default function Addlapangan() {
                 }),
             });
             // reload the page
-            gabungGambar()
             alert('Data sukses diupdate')
             return router.push('/mitra/home');
         } catch (error) {
@@ -288,9 +287,12 @@ export default function Addlapangan() {
     };
 
     const gabungGambar = () => {
-        setGambar(array => [...array, ..._gambarNew])
+        let gambarGabung = _gambar.concat(_gambarNew)
+        setGambar(Object.assign(_gambar, gambarGabung))
         console.log('Gambar New:')
         console.log(_gambarNew)
+        console.log('Gambar Sudah Di Push Variabel:')
+        console.log(gambarGabung)
         console.log('Gambar Sudah Di Push:')
         console.log(_gambar)
         alert('Tambah Gambar Sukses')
