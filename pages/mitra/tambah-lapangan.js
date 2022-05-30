@@ -54,6 +54,7 @@ export default function Addlapangan() {
         // get the data
         let data = await response.json();
         if (data.success) {
+            alert('Tambah Lapangan berhasil')
             router.push('/mitra/home')
             // set the message
             return setMessage(data.message);

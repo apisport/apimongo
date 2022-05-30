@@ -8,7 +8,7 @@ export default function Addlapangan() {
     const { namaVenue,
         namaLapangan,
         deskripsi,
-        gambar,
+        gambarStringify,
         jadwalPagi,
         jadwalMalam,
         hargaPagi,
@@ -22,10 +22,9 @@ export default function Addlapangan() {
     const [hargaTampilan, setHargaTampilan] = useState([]);
     const [_hargaPagi, setHargaPagi] = useState(hargaPagi);
     const [_hargaMalam, setHargaMalam] = useState(hargaMalam);
-    const [updating, setUpdating] = useState(false);
-    const [_gambar, setGambar] = useState('');
-    const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
+    const [_gambar, setGambar] = useState([]);
+    const [image, setImage] = useState([]);
+    const [createObjectURL, setCreateObjectURL] = useState([]);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
@@ -43,8 +42,10 @@ export default function Addlapangan() {
         if (typeof deskripsi == 'string') {
             setDeskripsi(deskripsi)
         }
-        if (typeof gambar == 'string') {
-            setGambar(gambar)
+        if (typeof gambarStringify == 'string') {
+            setGambar(Object.assign(_gambar, JSON.parse(gambarStringify)))
+            console.log(gambarStringify)
+            console.log(_gambar)
         }
         if (typeof jadwalPagi == 'string') {
             setJadwalPagi(Object.assign(_jadwalPagi, JSON.parse(jadwalPagi)))
@@ -57,7 +58,7 @@ export default function Addlapangan() {
     }, [namaVenue,
         namaLapangan,
         deskripsi,
-        gambar,
+        gambarStringify,
         jadwalPagi,
         jadwalMalam,
         hargaPagi,
@@ -260,20 +261,36 @@ export default function Addlapangan() {
         if (event.target.files && event.target.files[0]) {
             var x = document.getElementById("image");
             const i = event.target.files[0];
-            setGambar(i.name)
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
+            setGambar(array => [...array, i.name])
+            setImage(array => [...array, i]);
+            setCreateObjectURL(array => [...array, URL.createObjectURL(i)]);
         }
     };
     const uploadToServer = async (event) => {
         const body = new FormData();
         //console.log("file", image)
-        body.append("file", image);
-        const response = await fetch("/api/upload", {
-            method: "POST",
-            body
-        });
+        for (let i = 0; i < image.length; i++) {
+            await body.append("file", image[i]);
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body
+            });
+        }
     };
+    const removeItemArrayGambar = (data) => {
+        var index = _gambar.indexOf(data)
+        if (index >= 0) {
+            if (_gambar.length === 0) {
+                setGambar([])
+                setImage([])
+                setCreateObjectURL([])
+            } else {
+                setGambar(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setImage(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setCreateObjectURL(array => [...array.slice(0, index), ...array.slice(index + 1)])
+            }
+        }
+    }
 
     return (
         <div className="container-xxl mx-auto p-4 header-2-2">
@@ -312,16 +329,42 @@ export default function Addlapangan() {
                         <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                         <div className="mt-2 col-md-12">
                             <div className="custom-file">
-                                <input type="file" onChange={uploadToClient} className="custom-file-input" id="validatedCustomFile" name="myImage" />
+                                <input type="file"
+                                    onChange={uploadToClient}
+                                    className="custom-file-input"
+                                    id="validatedCustomFile" name="myImage" />
                                 <label className="custom-file-label" htmlFor="validatedCustomFile">Choose file...</label>
                             </div>
                         </div>
                     </div>
-                    <div className="row p-4">
-                        <div className='col-6 col-lg-12 mb-4'>
-                            <img className='img-fluid rounded d-block' id='image' width={300}
-                                height={300} src={createObjectURL === null ? (`/uploads/${_gambar}`) : ({ createObjectURL })} />
-                        </div>
+                    <div className="mt-2 col-12 col-md-12"><label className="labels">Foto Lapangan</label>
+                        {_gambar.length === 0 ? (
+                            <h2>Daftar Foto</h2>
+                        ) : (
+                            <>
+
+                                {_gambar.map((data, i) => (
+                                    <>
+                                        <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                            <div className='col-10 col-md-10'>
+                                                <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={createObjectURL.length === 0 ? (`/uploads/${data}`) : (typeof data === 'undefined' ? (createObjectURL[i]) : (`/uploads/${data}`))} />
+                                            </div>
+                                            <div className='col-10 col-md-2'>
+                                                <button className="form-control"
+                                                    type='button'
+                                                    onClick={() => removeItemArrayGambar(data)}
+                                                >
+                                                    <i className="fa fa-trash"></i></button>
+                                            </div>
+                                            <h3>{i}</h3>
+
+                                        </div>
+                                    </>
+
+
+                                ))}
+                            </>
+                        )}
                     </div>
                     <div className='card p-3'>
                         <h4 className="labels" style={{ color: 'black' }}>Atur Jadwal dan Harga</h4>

@@ -42,7 +42,9 @@ export default function CardLapangan({ props }) {
             setDeleting(false);
             // reload the page
             alert('Hapus Lapangan Berhasil')
-            router.push('/mitra/home')
+            router.reload()
+
+
         } catch (error) {
             console.log('Catch')
             // stop deleting state
@@ -87,7 +89,22 @@ export default function CardLapangan({ props }) {
                             </div>
                             <div className="d-flex flex-row justify-content-evenly">
                                 <div className='text-center justify-content-center mt-2 mb-2'>
-                                    <Link href={`/mitra/update-lapangan?namaVenue=${props.namaVenue}&namaLapangan=${props.namaLapangan}&deskripsi=${props.deskripsi}&gambar=${props.gambar}&jadwalPagi=${JSON.stringify(props.jadwalPagi)}&jadwalMalam=${JSON.stringify(props.jadwalMalam)}&hargaPagi=${props.hargaPagi}&hargaMalam=${props.hargaMalam}`}>
+                                    {/* <Link href={`/mitra/update-lapangan?namaVenue=${props.namaVenue}&namaLapangan=${props.namaLapangan}&deskripsi=${props.deskripsi}&gambar=${props.gambar}&jadwalPagi=${JSON.stringify(props.jadwalPagi)}&jadwalMalam=${JSON.stringify(props.jadwalMalam)}&hargaPagi=${props.hargaPagi}&hargaMalam=${props.hargaMalam}`}> */}
+                                    <Link href={{
+                                        pathname: '/mitra/update-lapangan',
+                                        query: {
+                                            namaVenue: props.namaVenue,
+                                            namaLapangan: props.namaLapangan,
+                                            deskripsi: props.deskripsi,
+                                            gambarStringify: JSON.stringify(props.gambar),
+                                            jadwalPagi: JSON.stringify(props.jadwalPagi),
+                                            jadwalMalam: JSON.stringify(props.jadwalMalam),
+                                            hargaPagi: props.hargaPagi,
+                                            hargaMalam: props.hargaMalam
+
+
+                                        }
+                                    }} >
                                         <button className='btn btn-success text-white p-2' style={{ backgroundColor: '#00cc36', color: 'rgb(255, 255, 255)' }}>
                                             <icon className='fa fa-pencil'></icon >&nbsp;Edit Lapangan
                                         </button>
@@ -102,6 +119,7 @@ export default function CardLapangan({ props }) {
                                     <button className='btn btn-success text-white p-2'
                                         style={{ backgroundColor: '#ed0010', color: 'rgb(255, 255, 255)' }}
                                         onClick={() => deleteLapangan()}
+                                        type='submit'
                                     >
                                         <icon className='fa fa-trash'></icon >&nbsp;Hapus Lapangan
                                     </button>
@@ -114,6 +132,6 @@ export default function CardLapangan({ props }) {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
