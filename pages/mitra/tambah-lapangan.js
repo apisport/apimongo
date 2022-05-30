@@ -1,6 +1,8 @@
+//@ts-check
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 export default function Addlapangan() {
+    //Variabel
     const [namaVenue, setNamaVenue] = useState('Scudetto');
     const [namaLapangan, setNamaLapangan] = useState('');
     const [deskripsi, setDeskripsi] = useState('');
@@ -10,12 +12,16 @@ export default function Addlapangan() {
     const [hargaTampilan, setHargaTampilan] = useState([]);
     const [hargaPagi, setHargaPagi] = useState(0);
     const [hargaMalam, setHargaMalam] = useState(0);
-    const [gambar, setGambar] = useState('');
-    const [image, setImage] = useState(null);
-    const [createObjectURL, setCreateObjectURL] = useState(null);
+
+    //Gambar
+    const [gambar, setGambar] = useState([]);
+    const [image, setImage] = useState([]);
+    const [createObjectURL, setCreateObjectURL] = useState([]);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+
     let router = useRouter()
+
     const handlePost = async (e) => {
         e.preventDefault();
         // reset error and message
@@ -48,18 +54,6 @@ export default function Addlapangan() {
         // get the data
         let data = await response.json();
         if (data.success) {
-            // reset the fields
-            alert('tambah lapangan berhasil!')
-            setNamaVenue('');
-            setNamaLapangan('');
-            setDeskripsi('');
-            setJadwalPagi({});
-            setJadwalMalam({});
-            setHargaPagi('');
-            setHargaMalam('');
-            setGambar('');
-            setImage(null);
-            setCreateObjectURL(null);
             router.push('/mitra/home')
             // set the message
             return setMessage(data.message);
@@ -184,7 +178,7 @@ export default function Addlapangan() {
         setHargaTampilan(gabunganHarga)
         console.log(jadwalTampilan)
         console.log(hargaTampilan)
-        
+
         // console.log('Jadwal Gabung')
         // console.log(gabunganJadwal)
         // console.log('Harga Gabung')
@@ -195,22 +189,39 @@ export default function Addlapangan() {
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             var x = document.getElementById("image");
-            x.width = 300
-            x.height = 300
+
             const i = event.target.files[0];
-            setGambar(i.name)
-            setImage(i);
-            setCreateObjectURL(URL.createObjectURL(i));
+            setGambar(array => [...array, i.name])
+            setImage(array => [...array, i]);
+            setCreateObjectURL(array => [...array, URL.createObjectURL(i)]);
         }
     };
+
+    const removeItemArrayGambar = (data) => {
+        var index = gambar.indexOf(data)
+        if (index >= 0) {
+            if (gambar.length === 0) {
+                setGambar([])
+                setImage([])
+                setCreateObjectURL([])
+            } else {
+                setGambar(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setImage(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setCreateObjectURL(array => [...array.slice(0, index), ...array.slice(index + 1)])
+            }
+        }
+    }
+
     const uploadToServer = async (event) => {
         const body = new FormData();
         //console.log("file", image)
-        body.append("file", image);
-        const response = await fetch("/api/upload", {
-            method: "POST",
-            body
-        });
+        for (let i = 0; i < image.length; i++) {
+            await body.append("file", image[i]);
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body
+            });
+        }
     };
 
     return (
@@ -250,15 +261,42 @@ export default function Addlapangan() {
                         <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                         <div className="mt-2 col-md-12">
                             <div className="custom-file">
-                                <input type="file" onChange={uploadToClient} className="custom-file-input" id="validatedCustomFile" name="myImage" required />
+                                <input type="file"
+                                    onChange={uploadToClient}
+                                    className="custom-file-input"
+                                    id="validatedCustomFile"
+                                    name="myImage" required />
                                 <label className="custom-file-label" htmlFor="validatedCustomFile">Choose file...</label>
                             </div>
                         </div>
                     </div>
-                    <div className="row p-4">
-                        <div className='col-6 col-lg-12 mb-4'>
-                            <img className='img-fluid rounded d-block' id='image' src={createObjectURL} />
-                        </div>
+                    <div className="mt-2 col-12 col-md-12"><label className="labels">Foto Lapangan</label>
+                        {gambar.length === 0 ? (
+                            <h2>Daftar Foto</h2>
+                        ) : (
+                            <>
+
+                                {gambar.map((data, i) => (
+                                    <>
+                                        <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                            <div className='col-10 col-md-10'>
+                                                <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={createObjectURL[i]} />
+                                            </div>
+                                            <div className='col-10 col-md-2'>
+                                                <button className="form-control"
+                                                    onClick={() => removeItemArrayGambar(data)}
+                                                >
+                                                    <i className="fa fa-trash"></i></button>
+                                            </div>
+
+
+                                        </div>
+                                    </>
+
+
+                                ))}
+                            </>
+                        )}
                     </div>
                     <div className='card p-3'>
                         <h4 className="labels" style={{ color: 'black' }}>Atur Jadwal dan Harga</h4>
@@ -329,7 +367,7 @@ export default function Addlapangan() {
                                 </div>
                             </div>
                             <div className='d-flex-end flex-row justify-content-end mt-3'>
-                                <input type='button' className='btn-fill text-white' onClick={lihatJadwal} value ='CEKJADWAL'/>
+                                <input type='button' className='btn-fill text-white' onClick={lihatJadwal} value='CEKJADWAL' />
                             </div>
 
                         </div>
@@ -344,25 +382,25 @@ export default function Addlapangan() {
                             ) : (
                                 <>
 
-                                        {jadwalTampilan.map((data, i) => (
-                                            <div className='col-3 col-sm-3 mb-2'>
-                                                <div className='card text-center'>
-                                                    <div className='card-body'>
-                                                        <span>{data}</span><br></br>
-                                                        <span>Rp {hargaTampilan[i]}.000</span>
-                                                    </div>
+                                    {jadwalTampilan.map((data, i) => (
+                                        <div className='col-3 col-sm-3 mb-2'>
+                                            <div className='card text-center'>
+                                                <div className='card-body'>
+                                                    <span>{data}</span><br></br>
+                                                    <span>Rp {hargaTampilan[i]}.000</span>
                                                 </div>
                                             </div>
-                                        ))}
-                                        <div className="container-login100-form-btn">
-                                            <button type="submit" className="btn btn-outline-secondary"
-                                                style={{
-                                                    backgroundColor: '#006E61', color: 'rgb(255, 255, 255)',
-                                                    borderRadius: '5cm', width: 500, height: 50
-                                                }}
-                                                onClick={uploadToServer}
-                                            >SIMPAN</button>
                                         </div>
+                                    ))}
+                                    <div className="container-login100-form-btn">
+                                        <button type="submit" className="btn btn-outline-secondary"
+                                            style={{
+                                                backgroundColor: '#006E61', color: 'rgb(255, 255, 255)',
+                                                borderRadius: '5cm', width: 500, height: 50
+                                            }}
+                                            onClick={uploadToServer}
+                                        >SIMPAN</button>
+                                    </div>
                                 </>
                             )}
 
