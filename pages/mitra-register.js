@@ -1,3 +1,4 @@
+//@ts-check
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -176,11 +177,14 @@ export default function Register() {
   const uploadToServer = async (event) => {
     const body = new FormData();
     //console.log("file", image)
-    body.append("file", image);
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body
-    });
+    for (let i = 0; i < image.length; i++) {
+      await body.append("file", image[i]);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body
+      });
+    }
+
   };
 
   function myFunction() {

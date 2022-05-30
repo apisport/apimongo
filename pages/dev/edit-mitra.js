@@ -24,7 +24,8 @@ export default function Register() {
         username,
         password,
         fotoVenueStringify,
-        objectId
+        objectId,
+        namaVenueLama
     } = router.query
 
     //State of Art
@@ -159,7 +160,8 @@ export default function Register() {
                     username: _username,
                     password: _password,
                     fotoVenue: _fotoVenue,
-                    objectId: objectId
+                    objectId: objectId,
+                    namaVenueLama : namaVenueLama
                 }),
             });
             // reload the page

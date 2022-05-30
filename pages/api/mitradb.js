@@ -42,7 +42,8 @@ async function updateMitra(req, res) {
         username,
         password,
         fotoVenue,
-        objectId } = req.body
+        objectId,
+        namaVenueLama } = req.body
     var ObjectId = require('mongodb').ObjectId;
     const convertedObjectId = new ObjectId(objectId);
     try {
@@ -64,7 +65,7 @@ async function updateMitra(req, res) {
                     'hariOperasional': hariOperasional,
                     'jamOperasional': jamOperasional,
                     'fasilitas': fasilitas,
-                    'opsiBayar' : opsiBayar,
+                    'opsiBayar': opsiBayar,
                     'rekening': rekening,
                     'namaAdmin': namaAdmin,
                     'noWaAdmin': noWaAdmin,
@@ -74,9 +75,9 @@ async function updateMitra(req, res) {
                 }
             }
         );
-        await db.collection('mitra').updateOne(
+        await db.collection('favorit').updateOne(
             {
-                'namaVenue': namaVenue
+                'namaVenue': namaVenueLama
             },
             {
                 $set: {
@@ -89,7 +90,7 @@ async function updateMitra(req, res) {
                     'hariOperasional': hariOperasional,
                     'jamOperasional': jamOperasional,
                     'fasilitas': fasilitas,
-                    'opsiBayar' : opsiBayar,
+                    'opsiBayar': opsiBayar,
                     'rekening': rekening,
                     'namaAdmin': namaAdmin,
                     'noWaAdmin': noWaAdmin,

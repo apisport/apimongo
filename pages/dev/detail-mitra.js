@@ -288,6 +288,7 @@ export default function Register() {
                                 pathname: '/dev/edit-mitra',
                                 query: {
                                     namaVenue: namaVenue,
+                                    namaVenueLama: namaVenue,
                                     namaPemilikVenue: namaPemilikVenue,
                                     alamat: alamat,
                                     noWa: noWa,
