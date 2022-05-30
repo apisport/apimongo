@@ -24,6 +24,95 @@ async function getMitra(req, res) {
         });
     }
 }
+
+async function updateMitra(req, res) {
+    const { namaVenue,
+        namaPemilikVenue,
+        alamat,
+        noWa,
+        instagram,
+        kategori,
+        hariOperasional,
+        jamOperasional,
+        fasilitas,
+        opsiBayar,
+        rekening,
+        namaAdmin,
+        noWaAdmin,
+        username,
+        password,
+        fotoVenue,
+        objectId } = req.body
+    var ObjectId = require('mongodb').ObjectId;
+    const convertedObjectId = new ObjectId(objectId);
+    try {
+        // connect to the database
+        let { db } = await connectToDatabase();
+        // update the published status of the post
+        await db.collection('mitra').updateOne(
+            {
+                '_id': convertedObjectId
+            },
+            {
+                $set: {
+                    'namaVenue': namaVenue,
+                    'namaPemilikVenue': namaPemilikVenue,
+                    'alamat': alamat,
+                    'noWa': noWa,
+                    'instagram': instagram,
+                    'kategori': kategori,
+                    'hariOperasional': hariOperasional,
+                    'jamOperasional': jamOperasional,
+                    'fasilitas': fasilitas,
+                    'opsiBayar' : opsiBayar,
+                    'rekening': rekening,
+                    'namaAdmin': namaAdmin,
+                    'noWaAdmin': noWaAdmin,
+                    'username': username,
+                    'password': password,
+                    'fotoVenue': fotoVenue
+                }
+            }
+        );
+        await db.collection('mitra').updateOne(
+            {
+                'namaVenue': namaVenue
+            },
+            {
+                $set: {
+                    'namaVenue': namaVenue,
+                    'namaPemilikVenue': namaPemilikVenue,
+                    'alamat': alamat,
+                    'noWa': noWa,
+                    'instagram': instagram,
+                    'kategori': kategori,
+                    'hariOperasional': hariOperasional,
+                    'jamOperasional': jamOperasional,
+                    'fasilitas': fasilitas,
+                    'opsiBayar' : opsiBayar,
+                    'rekening': rekening,
+                    'namaAdmin': namaAdmin,
+                    'noWaAdmin': noWaAdmin,
+                    'username': username,
+                    'password': password,
+                    'fotoVenue': fotoVenue
+                }
+            }
+        );
+        // return a message
+        return res.json({
+            message: 'Post updated successfully',
+            success: true,
+        });
+    } catch (error) {
+        // return an error
+        return res.json({
+            message: new Error(error).message,
+            success: false,
+        });
+    }
+}
+
 // menambah data kedalam collection Transaksi
 async function addMitra(req, res) {
     try {

@@ -406,7 +406,7 @@ export default function Register() {
                       <input type="text" className='form-control col-3 col-md-3' id='bank' />
                       <strong className='col-1 col-md-1'>_</strong>
                       <input type="text" className="form-control col-6 col-md-6" id='rekening' />
-                      <button onClick={onAddItemArray} className="form-control col-2 col-md-2"><i className="fa fa-plus"></i></button>
+                      <button onClick={onAddItemArray} type='button' className="form-control col-2 col-md-2"><i className="fa fa-plus"></i></button>
                     </div>
                   </div>
 
@@ -422,7 +422,7 @@ export default function Register() {
                       <div className="btn-group col-md-12">
                         <input type="text" id={i} className="form-control col-10 mt-2 col-md-10" value={data} readOnly />
                         <button className="form-control col-2 mt-2 col-sm-2"
-                          onClick={() => removeItemArray(data)}
+                          onClick={() => removeItemArray(data)} type='button'
                         >
                           <i className="fa fa-trash"></i></button>
                       </div>

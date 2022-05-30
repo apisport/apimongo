@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 export default function Register() {
     let router = useRouter()
@@ -99,7 +100,7 @@ export default function Register() {
 
     return (
         <div className="limiter">
-            <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>
+            <div className="container-login100">
                 <form className="login100-form validate-form" onSubmit={handlePost}>
                     <span className="login100-form-title">
                         MITRA
@@ -179,7 +180,7 @@ export default function Register() {
                         </div>
                         <div className="row mt-2">
                             <div className="mt-2 col-md-12">
-                                <label className="labels">Hari Operasional</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <label className="labels">Jam Operasional</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                                 <input type="text" className="form-control"
                                     required
                                     value={jamOperasional}
@@ -283,11 +284,35 @@ export default function Register() {
 
 
                         <div class="row mt-3 container-login100-form-btn my-3 g-3">
-                            <button type="submit"
-                                className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}
+                            <Link href={{
+                                pathname: '/dev/edit-mitra',
+                                query: {
+                                    namaVenue: namaVenue,
+                                    namaPemilikVenue: namaPemilikVenue,
+                                    alamat: alamat,
+                                    noWa: noWa,
+                                    instagram: instagram,
+                                    kategori: kategori,
+                                    hariOperasional: hariOperasional,
+                                    jamOperasional: jamOperasional,
+                                    fasilitas: fasilitas,
+                                    opsiBayarStringify: JSON.stringify(opsiBayar),
+                                    rekeningStringify: JSON.stringify(rekening),
+                                    namaAdmin: namaAdmin,
+                                    noWaAdmin: noWaAdmin,
+                                    username: username,
+                                    password: password,
+                                    fotoVenueStringify: JSON.stringify(fotoVenue),
+                                    objectId: objectId
+                                }
+
+                            }}>
+                                <button type="submit"
+                                    className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}
                                 >
-                                EDIT
-                            </button>
+                                    EDIT
+                                </button>
+                            </Link>
                             <button type="button"
                                 onClick={handlePost}
                                 className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#ba8b1e', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
