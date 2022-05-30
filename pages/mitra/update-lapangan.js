@@ -23,6 +23,7 @@ export default function Addlapangan() {
     const [_hargaPagi, setHargaPagi] = useState(hargaPagi);
     const [_hargaMalam, setHargaMalam] = useState(hargaMalam);
     const [_gambar, setGambar] = useState([]);
+    const [_gambarNew, setGambarNew] = useState([]);
     const [image, setImage] = useState([]);
     const [createObjectURL, setCreateObjectURL] = useState([]);
     const [error, setError] = useState('');
@@ -62,14 +63,16 @@ export default function Addlapangan() {
         jadwalPagi,
         jadwalMalam,
         hargaPagi,
-        hargaMalam])
+        hargaMalam,])
 
     const handlePost = async (e) => {
         e.preventDefault();
+        
         // reset error and message
         setError('');
         setMessage('');
         // fields check
+        
         try {
             // Update post
             await fetch('/api/lapangandb', {
@@ -90,6 +93,7 @@ export default function Addlapangan() {
                 }),
             });
             // reload the page
+            gabungGambar()
             alert('Data sukses diupdate')
             return router.push('/mitra/home');
         } catch (error) {
@@ -261,11 +265,16 @@ export default function Addlapangan() {
         if (event.target.files && event.target.files[0]) {
             var x = document.getElementById("image");
             const i = event.target.files[0];
-            setGambar(array => [...array, i.name])
+            setGambarNew(array => [...array, i.name])
             setImage(array => [...array, i]);
             setCreateObjectURL(array => [...array, URL.createObjectURL(i)]);
         }
+        console.log('Upload to Client')
+        console.log(_gambarNew)
+        console.log(image)
+        console.log(createObjectURL)
     };
+
     const uploadToServer = async (event) => {
         const body = new FormData();
         //console.log("file", image)
@@ -277,15 +286,36 @@ export default function Addlapangan() {
             });
         }
     };
+
+    const gabungGambar = () => {
+        setGambar(array => [...array, ..._gambarNew])
+        console.log('Gambar New:')
+        console.log(_gambarNew)
+        console.log('Gambar Sudah Di Push:')
+        console.log(_gambar)
+        alert('Tambah Gambar Sukses')
+    }
+
     const removeItemArrayGambar = (data) => {
         var index = _gambar.indexOf(data)
         if (index >= 0) {
             if (_gambar.length === 0) {
                 setGambar([])
+            } else {
+                setGambar(array => [...array.slice(0, index), ...array.slice(index + 1)])
+            }
+        }
+    }
+
+    const removeItemArrayGambarNew = (data) => {
+        var index = _gambarNew.indexOf(data)
+        if (index >= 0) {
+            if (_gambarNew.length === 0) {
+                setGambarNew([])
                 setImage([])
                 setCreateObjectURL([])
             } else {
-                setGambar(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setGambarNew(array => [...array.slice(0, index), ...array.slice(index + 1)])
                 setImage(array => [...array.slice(0, index), ...array.slice(index + 1)])
                 setCreateObjectURL(array => [...array.slice(0, index), ...array.slice(index + 1)])
             }
@@ -347,7 +377,7 @@ export default function Addlapangan() {
                                     <>
                                         <div className='cols-2 mt-3 mb-3 row row-cols-2'>
                                             <div className='col-10 col-md-10'>
-                                                <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={createObjectURL.length === 0 ? (`/uploads/${data}`) : (typeof data === 'undefined' ? (createObjectURL[i]) : (`/uploads/${data}`))} />
+                                                <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={`/uploads/${data}`} />
                                             </div>
                                             <div className='col-10 col-md-2'>
                                                 <button className="form-control"
@@ -356,12 +386,34 @@ export default function Addlapangan() {
                                                 >
                                                     <i className="fa fa-trash"></i></button>
                                             </div>
-                                            <h3>{i}</h3>
 
                                         </div>
                                     </>
+                                ))}
+                            </>
+                        )}
+                        {_gambarNew.length === 0 ? (
+                            <></>
+                        ) : (
+                            <>
 
+                                {_gambarNew.map((data, i) => (
 
+                                    <>
+                                        <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                            <div className='col-10 col-md-10'>
+                                                <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={createObjectURL[i]} />
+                                            </div>
+                                            <div className='col-10 col-md-2'>
+                                                <button className="form-control"
+                                                    type='button'
+                                                    onClick={() => removeItemArrayGambarNew(data)}
+                                                >
+                                                    <i className="fa fa-trash"></i></button>
+                                            </div>
+
+                                        </div>
+                                    </>
                                 ))}
                             </>
                         )}

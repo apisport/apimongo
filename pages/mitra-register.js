@@ -234,7 +234,6 @@ export default function Register() {
                   <textarea class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
-
                     value={alamat}
                     onChange={(e) => setAlamat(e.target.value)}
                     required></textarea>
