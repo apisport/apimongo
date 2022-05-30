@@ -48,11 +48,15 @@ async function addMitra(req, res) {
 async function deleteMitra(req, res) {
     var ObjectId = require('mongodb').ObjectId;
     const { _id } = req.body;
+    const { namaVenue } = req.body;
     const convertedObjectId = new ObjectId(_id);
     try {
         // Connecting to the database
         let { db } = await connectToDatabase();
         // Deleting the post
+        await db.collection('favorit').deleteMany({
+            'namaVenue': namaVenue
+        });
         await db.collection('mitra').deleteOne({
             '_id': convertedObjectId
         });

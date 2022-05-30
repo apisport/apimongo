@@ -244,12 +244,19 @@ export default function Register() {
                     onChange={(e) => setNoWa(e.target.value)}
                     required />
                 </div>
-                <div className="mt-2 col-md-12"><label className="labels">Instagram</label>
-                  <input type="text"
-                    value={instagram}
-                    onChange={(e) => setInstagram(e.target.value)}
-                    className="form-control"
-                  />
+                <div className="mt-2 row row-cols col-md-12"><label className="labels">Instagram</label>
+                  <div className='col-2 col-md-1 justify-content-center'>
+                    <input type="text"
+                      value="@" />
+                  </div>
+                  <div className='col-10 col-md-11'>
+                    <input type="text"
+                      value={instagram}
+                      onChange={(e) => setInstagram(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+
                 </div>
                 <div className="form-group mt-2 col-md-12">
                   <label htmlFor="exampleFormControlSelect1">Kategori Olahraga</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
@@ -460,7 +467,7 @@ export default function Register() {
                     id='passwordInput'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} required />
-                  <button onClick={() => { myFunction() }} className="form-control col-2 col-sm-2"><i className="fa fa-eye"></i></button>
+                  <button type='button' onClick={() => { myFunction() }} className="form-control col-2 col-sm-2"><i className="fa fa-eye"></i></button>
                 </div>
               </div>
               <div class="container-login100-form-btn my-3">

@@ -38,7 +38,8 @@ export default function Register() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    _id: objectId
+                    _id: objectId,
+                    namaVenue: namaVenue
                 }),
             });
             // reset the deleting state
