@@ -295,7 +295,6 @@ export default function Addlapangan() {
         console.log(gambarGabung)
         console.log('Gambar Sudah Di Push:')
         console.log(_gambar)
-        alert('Tambah Gambar Sukses')
     }
 
     const removeItemArrayGambar = (data) => {

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-export default function Register() {
+export default function EditMitra() {
 
     //Req.Query
     let router = useRouter()
@@ -49,6 +49,7 @@ export default function Register() {
 
     //Gambar
     const [_fotoVenue, setFotoVenue] = useState([]);
+    const [_fotoVenueNew, setFotoVenueNew] = useState([]);
     const [image, setImage] = useState([]);
     const [createObjectURL, setCreateObjectURL] = useState([]);
     const [error, setError] = useState('');
@@ -134,7 +135,7 @@ export default function Register() {
         // reset error and message
         setError('');
         setMessage('');
-
+        gabungGambar()
         // fields check
         try {
             // Update post
@@ -161,12 +162,12 @@ export default function Register() {
                     password: _password,
                     fotoVenue: _fotoVenue,
                     objectId: objectId,
-                    namaVenueLama : namaVenueLama
+                    namaVenueLama: namaVenueLama
                 }),
             });
             // reload the page
             alert('Data sukses diupdate')
-            return router.push('/dev/mitra-dev');
+            router.push('/dev/mitra-dev');
         } catch (error) {
             // Stop publishing state
             console.log('Not Working')
@@ -260,25 +261,48 @@ export default function Register() {
 
     };
 
+    const gabungGambar = () => {
+        let gambarGabung = _fotoVenue.concat(_fotoVenueNew)
+        setFotoVenue(Object.assign(_fotoVenue, gambarGabung))
+    }
+
+    const removeItemArrayGambarNew = (data) => {
+        var index = _fotoVenueNew.indexOf(data)
+        if (index >= 0) {
+            if (_fotoVenueNew.length === 0) {
+                setFotoVenueNew([])
+                setImage([])
+                setCreateObjectURL([])
+            } else {
+                setFotoVenueNew(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setImage(array => [...array.slice(0, index), ...array.slice(index + 1)])
+                setCreateObjectURL(array => [...array.slice(0, index), ...array.slice(index + 1)])
+            }
+        }
+    }
+
 
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             var x = document.getElementById("image");
 
             const i = event.target.files[0];
-            setFotoVenue(array => [...array, i.name])
+            setFotoVenueNew(array => [...array, i.name])
             setImage(array => [...array, i]);
             setCreateObjectURL(array => [...array, URL.createObjectURL(i)]);
         }
     };
+
     const uploadToServer = async (event) => {
         const body = new FormData();
         //console.log("file", image)
-        body.append("file", image);
-        const response = await fetch("/api/upload", {
-            method: "POST",
-            body
-        });
+        for (let i = 0; i < image.length; i++) {
+            await body.append("file", image[i]);
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body
+            });
+        }
     };
 
     function myFunction() {
@@ -545,7 +569,19 @@ export default function Register() {
                                 />
                             </div>
                         </div>
-                        <div className="col-12 col-md-12">
+                        <div className="mt-2 col-12 col-md-12"><label className="labels">Foto Lapangan</label>
+                            <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                            <div className="mt-2 col-md-12">
+                                <div className="custom-file">
+                                    <input type="file"
+                                        onChange={uploadToClient}
+                                        className="custom-file-input"
+                                        id="validatedCustomFile" name="myImage" />
+                                    <label className="custom-file-label" htmlFor="validatedCustomFile">Choose file...</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-2 col-12 col-md-12"><label className="labels">Foto Lapangan</label>
                             {_fotoVenue.length === 0 ? (
                                 <h2>Daftar Foto</h2>
                             ) : (
@@ -554,15 +590,44 @@ export default function Register() {
                                     {_fotoVenue.map((data, i) => (
                                         <>
                                             <div className='cols-2 mt-3 mb-3 row row-cols-2'>
-                                                <div className='cols-1 col-md-6'>
-                                                    <img id='image' className='img-fluid d-block border border-dark' width={150} height={150} src={`/uploads/${data}`} />
+                                                <div className='col-10 col-md-10'>
+                                                    <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={`/uploads/${data}`} />
                                                 </div>
-
+                                                <div className='col-10 col-md-2'>
+                                                    <button className="form-control"
+                                                        type='button'
+                                                        onClick={() => removeItemArrayGambar(data)}
+                                                    >
+                                                        <i className="fa fa-trash"></i></button>
+                                                </div>
 
                                             </div>
                                         </>
+                                    ))}
+                                </>
+                            )}
+                            {_fotoVenueNew.length === 0 ? (
+                                <></>
+                            ) : (
+                                <>
 
+                                    {_fotoVenueNew.map((data, i) => (
 
+                                        <>
+                                            <div className='cols-2 mt-3 mb-3 row row-cols-2'>
+                                                <div className='col-10 col-md-10'>
+                                                    <img id='image' className='img-fluid d-block border border-dark' width={300} height={300} src={createObjectURL[i]} />
+                                                </div>
+                                                <div className='col-10 col-md-2'>
+                                                    <button className="form-control"
+                                                        type='button'
+                                                        onClick={() => removeItemArrayGambarNew(data)}
+                                                    >
+                                                        <i className="fa fa-trash"></i></button>
+                                                </div>
+
+                                            </div>
+                                        </>
                                     ))}
                                 </>
                             )}
@@ -570,8 +635,8 @@ export default function Register() {
 
 
                         <div className="row mt-3 container-login100-form-btn my-3 g-3">
-                            <button type="button"
-                                onClick={handlePost}
+                            <button type="submit"
+                                onClick={uploadToServer}
                                 className="btn btn-outline-secondary mx-3" style={{ backgroundColor: '#ba8b1e', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>
                                 EDIT MITRA
                             </button>
