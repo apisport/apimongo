@@ -59,7 +59,7 @@ export default function CardLapangan({ props }) {
                     {/* ROW CONTENT */}
                     <div className="row">
                         <div className="col-md-4">
-                            <Carousel gambar={props.gambar} />
+                            <Carousel gambar={props.gambar} nama={props.namaLapangan} />
                         </div>
 
                         <div className="col-lg-8 p-0 ">

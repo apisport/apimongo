@@ -6,9 +6,22 @@ import CardRekomendasi from '../components/user/home/CardRekomendasi'
 import CardLapanganHome from '../components/user/home/CardLapanganHome'
 import CardTestimonial from '../components/user/home/CardTestimonial'
 import Pagination from '../components/Pagination'
-
+import useSWR from 'swr'
 
 export default function Home() {
+  const fetcher = (...args) => fetch(...args).then((res) => res.json())
+  const { data: data, error } = useSWR('/api/homefavoritdb', fetcher)
+
+  if (!data) {
+    return <div>Loading...</div>
+  } else if (error) {
+    return <div>Something went wrong</div>
+  }
+
+
+  let rekomendasi = data['message']
+  console.log('Agregate:')
+  console.log(rekomendasi)
   return (
     <>
       
@@ -64,7 +77,6 @@ export default function Home() {
               <img src='icons/basket.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} xmlns="http://www.w3.org/2000/img" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" />
               <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Basket</p>
             </a>
-
           </div>
         </div>
       </div>
@@ -96,10 +108,8 @@ export default function Home() {
         </div>
         <div className='container mt-4 my-4 text-black-50'>
           <h2 style={{ color: '#EE8F00' }} className='mb-5 header-custom' sr>ALUR BOOKING</h2>
-          <img src='./alur.png' className='d-block img-fluid' />
+          <img src='/alur.png' className='d-block img-fluid' />
         </div>
-
-
 
       </div>
 
