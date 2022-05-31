@@ -1,3 +1,4 @@
+//@ts-check
 import Head from 'next/head'
 import Image from 'next/image'
 import Helmet from 'react-helmet'
@@ -74,7 +75,7 @@ export default function Home() {
           </div>
           <div className="col-3 col-lg-3">
             <a href="#">
-              <img src='icons/basket.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} xmlns="http://www.w3.org/2000/img" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false" />
+              <img src='icons/basket.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140"  />
               <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Basket</p>
             </a>
           </div>
@@ -96,10 +97,17 @@ export default function Home() {
           <h2 style={{ color: 'black' }} className='fw-bold fst-italic'>REKOMENDASI LAPANGAN</h2>
           <hr></hr>
           <div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
+            {rekomendasi.length === 0 ? (
+              <></>
+            ) : (
+              <>
 
-            <CardRekomendasi />
-            <CardRekomendasi />
-            <CardRekomendasi />
+                {rekomendasi.map((data, i) => (
+                  <CardRekomendasi props={data}/>
+                ))}
+              </>
+            )}
+            
           </div>
         </div>
         <div className='container mt-4 my-4 text-black-50'>
