@@ -6,7 +6,7 @@ const CardRekomendasi = ({props}) => {
             <a href='/detail-venue'>
                 <div className="col card shadow">
                     <div className="card text-start">
-                        <img src="images/futsallap.jpg" className="card-img-top d-block" alt="..." width={300} height={300} />
+                        <img src={`/uploads/${props.fotoVenue[0]}`} className="card-img-top d-block" alt="..." width={300} height={300} />
                         <div className="card-body">
                             <h5 className="card-title" style={{ color: "black" }}><strong>{props.namaVenue }</strong></h5>
                             <span className="card-text text-left" style={{ color: "black" }}><icon className='fa fa-calendar'></icon>{` ${props.hariOperasional}` }</span><br></br>
