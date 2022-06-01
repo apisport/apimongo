@@ -4,10 +4,24 @@ import Helmet from 'react-helmet'
 import Carousel from 'react-bootstrap/Carousel'
 import CardRekomendasi from '../components/user/lapangan/CardRekomendasi'
 import CardKategori from '../components/user/lapangan/CardKategori'
+import useSWR from 'swr'
 import Pagination from '../components/Pagination'
 
 
 export default function Lapangan() {
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const { data: data, error } = useSWR('/api/lapanganuserdb', fetcher)
+
+    if (!data) {
+        return <div>Loading...</div>
+    } else if (error) {
+        return <div>Something went wrong</div>
+    }
+
+
+    let lapangan = data['message']
+    console.log('Agregate:')
+    console.log(lapangan)
     return (
         <>
             <div className='container my-4'>
@@ -55,7 +69,7 @@ export default function Lapangan() {
 
             </div>
             <div className='container d-flex mt-4 text-center justify-content-center'>
-                <Pagination />
+                {/* <Pagination /> */}
             </div>
 
 
