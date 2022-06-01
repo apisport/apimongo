@@ -41,13 +41,21 @@ export default function Lapangan() {
                     <h2 style={{ color: 'black' }}>Rekomendasi Lapangan</h2>
                     <hr></hr>
                     <div className="row row-cols-1 row-cols-md-4 g-4 mt-3">
+                        {lapangan.favorit.length === 0 ? (
+                            <></>
+                        ) : (
+                            <>
 
-                        <CardRekomendasi />
+                                {lapangan.favorit.map((data, i) => (
+                                    <CardRekomendasi props={data} />
+                                ))}
+                            </>
+                        )}
                     </div>
                 </div>
 
                 <div className='container my-4 text-black-50'>
-                    <h2 style={{ color: 'black' }}>Pilih Kategori Olahraga</h2>
+                    <h2 style={{ color: 'black' }}>Daftar Lapangan</h2>
                     <select className='form-control form-select mt-4'>
                         <option>Futsal</option>
                         <option>Bulutangkis</option>
@@ -61,7 +69,17 @@ export default function Lapangan() {
                 <div className='container mt-4 text-black-50 mt-5'>
                     <div className="row row-cols-1 row-cols-md-4 g-4">
 
-                        <CardKategori />
+                        {lapangan.lapangan.length === 0 ? (
+                            <></>
+                        ) : (
+                            <>
+                                
+                                {lapangan.lapangan.map((data, i) => (
+                                    
+                                    <CardKategori props={data} />
+                                ))}
+                            </>
+                        )}
                     </div>
 
                 </div>

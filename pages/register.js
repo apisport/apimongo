@@ -11,6 +11,7 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [fotoProfil, setFotoProfil] = useState('');
+  const [role, setRole] = useState('user');
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [error, setError] = useState('');
@@ -18,6 +19,7 @@ export default function Register() {
   let router = useRouter()
   const handlePost = async (e) => {
     e.preventDefault();
+    
     // reset error and message
     setError('');
     setMessage('');
@@ -26,6 +28,7 @@ export default function Register() {
       alert('Harap untuk mengisi semua data');
       return setError('All fields are required');
     }
+    // addToAccount()
 
 
     // post structure
@@ -61,6 +64,39 @@ export default function Register() {
       setFotoProfil('');
       setImage(null);
       setCreateObjectURL(null);
+      router.push('/')
+      // set the message
+      return setMessage(data.message);
+    }
+    else {
+      // set the error
+      console.log(data.message);
+      return setError(data.message);
+    }
+  };
+
+  const addToAccount = async (e) => {
+    e.preventDefault();
+    // reset error and message
+    setError('');
+    setMessage('');
+    // fields check
+    // post structure
+    let account = {
+      username,
+      password,
+      role,
+    };
+    // save the post
+    let response = await fetch('/api/accountdb', {
+      method: 'POST',
+      body: JSON.stringify(account),
+    });
+    // get the data
+    let data = await response.json();
+    if (data.success) {
+      // reset the fields
+
       // set the message
       return setMessage(data.message);
     }
