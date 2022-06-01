@@ -1,3 +1,4 @@
+import Link from 'next/link'
 const CardTransaksiPending = ({ props }) => {
     console.log(props)
     return (
@@ -16,7 +17,34 @@ const CardTransaksiPending = ({ props }) => {
                             <hr></hr>
                             <h5><b>Diterima:</b> {data.diterima}</h5>
                             <h5><b>Tanggal Main:</b> {data.tglMain}</h5><br></br>
-                            <a href="/mitra/detail-notifikasi" className="btn btn-primary text-white p-3 mb-2">Lihat Detail</a>
+                            <Link href={{
+                                pathname: '/mitra/detail-notifikasi',
+                                query: {
+                                    namaVenue: data.namaVenue,
+                                    namaPemilikVenue: data.namaPemilikVenue,
+                                    alamat: data.alamat,
+                                    noWa: data.noWa,
+                                    instagram: data.instagram,
+                                    kategori: data.kategori,
+                                    hariOperasional: data.hariOperasional,
+                                    jamOperasional: data.jamOperasional,
+                                    fasilitas: data.fasilitas,
+                                    opsiBayarStringify: JSON.stringify(data.opsiBayar),
+                                    rekeningStringify: JSON.stringify(data.rekening),
+                                    namaAdmin: data.namaAdmin,
+                                    noWaAdmin: data.noWaAdmin,
+                                    username: data.username,
+                                    password: data.password,
+                                    fotoVenueStringify: JSON.stringify(data.fotoVenue),
+                                    objectId: data._id
+                                }
+
+                            }}>
+                                <button className="btn btn-primary text-white p-3 mb-2">
+                                    Lihat Detail
+                                </button>
+                            </Link>
+
                         </div>
                     ))}
                 </>
