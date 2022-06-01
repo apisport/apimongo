@@ -6,9 +6,14 @@ import CardRekomendasi from '../components/user/lapangan/CardRekomendasi'
 import CardKategori from '../components/user/lapangan/CardKategori'
 import useSWR from 'swr'
 import Pagination from '../components/Pagination'
+import { useState } from 'react'
 
 
 export default function Lapangan() {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(8)
+    const [filterSearch, setFilterSearch] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
     const { data: data, error } = useSWR('/api/lapanganuserdb', fetcher)
 
@@ -18,10 +23,23 @@ export default function Lapangan() {
         return <div>Something went wrong</div>
     }
 
+    
 
     let lapangan = data['message']
     console.log('Agregate:')
     console.log(lapangan)
+
+    //Tambahan Pagination
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    //Fixed Pagintion CurrentPosts hapus filter di bawah
+    let currentPosts = lapangan.lapangan.slice(indexOfFirstPost, indexOfLastPost)
+    //Fixed Pagination CurrentPosts
+    const howManyPages = Math.ceil(lapangan.lapangan.length / postsPerPage)
+    //Tambahan Pagination Current Post Map
+
+
+    
     return (
         <>
             <div className='container my-4'>
@@ -69,12 +87,12 @@ export default function Lapangan() {
                 <div className='container mt-4 text-black-50 mt-5'>
                     <div className="row row-cols-1 row-cols-md-4 g-4">
 
-                        {lapangan.lapangan.length === 0 ? (
+                        {currentPosts.length === 0 ? (
                             <></>
                         ) : (
                             <>
                                 
-                                {lapangan.lapangan.map((data, i) => (
+                                {currentPosts.map((data, i) => (
                                     
                                     <CardKategori props={data} />
                                 ))}
@@ -87,7 +105,7 @@ export default function Lapangan() {
 
             </div>
             <div className='container d-flex mt-4 text-center justify-content-center'>
-                {/* <Pagination /> */}
+                <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
             </div>
 
 

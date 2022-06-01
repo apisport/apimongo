@@ -68,7 +68,7 @@ export default function Pagination({pages, setCurrentPage}) {
                         <li className="page-item">
                             <a className="page-link"
                                 onClick={() => setCurrentButton((prev) => prev === 1 ? prev : prev - 1)}
-                                href="#" aria-label="Previous">
+                                 aria-label="Previous">
                                 <span aria-hidden="true">«</span>
                             </a>
                         </li>
@@ -78,14 +78,14 @@ export default function Pagination({pages, setCurrentPage}) {
                                 className={currentButton === page && 'page-item active'} 
                                 key={index}
                                 onClick={() => setCurrentButton(page)}>
-                                    <a className="page-link" href="#">{page}</a>
+                                    <a className="page-link" >{page}</a>
                                 </li>
                             )
                         })}
                         <li className="page-item">
                             <a className="page-link"
                                 onClick={() => setCurrentButton((prev) => prev === numberOfPages.length ?  prev : prev + 1)}
-                                href="#" aria-label="Next">
+                                aria-label="Next">
                                 <span aria-hidden="true">»</span>
                             </a>
                         </li>
