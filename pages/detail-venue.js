@@ -1,6 +1,26 @@
 import CardLapangan from "../components/user/detail-venue/CardLapangan";
+import useSWR from "swr";
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const fetcher = (...args) => fetch(...args).then((res) => res.json())
+  const router = useRouter()
+  const {namaVenue} = router.query
+  const { data: data, error } = useSWR(`/api/detailvenuedb?namaVenueReq=${namaVenue}`, fetcher)
+
+
+
+  if (!data) {
+    return <div>Loading...</div>
+  } else if (error) {
+    return <div>Something went wrong</div>
+  }
+
+
+  let venue = data['message']
+  console.log(venue)
+  console.log(namaVenue)
+
   return (
     <div className="container">
       <h1 className="fw-bold fst-italic">Detail Venue</h1>

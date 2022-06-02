@@ -1,10 +1,17 @@
 import React from 'react'
+import Link from 'next/link'
 
 const CardRekomendasi = ({ props }) => {
     let namaHasil = props.namaVenue.split(" ").join("");
     return (
         <>
-            <a href='/detail-venue'>
+            <Link href={{
+                pathname: '/detail-venue',
+                query: {
+                    namaVenue: props.namaVenue
+                }
+
+            }}>
                 <div className="col card shadow">
                     <div className="card text-start">
                         <div id={`${namaHasil}`} className="carousel slide" data-bs-ride="carousel">
@@ -51,7 +58,7 @@ const CardRekomendasi = ({ props }) => {
                         </div>
                     </div>
                 </div>
-            </a>
+            </Link>
         </>
     )
 }
