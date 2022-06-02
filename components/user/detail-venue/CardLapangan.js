@@ -1,10 +1,23 @@
 import CardJadwal from "./CardJadwal"
 import Carousel from "./Carousel"
-export default function CardLapangan() {
+export default function CardLapangan({props}) {
+    let keyJadwalPagi = Object.keys(props.jadwalPagi)
+    let keyJadwalMalam = Object.keys(props.jadwalMalam)
+    let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
+    let gabunganHarga = []
+
+
+    for (let i = 0; i < keyJadwalPagi.length; i++) {
+        gabunganHarga.push(props.hargaPagi)
+    }
+
+    for (let i = 0; i < keyJadwalMalam.length; i++) {
+        gabunganHarga.push(props.hargaMalam)
+    }
+
     return (
         <div className='mt-3'>
-            <a data-bs-toggle="collapse" href="#lapanganCollapse" style={{ color: "black" }}><h5 className='text-start'><icon className='fa fa-caret-down'></icon> Daftar Lapangan</h5></a>
-            <div className="row collapse multi-collapse text-start" id="lapanganCollapse">
+            
                 <div className="card border-0 shadow-sm">
                     <div className="card-body rounded p-3">
                         {/* ROW CONTENT */}
@@ -53,7 +66,6 @@ export default function CardLapangan() {
                         </div>
                         {/* END ROW */}
                     </div>
-                </div>
 
             </div>
         </div>
