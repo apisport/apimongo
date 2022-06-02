@@ -19,7 +19,6 @@ export default function Home() {
 
   let venue = data['message']
   console.log(venue)
-  console.log(namaVenue)
 
   return (
     <div className="container">
@@ -62,12 +61,12 @@ export default function Home() {
                   {/* END SLIDER */}
                 </div>
                 <div className="col-md-8 text-start">
-                  <h5 className="card-title mt-3" style={{ color: "black" }}><strong>Lapangan Mitra</strong></h5>
-                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-calendar'></icon> Senin - Rabu</span><br></br>
-                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-clock'></icon> Pukul 08.00 - 10.00</span><br></br>
-                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-compass'></icon> Jalan Basuki Ahmad No. 8</span><br></br>
-                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-futbol'></icon> Futsal</span><br></br>
-                  <span className="card-text text-muted" style={{ color: "black" }}><strong>Harga mulai dari </strong><br></br><span style={{ color: "green" }}>Rp 100.000</span></span>
+                  <h5 className="card-title mt-3" style={{ color: "black" }}><strong>{venue.infoVenue[0].namaVenue}</strong></h5>
+                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-calendar'></icon> {venue.infoVenue[0].hariOperasional}</span><br></br>
+                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-clock'></icon> {venue.infoVenue[0].jamOperasional}</span><br></br>
+                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-compass'></icon> {venue.infoVenue[0].alamat}</span><br></br>
+                  <span className="card-text" style={{ color: "black" }}><icon className='fa fa-futbol'></icon> {venue.infoVenue[0].kategori}</span><br></br>
+                  <span className="card-text text-muted" style={{ color: "black" }}><strong>Harga mulai dari </strong><br></br><span style={{ color: "green" }}>{`Rp ${venue.infoLapangan[0].hargaPagi}.000`}</span></span>
                 </div>
               </div>
               {/* END ROW */}
@@ -80,7 +79,7 @@ export default function Home() {
         <a data-bs-toggle="collapse" href="#fasilitasCollapse" style={{ color: "black" }}><h5 className='text-start'><icon className='fa fa-caret-down'></icon> Fasilitas</h5></a>
         <div>
           <div className="row collapse multi-collapse text-start" id="fasilitasCollapse">
-            <span>Kantin, WiFi</span>
+            <span>{venue.infoVenue[0].fasilitas}</span>
           </div>
         </div>
       </div>
@@ -88,8 +87,8 @@ export default function Home() {
         <a data-bs-toggle="collapse" href="#sosmedCollapse" style={{ color: "black" }}><h5 className='text-start'><icon className='fa fa-caret-down'></icon> Sosial Media</h5></a>
         <div>
           <div className="row collapse multi-collapse text-start" id="sosmedCollapse">
-            <span className='mb-2'><b><icon className='fa fa-instagram' /></b> @lapangan</span>
-            <span className='mb-2'><b><icon className='fa fa-whatsapp' /></b> 0333-XXX-XXX</span>
+            <span className='mb-2'><b><icon className='fa fa-instagram' /></b> @{venue.infoVenue[0].instagram}</span>
+            <span className='mb-2'><b><icon className='fa fa-whatsapp' /></b> {venue.infoVenue[0].noWa}</span>
           </div>
         </div>
       </div>

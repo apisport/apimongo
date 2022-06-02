@@ -54,7 +54,7 @@ const CardRekomendasi = ({ props }) => {
                             <span className="card-text" style={{ color: "black" }}><icon className='fa fa-clock'></icon> {` Pukul ${props.jamOperasional}`}</span><br></br>
                             <span className="card-text" style={{ color: "black" }}><icon className='fa fa-compass'></icon>{` ${props.alamat}`}</span><br></br>
                             <span className="card-text" style={{ color: "black" }}><icon className='fa fa-futbol'></icon>{` ${props.kategori}`}</span><br></br>
-                            <span className="card-text text-muted" style={{ color: "black" }}><strong>Harga mulai dari </strong><br></br><span style={{ color: "green" }}>{`Rp ${props.lapanganVenue[0].hargaPagi}.000`}</span></span>
+                            <span className="card-text text-muted" style={{ color: "black" }}><strong>Harga mulai dari </strong><br></br><span style={{ color: "green" }}>{props.lapanganVenue.length === 0 ? ('Tidak ada data harga') : (`Rp ${props.lapanganVenue[0].hargaPagi}.000`)}</span></span>
                         </div>
                     </div>
                 </div>
