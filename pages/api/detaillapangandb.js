@@ -3,32 +3,22 @@ const { connectToDatabase } = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
 
-async function getVenue(req, res) {
-    const { namaVenueReq } = req.query
+async function getDetailLapangan(req, res) {
+    const { idLapangan } = req.query
+    const convertedObjectId = new ObjectId(idLapangan);
     try {
         // connect to the database
         let { db } = await connectToDatabase();
-        let infoVenue = await db
-            .collection('mitra')
-            .find({
-                namaVenue: namaVenueReq
-            })
-            .sort({ idfavorit: -1 })
-            .toArray();
-        // return the posts
         let infoLapangan = await db
             .collection('lapangan')
             .find({
-                namaVenue: namaVenueReq
+                _id: convertedObjectId
             })
             .sort({ idfavorit: -1 })
             .toArray();
-        let hasil = {}
-        hasil['infoVenue'] = infoVenue
-        hasil['infoLapangan'] = infoLapangan
         // return the posts
         return res.json({
-            message: JSON.parse(JSON.stringify(hasil)),
+            message: JSON.parse(JSON.stringify(infoLapangan)),
             success: true,
         });
     } catch (error) {
@@ -45,7 +35,7 @@ export default async function handler(req, res) {
     // switch the methods
     switch (req.method) {
         case 'GET': {
-            return getVenue(req, res);
+            return getDetailLapangan(req, res);
         }
         case 'POST': {
             return addFavorit(req, res);

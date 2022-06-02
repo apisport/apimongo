@@ -1,5 +1,5 @@
-import CardJadwal from "./CardJadwal"
-import Carousel from "./Carousel"
+import Link from 'next/link'
+
 export default function CardLapangan({props}) {
     let keyJadwalPagi = Object.keys(props.jadwalPagi)
     let keyJadwalMalam = Object.keys(props.jadwalMalam)
@@ -61,7 +61,15 @@ export default function CardLapangan({props}) {
                             </div>
                             <h5 className="card-title mt-2 justify-content-center text-center" style={{ color: "black" }}><strong>{ props.namaLapangan}</strong></h5>
                                 <div className='text-center justify-content-center mt-2 mb-2'>
-                                    <a href='/detail-lapangan'><button className='btn btn-success text-white p-2'>Lihat Selengkapnya</button></a>
+                                <Link href={{
+                                    pathname: '/detail-lapangan',
+                                    query: {
+                                        idLapangan: props._id
+                                    }
+
+                                }}>
+                                    <button className='btn btn-success text-white p-2'>Lihat Selengkapnya</button>
+                                </Link>
                                 </div>
 
                                 {/* END SLIDER */}

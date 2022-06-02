@@ -1,9 +1,30 @@
 import Carousel from '../components/user/detail-lapangan/Carousel'
 import CardJadwal from '../components/user/detail-lapangan/CardJadwal'
+import useSWR from "swr";
+import { useRouter } from 'next/router';
+
 export default function Home() {
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const router = useRouter()
+    const { idLapangan } = router.query
+    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}`, fetcher)
+    
+
+    if (!data) {
+        return <div>Loading...</div>
+    } else if (error) {
+        return <div>Something went wrong</div>
+    }
+
+
+    let lapangan = data['message']
+    console.log(lapangan)
+    let infoLapangan = lapangan[0]
+    // let namaHasil = lapangan.namaLapangan.split(" ").join("");
+    
     return (
         <div className="container">
-            <h1 className='mb-3'>Lapangan 1</h1>
+            <h1 className='mb-3'>{infoLapangan.namaLapangan}</h1>
             <div className="row mb-3">
                 <div className="col md-3 mb-4">
                     {/* SLIDER */}
@@ -33,7 +54,7 @@ export default function Home() {
                 <a data-bs-toggle="collapse" href="#deskripsiCollapse" style={{ color: "black" }}><h5 className='text-start'><icon className='fa fa-caret-down'></icon> Deskripsi Lapangan</h5></a>
                 <div>
                     <div className="row collapse multi-collapse text-start" id="deskripsiCollapse">
-                        <span>Lapangan ini adalah lapangan matras cocok untuk</span>
+                        <span>{infoLapangan.deskripsi}</span>
                     </div>
                 </div>
             </div>
