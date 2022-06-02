@@ -4,9 +4,7 @@ import Image from 'next/image'
 import Helmet from 'react-helmet'
 import Carousel from 'react-bootstrap/Carousel'
 import CardRekomendasi from '../components/user/home/CardRekomendasi'
-import CardLapanganHome from '../components/user/home/CardLapanganHome'
 import CardTestimonial from '../components/user/home/CardTestimonial'
-import Pagination from '../components/Pagination'
 import useSWR from 'swr'
 
 export default function Home() {
