@@ -5,6 +5,7 @@ export default function CardLapangan({props}) {
     let keyJadwalMalam = Object.keys(props.jadwalMalam)
     let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
     let gabunganHarga = []
+    let namaHasil = props.namaLapangan.split(" ").join("");
 
 
     for (let i = 0; i < keyJadwalPagi.length; i++) {
@@ -23,26 +24,41 @@ export default function CardLapangan({props}) {
                         {/* ROW CONTENT */}
                         <div className="row">
                             <div className="col-md-4">
-                                {/* SLIDER */}
-                                <div id="carouselExampleIndicatorsLap" className="carousel slide" data-bs-ride="carousel">
-                                    <div className="carousel-indicators">
-                                        <button type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide-to={0} className="active" aria-current="true" aria-label="Slide 1" />
-                                        <button type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide-to={1} aria-label="Slide 2" />
-                                        <button type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide-to={2} aria-label="Slide 3" />
-                                    </div>
-                                    <div className="carousel-inner">
-                                        <Carousel />
+                            {/* SLIDER */}
+                            <div id={`${namaHasil}`} className="carousel slide" data-bs-ride="carousel">
+                                <div className="carousel-indicators">
+                                    {props.gambar.map((data, i) => (
+                                        <>
+                                            {i == 0 ?
+                                                (<button type="button" data-bs-target={`#${namaHasil}`} data-bs-slide-to={i} className="active" aria-current="true" aria-label={`Slide ${i}`} />) :
+                                                (<button type="button" data-bs-target={`#${namaHasil}`} data-bs-slide-to={i} aria-label={`Slide ${i}`} />)}
 
-                                    </div>
-                                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide="prev">
-                                        <span className="carousel-control-prev-icon" aria-hidden="true" />
-                                        <span className="visually-hidden">Previous</span>
-                                    </button>
-                                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicatorsLap" data-bs-slide="next">
-                                        <span className="carousel-control-next-icon" aria-hidden="true" />
-                                        <span className="visually-hidden">Next</span>
-                                    </button>
+                                        </>
+                                    ))}
                                 </div>
+                                <div className="carousel-inner">
+                                    {props.gambar.map((data, i) => (
+                                        <>
+                                            {i == 0 ?
+                                                (<div className="carousel-item active">
+                                                    <img src={`/uploads/${data}`} className=" img-fluid" />
+                                                </div>) :
+                                                (<div className="carousel-item">
+                                                    <img src={`/uploads/${data}`} className=" img-fluid" />
+                                                </div>)}
+                                        </>
+                                    ))}
+
+                                </div>
+                                <button className="carousel-control-prev" type="button" data-bs-target={`#${namaHasil}`} data-bs-slide="prev">
+                                    <span className="carousel-control-prev-icon" aria-hidden="true" />
+                                    <span className="visually-hidden">Previous</span>
+                                </button>
+                                <button className="carousel-control-next" type="button" data-bs-target={`#${namaHasil}`} data-bs-slide="next">
+                                    <span className="carousel-control-next-icon" aria-hidden="true" />
+                                    <span className="visually-hidden">Next</span>
+                                </button>
+                            </div>
                             <h5 className="card-title mt-2 justify-content-center text-center" style={{ color: "black" }}><strong>{ props.namaLapangan}</strong></h5>
                                 <div className='text-center justify-content-center mt-2 mb-2'>
                                     <a href='/detail-lapangan'><button className='btn btn-success text-white p-2'>Lihat Selengkapnya</button></a>
@@ -50,18 +66,26 @@ export default function CardLapangan({props}) {
 
                                 {/* END SLIDER */}
                             </div>
-                            <div className="col-lg-8 p-0 ">
-                                <a data-bs-toggle="collapse" href="#jadwalCollapse" style={{ color: "black" }}><h5 className='text-start'><icon className='fa fa-caret-down'></icon> Lihat Jadwal</h5></a>
-                                <div className='row collapse multi-collapse' id="jadwalCollapse">
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                    <CardJadwal />
-                                </div>
+                            <div className="col-lg-8 p-2 ">
+                            <div className='row' >
+                                <h3>Jadwal Lapangan</h3>
+                                {gabunganJadwal.length === 0 ? (
+                                    <h2>Tidak ada data</h2>
+                                ) : (
+                                    <>
+                                        {gabunganJadwal.map((data, index) => (
+                                            <div className='col-6 col-sm-3 mb-2'>
+                                                <div className='card'>
+                                                    <div className='card-body'>
+                                                        <span>{data}</span><br></br>
+                                                        <span>{`Rp ${gabunganHarga[index]}.000`}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
+                            </div>
                             </div>
                         </div>
                         {/* END ROW */}

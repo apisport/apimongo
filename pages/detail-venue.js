@@ -7,8 +7,7 @@ export default function Home() {
   const router = useRouter()
   const {namaVenue} = router.query
   const { data: data, error } = useSWR(`/api/detailvenuedb?namaVenueReq=${namaVenue}`, fetcher)
-
-
+  let namaHasil = namaVenue.split(" ").join("");
 
   if (!data) {
     return <div>Loading...</div>
@@ -31,28 +30,36 @@ export default function Home() {
               <div className="row p-4">
                 <div className="col">
                   {/* SLIDER */}
-                  <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
+                  <div id={`${namaHasil}`} className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-indicators">
-                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={0} className="active" aria-current="true" aria-label="Slide 1" />
-                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={1} aria-label="Slide 2" />
-                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={2} aria-label="Slide 3" />
+                      {venue.infoVenue[0].fotoVenue.map((data, i) => (
+                        <>
+                          {i == 0 ?
+                            (<button type="button" data-bs-target={`#${namaHasil}`} data-bs-slide-to={i} className="active" aria-current="true" aria-label={`Slide ${i}`} />) :
+                            (<button type="button" data-bs-target={`#${namaHasil}`} data-bs-slide-to={i} aria-label={`Slide ${i}`} />)}
+
+                        </>
+                      ))}
                     </div>
                     <div className="carousel-inner">
-                      <div className="carousel-item active">
-                        <img src="images/futsallap.jpg" width='170' height='200' className="d-block w-100" />
-                      </div>
-                      <div className="carousel-item" >
-                        <img src="images/futsallap.jpg" width='170' height='200' className="d-block w-100" />
-                      </div>
-                      <div className="carousel-item">
-                        <img src="images/futsallap.jpg" width='170' height='200' className="d-block w-100" />
-                      </div>
+                      {venue.infoVenue[0].fotoVenue.map((data, i) => (
+                        <>
+                          {i == 0 ?
+                            (<div className="carousel-item active">
+                              <img src={`/uploads/${data}`} className="img-fluid" width={400} height={200} />
+                            </div>) :
+                            (<div className="carousel-item">
+                              <img src={`/uploads/${data}`} className="img-fluid" width={400} height={200} />
+                            </div>)}
+                        </>
+                      ))}
+
                     </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <button className="carousel-control-prev" type="button" data-bs-target={`#${namaHasil}`} data-bs-slide="prev">
                       <span className="carousel-control-prev-icon" aria-hidden="true" />
                       <span className="visually-hidden">Previous</span>
                     </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <button className="carousel-control-next" type="button" data-bs-target={`#${namaHasil}`} data-bs-slide="next">
                       <span className="carousel-control-next-icon" aria-hidden="true" />
                       <span className="visually-hidden">Next</span>
                     </button>
