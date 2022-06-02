@@ -43,7 +43,7 @@ export default function CardLapangan({props}) {
                                         <span className="visually-hidden">Next</span>
                                     </button>
                                 </div>
-                                <h5 className="card-title mt-2 justify-content-center text-center" style={{ color: "black" }}><strong>Lapangan 1</strong></h5>
+                            <h5 className="card-title mt-2 justify-content-center text-center" style={{ color: "black" }}><strong>{ props.namaLapangan}</strong></h5>
                                 <div className='text-center justify-content-center mt-2 mb-2'>
                                     <a href='/detail-lapangan'><button className='btn btn-success text-white p-2'>Lihat Selengkapnya</button></a>
                                 </div>

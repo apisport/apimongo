@@ -94,15 +94,16 @@ export default function Home() {
       </div>
       <div className='row mt-3'>
         <a data-bs-toggle="collapse" href="#lapanganCollapse" style={{ color: "black" }}><h5 className='text-start'><icon className='fa fa-caret-down'></icon> Daftar Lapangan</h5></a>
-        <div className="row collapse multi-collapse text-start" id="lapanganCollapse">{venue.infoLapangan.length === 0 ? (
-          <h2>Tidak ada data Lapangan</h2>
-        ) : (
-          <>
-            {venue.infoLapangan.map((data, index) => (
-              <CardLapangan props={data} />
-            ))}
-          </>
-        )}
+        <div className="row collapse multi-collapse text-start" id="lapanganCollapse">
+          {venue.infoLapangan.length === 0 ? (
+            <h2>Tidak ada data Lapangan</h2>
+          ) : (
+            <>
+              {venue.infoLapangan.map((data, index) => (
+                <CardLapangan props={data} />
+              ))}
+            </>
+          )}
         </div>
       </div>
 
