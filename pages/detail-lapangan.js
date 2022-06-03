@@ -2,6 +2,7 @@ import Carousel from '../components/user/detail-lapangan/Carousel'
 import CardJadwal from '../components/user/detail-lapangan/CardJadwal'
 import useSWR from "swr";
 import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 export default function Home() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
@@ -16,7 +17,7 @@ export default function Home() {
         return <div>Something went wrong</div>
     }
 
-
+    //Deklarasi Array JSON SWR
     let lapangan = data['message']
     console.log(lapangan)
     let infoLapangan = lapangan[0]
@@ -28,8 +29,6 @@ export default function Home() {
     let gabunganJadwal = keyJadwalPagi.concat(keyJadwalMalam)
     let gabunganHarga = []
 
-
-
     for (let i = 0; i < keyJadwalPagi.length; i++) {
         gabunganHarga.push(infoLapangan.hargaPagi)
     }
@@ -37,6 +36,52 @@ export default function Home() {
     for (let i = 0; i < keyJadwalMalam.length; i++) {
         gabunganHarga.push(infoLapangan.hargaMalam)
     }
+
+    //Handle Post Update DataMain Lapangan
+    const handlePost = async (e) => {
+        e.preventDefault();
+        setCheck()
+        setJam()
+        setHari()
+        // reset error and message
+        setError('');
+        setMessage('');
+        // fields check
+        if (!infoLapangan.namaVenue || !infoLapangan.namaLapangan || !tglMain || !jamMain ) {
+            alert('Harap untuk mengisi Jam dan Tanggal');
+            return setError('Isi Semua Data');
+        }
+
+        let namaVenueJSON = infoLapangan.namaVenue
+        let namaLapanganJSON = infoLapangan.namaLapangan
+
+        // post structure
+        let dataMain = {
+            namaVenueJSON,
+            namaLapanganJSON,
+
+
+
+        };
+        // save the post
+        let response = await fetch('/api/datamaindb', {
+            method: 'POST',
+            body: JSON.stringify(datamain),
+        });
+        // get the data
+        let data = await response.json();
+        if (data.success) {
+            // reset the fields
+            alert('Register berhasil! Mohon Tunggu untuk Persetujuan')
+            router.push('/')
+            return setMessage(data.message);
+        }
+        else {
+            // set the error
+            console.log(data.message);
+            return setError(data.message);
+        }
+    };
 
     //Penggabungan Harga dan Jadwal
 
@@ -46,9 +91,11 @@ export default function Home() {
             console.log(`index ke-${i}`)
             console.log(JSON.parse(check[i].value))
         }
-        
+        let date = document.getElementById('tglMain').value
+        console.log(date)
     }
     
+
     return (
         <div className="container mt-4">
             <h1 className='mb-3 mt-4'>{infoLapangan.namaLapangan}</h1>
@@ -128,7 +175,15 @@ export default function Home() {
                 
 
                 <div className='row'>
-                    <button type='button' className='btn btn-fill text-white mt-3' onClick={checkValue}>Pesan</button>
+                    {/* <Link href={{
+                        pathname: '/detail-lapangan',
+                        query: {
+                            idLapangan: props._id
+                        }
+
+                    }}> */}
+                        <button type='button' className='btn btn-fill text-white mt-3' onClick={checkValue}>Pesan</button>
+                    {/* </Link> */}
                 </div>
 
             </div>
