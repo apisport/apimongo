@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 export default function Addlapangan() {
     //Variabel
-    const [namaVenue, setNamaVenue] = useState('Scudetto');
+    const [namaVenue, setNamaVenue] = useState('Scuttod');
     const [namaLapangan, setNamaLapangan] = useState('');
     const [deskripsi, setDeskripsi] = useState('');
     const [jadwalPagi, setJadwalPagi] = useState({});
@@ -12,6 +12,7 @@ export default function Addlapangan() {
     const [hargaTampilan, setHargaTampilan] = useState([]);
     const [hargaPagi, setHargaPagi] = useState(0);
     const [hargaMalam, setHargaMalam] = useState(0);
+    const [dataMain, setDataMain] = useState({});
 
     //Gambar
     const [gambar, setGambar] = useState([]);
@@ -43,8 +44,8 @@ export default function Addlapangan() {
             jadwalPagi,
             jadwalMalam,
             hargaPagi,
-            hargaMalam
-
+            hargaMalam,
+            dataMain
         };
         // save the post
         let response = await fetch('/api/lapangandb', {
