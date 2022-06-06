@@ -1,5 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import Link from 'next/link'
+
 import { useSession, signIn, signOut } from 'next-auth/react'
 const Navbar = () => {
     const { data: session } = useSession();
@@ -15,9 +17,9 @@ const Navbar = () => {
     return (
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
-                <a href="#">
-                    <img style={{ marginRight: '0.75rem', height: '50px' }} src="./y.png" alt />
-                </a>
+
+                    <img style={{ marginRight: '0.75rem', height: '50px' }} src="/y.png" alt />
+
                 <button className="navbar-toggler border-0" type="button" data-bs-toggle="modal" data-bs-target="#targetModal-item">
                     <span className="navbar-toggler-icon" />
                 </button>
@@ -33,19 +35,19 @@ const Navbar = () => {
                             <div className="modal-body" style={{ padding: '2rem', paddingTop: 0, paddingBottom: 0 }}>
                                 <ul className="navbar-nav responsive me-auto mt-2 mt-lg-0">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/">Beranda</a>
+                                        <Link href="/"><a className="nav-link">Beranda</a></Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/lapangan">Lapangan</a>
+                                        <Link href="/lapangan"><a className="nav-link">Lapangan</a></Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/tentang-kami">Tentang Kami</a>
+                                        <Link href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                                     </li>
                                 </ul>
                             </div>
                             <div className="modal-footer border-0 gap-3" style={{ padding: '2rem', paddingTop: '0.75rem' }}>
-                                <a href="/login"><button className="btn btn-success btn-no-fill text-white">Log In</button></a>
-                                <a href='/register'><button className="btn btn-fill text-white">Register</button></a>
+                                <Link href="/login"><button className="btn btn-success btn-no-fill text-white">Log In</button></Link>
+                                <Link href='/register'><button className="btn btn-fill text-white">Register</button></Link>
                             </div>
                         </div>
                     </div>
@@ -53,21 +55,33 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo">
                     <ul className="navbar-nav me-auto mt-2 mt-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link" href="/">Beranda</a>
+                            <Link href="/"><a className="nav-link">Beranda</a></Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/lapangan">Lapangan</a>
+                            <Link className="nav-link" href="/lapangan"><a className="nav-link">Lapangan</a></Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/tentang-kami">Tentang Kami</a>
+                            <Link className="nav-link" href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                         </li>
                     </ul>
                     <div className="gap-3">
-                        {session && <a href="/register" className="btn-signin">Sign out {session.user.name}</a>}
+                        {session &&
+                            <div className="dropdown mb-3">
+                                <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
+                                    <img src="https://github.com/mdo.png" alt width={32} height={32} className="rounded-circle me-2" />
+                                    <strong>{session.user.name}</strong>
+                                </a>
+                                <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
+                                    <li><Link href='/profil'><a className="dropdown-item">Profil</a></Link></li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li><a className="dropdown-item" onClick={handleSignout}>Sign out</a></li>
+                                </ul>
+                            </div>
+                        }
                         {!session &&
                             <>
-                            <a href='/login'><button className="btn btn-default btn-no-fill">Log In</button></a>
-                            <a href='/register'><button className="btn btn-fill text-white">Register</button></a>
+                            <Link href='/login'><button className="btn btn-default btn-no-fill">Log In</button></Link>
+                            <Link href='/register'><button className="btn btn-fill text-white">Register</button></Link>
                             </>
                         }
 
