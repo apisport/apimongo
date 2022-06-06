@@ -1,7 +1,17 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-
+import { useSession, signIn, signOut } from 'next-auth/react'
 const Navbar = () => {
+    const { data: session } = useSession();
+
+    const handleSignout = (e) => {
+        e.preventDefault()
+        signOut()
+    }
+    const handleSignin = (e) => {
+        e.preventDefault()
+        signIn()
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
@@ -53,8 +63,14 @@ const Navbar = () => {
                         </li>
                     </ul>
                     <div className="gap-3">
-                        <a href='/login'><button className="btn btn-default btn-no-fill">Log In</button></a>
-                        <a href='/register'><button className="btn btn-fill text-white">Register</button></a>
+                        {session && <a href="/register" className="btn-signin">Sign out {session.user.name}</a>}
+                        {!session &&
+                            <>
+                            <a href='/login'><button className="btn btn-default btn-no-fill">Log In</button></a>
+                            <a href='/register'><button className="btn btn-fill text-white">Register</button></a>
+                            </>
+                        }
+
                     </div>
                 </div>
             </nav>

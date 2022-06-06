@@ -22,6 +22,7 @@ import { useRouter } from 'next/router'
 import LayoutUser from '../layout/user/LayoutUser'
 import LayoutMitra from '../layout/admin/LayoutAdmin'
 import LayoutDev from '../layout/dev/LayoutDev'
+import { SessionProvider } from "next-auth/react"
 
 
 
@@ -44,9 +45,11 @@ function MyApp({ Component, pageProps }) {
   }
   else if (router.pathname.startsWith('/')) {
     return (
+      <SessionProvider session={pageProps.session}>
       <LayoutUser>
         <Component {...pageProps} />
-      </LayoutUser>
+        </LayoutUser>
+      </SessionProvider>
     )
   }
   else {

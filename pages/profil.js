@@ -1,3 +1,5 @@
+import { useSession, signIn, signOut } from 'next-auth/react';
+const { data: session } = useSession();
 export default function Profil() {
   return (
     <div className="limiter">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession , signIn } from 'next-auth/react'
 
 export default function Register() {
   const [nama, setNama] = useState('');
@@ -16,6 +17,13 @@ export default function Register() {
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const { data: session } = useSession();
+
+  const handleSignin = (e) => {
+    e.preventDefault()
+    signIn()
+  }
+
   let router = useRouter()
   const handlePost = async (e) => {
     e.preventDefault();
@@ -314,7 +322,7 @@ export default function Register() {
                   Daftar dengan
                 </span>
                 <a href="#" className="login100-social-item bg3">
-                  <i className="fa fa-google" />
+                  <i className="fa fa-google" /> {!session && <a href="#" onClick={handleSignin}  className="btn-signin">Sign in</a>  }
                 </a>
               </div>
               <div className='mt-2 col-md-12 text-center' style={{ color: 'red' }}>
