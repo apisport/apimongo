@@ -16,17 +16,17 @@ export default function Lapangan() {
                     <div className="row d-flex justify-content-center align-items-center">
                         <div className="btn-group col-md-12">
                             <input type="text" className="form-control col-10 mt-2 col-md-10" placeholder="Cari Lapangan Disini" />
-                            <a href='/user/cari-lapangan' className="form-control col-2 mt-2 col-sm-2 btn shadow-sm" style={{ backgroundColor: '#ffbe2e' }}><button ><i className="fa fa-search text-white"></i></button></a>
+                            <a href='/cari-lapangan' className="form-control col-2 mt-2 col-sm-2 btn shadow-sm" style={{ backgroundColor: '#ffbe2e' }}><button ><i className="fa fa-search text-white"></i></button></a>
                         </div>
                     </div>
                 </div>
                 <div className="row row-cols-1 row-cols-md-4 g-4 mt-3">
 
-                    <CardVenue />
+                    {/* <CardVenue /> */}
                 </div>
             </div>
             <div className='container d-flex mt-4 text-center justify-content-center'>
-                <Pagination />
+                {/* <Pagination /> */}
             </div>
 
 

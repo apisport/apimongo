@@ -6,8 +6,11 @@ import Carousel from 'react-bootstrap/Carousel'
 import CardRekomendasi from '../components/user/home/CardRekomendasi'
 import CardTestimonial from '../components/user/home/CardTestimonial'
 import useSWR from 'swr'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Home() {
+  const [search, setSearch] = useState('')
   const fetcher = (...args) => fetch(...args).then((res) => res.json())
   const { data: data, error } = useSWR('/api/homefavoritdb', fetcher)
 
@@ -23,7 +26,7 @@ export default function Home() {
   console.log(rekomendasi)
   return (
     <>
-      
+
       <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={0} className="active" aria-current="true" aria-label="Slide 1" />
@@ -54,37 +57,79 @@ export default function Home() {
         <h3 className='fw-bold fst-italic'>KATEGORI OLAHRAGA</h3>
         <div className="row row-cols-4 row-cols-md-4 g-4 mt-3">
           <div className="col-3 col-lg-3">
-            <a href="#">
-              <img src='icons/futsal.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140" />
-              <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Futsal</p>
-            </a>
+            <Link href={{
+              pathname: '/kategori-lapangan',
+              query: {
+                kategori: 'Futsal'
+              }
+
+            }}>
+              <div>
+                <img src='icons/futsal.png' style={{ backgroundColor: '#432C0B', color: 'black' }} className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140" />
+                <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Futsal</p>
+              </div>
+
+            </Link>
           </div>
           <div className="col-3 col-lg-3">
-            <a href="#">
-              <img src='icons/voli.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120}  role="img" aria-label="Placeholder: 140x140" />
-              <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Voli</p>
-            </a>
+            <Link href={{
+              pathname: '/kategori-lapangan',
+              query: {
+                kategori: 'Voli'
+              }
+
+            }}>
+              <div>
+                <img src='icons/voli.png' className="bd-placeholder-img img-fluid rounded-circle" style={{ backgroundColor: '#432C0B' }} width={120} height={120} role="img" aria-label="Placeholder: 140x140" />
+                <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Voli</p>
+              </div>
+            </Link>
           </div>
           <div className="col-3 col-lg-3">
-            <a href="#">
-              <img src='icons/bulutangkis.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140" />
-              <p className="mt-2" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px", fontSize: '2vh' }}>Bulu Tangkis</p>
-            </a>
+            <Link href={{
+              pathname: '/kategori-lapangan',
+              query: {
+                kategori: 'Bulu Tangkis'
+              }
+
+            }}>
+              <div>
+                <img src='icons/bulutangkis.png' style={{ backgroundColor: '#432C0B' }} className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140" />
+                <p className="mt-2" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px", fontSize: '2vh' }}>Bulu Tangkis</p>
+              </div>
+
+            </Link>
           </div>
           <div className="col-3 col-lg-3">
-            <a href="#">
-              <img src='icons/basket.jpg' className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140"  />
-              <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Basket</p>
-            </a>
+            <Link href={{
+              pathname: '/kategori-lapangan',
+              query: {
+                kategori: 'Basket'
+              }
+
+            }}>
+              <div>
+                <img src='icons/basket.png' style={{ backgroundColor: '#432C0B' }} className="bd-placeholder-img img-fluid rounded-circle" width={120} height={120} role="img" aria-label="Placeholder: 140x140" />
+                <p className="mt-2 p-1" style={{ color: "white", backgroundColor: '#432C0B', borderRadius: "5px" }}>Basket</p>
+              </div>
+
+            </Link>
           </div>
         </div>
       </div>
 
       <div className="container my-4">
         <div className="row d-flex justify-content-center align-items-center">
-          <div className="btn-group col-md-12">
-            <input type="text" className="form-control col-10 mt-2 col-md-10" placeholder="Cari Lapangan Disini" />
-            <a href='/user/cari-lapangan' className="form-control col-2 mt-2 col-sm-2 btn shadow-sm" style={{ backgroundColor: '#EE8F00' }}><button ><i className="fa fa-search text-white"></i></button></a>
+          <div className="btn-group col-md-12 col-12">
+            <input type="text"
+              className="form-control col-10 mt-2 col-md-10"
+              placeholder="Cari Lapangan Disini"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div className='col-2 mt-2 col-sm-2'>
+              <Link href={`/cari-lapangan?search?${search}`} ><button className=" btn shadow-sm" style={{ backgroundColor: '#EE8F00' }}><i className="fa fa-search text-white"></i></button></Link>
+            </div>
           </div>
         </div>
       </div>
@@ -101,19 +146,19 @@ export default function Home() {
               <>
 
                 {rekomendasi.map((data, i) => (
-                  <CardRekomendasi props={data}/>
+                  <CardRekomendasi props={data} />
                 ))}
               </>
             )}
-            
+
           </div>
         </div>
         <div className='container mt-4 my-4 text-black-50'>
-          <h2 style={{ color: '#EE8F00' }} className='mb-5 header-custom' sr>TESTIMONI</h2>
+          <h2 style={{ color: '#EE8F00' }} className='mb-5 header-custom'>TESTIMONI</h2>
           <CardTestimonial />
         </div>
         <div className='container mt-4 my-4 text-black-50'>
-          <h2 style={{ color: '#EE8F00' }} className='mb-5 header-custom' sr>ALUR BOOKING</h2>
+          <h2 style={{ color: '#EE8F00' }} className='mb-5 header-custom'>ALUR BOOKING</h2>
           <img src='/alur.png' className='d-block img-fluid' />
         </div>
 
