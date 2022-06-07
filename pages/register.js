@@ -19,7 +19,7 @@ export default function Register() {
 
   const handleSignin = (e) => {
     e.preventDefault()
-    signIn('google', { callbackUrl: '/landing-register' })
+    signIn('google', { callbackUrl: '/register-profil' })
 
   }
 

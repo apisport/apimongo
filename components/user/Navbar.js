@@ -18,7 +18,7 @@ const Navbar = () => {
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
 
-                    <img style={{ marginRight: '0.75rem', height: '50px' }} src="/y.png" alt />
+                <img style={{ marginRight: '0.75rem', height: '50px' }} src="/y.png" alt />
 
                 <button className="navbar-toggler border-0" type="button" data-bs-toggle="modal" data-bs-target="#targetModal-item">
                     <span className="navbar-toggler-icon" />
@@ -43,6 +43,11 @@ const Navbar = () => {
                                     <li className="nav-item">
                                         <Link href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                                     </li>
+                                    {session &&
+                                        <li className="nav-item">
+                                            <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
                             <div className="modal-footer border-0 gap-3" style={{ padding: '2rem', paddingTop: '0.75rem' }}>
@@ -51,8 +56,6 @@ const Navbar = () => {
                                         <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
                                             <img src={session.user.image} alt width={32} height={32} className="rounded-circle me-2" />
                                             <strong>{session.user.name}</strong>
-                                            <strong>{session.user.email}</strong>
-                                            <strong>{session.user.password}</strong>
                                         </a>
                                         <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
                                             <li><Link href={{
@@ -88,6 +91,17 @@ const Navbar = () => {
                         <li className="nav-item">
                             <Link className="nav-link" href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                         </li>
+                        {session &&
+                            <li className="nav-item">
+                                <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
+                            </li>
+                        }
+                        {session &&
+                            <li className="nav-item">
+                                <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
+                            </li>
+                        }
+
                     </ul>
                     <div className="gap-3">
                         {session &&
@@ -95,8 +109,6 @@ const Navbar = () => {
                                 <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
                                     <img src={session.user.image} alt width={32} height={32} className="rounded-circle me-2" />
                                     <strong>{session.user.name}</strong>
-                                    <strong>{session.user.email}</strong>
-                                    <strong>{session.user.password}</strong>
                                 </a>
                                 <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
                                     <li><Link href={{
@@ -113,8 +125,8 @@ const Navbar = () => {
                         }
                         {!session &&
                             <>
-                            <Link href='/login'><button className="btn btn-default btn-no-fill">Log In</button></Link>
-                            <Link href='/register'><button className="btn btn-fill text-white">Register</button></Link>
+                                <Link href='/login'><button className="btn btn-default btn-no-fill">Log In</button></Link>
+                                <Link href='/register'><button className="btn btn-fill text-white">Register</button></Link>
                             </>
                         }
 
