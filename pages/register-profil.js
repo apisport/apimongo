@@ -83,17 +83,9 @@ export default function Register() {
     };
 
     const checkEmail = () => {
-        let emailSama = []
-        for (let i = 0; i < user.length; i++) {
-            if (user[i].email === email) {
-                emailSama.push(user[i])
-            }
-        }
-        if (emailSama.length != 0) {
+        if (emailDb.length != 0) {
             setAvailable(false)
         }
-        console.log('emailSama:')
-        console.log(emailSama)
     }
 
 
