@@ -113,6 +113,7 @@ export default function MitraDev() {
                                                         fasilitas: data.fasilitas,
                                                         opsiBayarStringify: JSON.stringify(data.opsiBayar),
                                                         rekeningStringify: JSON.stringify(data.rekening),
+                                                        DP: data.DP,
                                                         namaAdmin: data.namaAdmin,
                                                         noWaAdmin: data.noWaAdmin,
                                                         username: data.username,

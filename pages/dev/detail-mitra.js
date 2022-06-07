@@ -15,6 +15,7 @@ export default function Register() {
         fasilitas,
         opsiBayarStringify,
         rekeningStringify,
+        DP,
         namaAdmin,
         noWaAdmin,
         username,
@@ -73,6 +74,7 @@ export default function Register() {
             fasilitas,
             opsiBayar,
             rekening,
+            DP,
             namaAdmin,
             noWaAdmin,
             username,
@@ -218,6 +220,16 @@ export default function Register() {
                                 </ul>
                             </div>
                         </div>
+                        <div className="row mt-2">
+                            <div className="mt-2 col-md-12">
+                                <label className="labels">DP</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <textarea type="text" className="form-control"
+                                    required
+                                    value={DP}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
                         <hr></hr>
                         <div className="row mt-2">
                             <div className="mt-2 col-md-12">
@@ -299,6 +311,7 @@ export default function Register() {
                                     fasilitas: fasilitas,
                                     opsiBayarStringify: JSON.stringify(opsiBayar),
                                     rekeningStringify: JSON.stringify(rekening),
+                                    DP: DP,
                                     namaAdmin: namaAdmin,
                                     noWaAdmin: noWaAdmin,
                                     username: username,

@@ -84,7 +84,7 @@ export default function FavoritDev() {
                             </tr>
                         </thead>
                         {currentPosts.length === 0 ? (
-                            <h2>Tidak ada data Mitra Pending</h2>
+                            <h2>Tidak ada data Favorit</h2>
                         ) : (
                             <>
                                 {currentPosts.map((data, index) => (
@@ -113,6 +113,7 @@ export default function FavoritDev() {
                                                         fasilitas: data.fasilitas,
                                                         opsiBayarStringify: JSON.stringify(data.opsiBayar),
                                                         rekeningStringify: JSON.stringify(data.rekening),
+                                                        DP: data.DP,
                                                         namaAdmin: data.namaAdmin,
                                                         noWaAdmin: data.noWaAdmin,
                                                         username: data.username,

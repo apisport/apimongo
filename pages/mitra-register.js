@@ -14,6 +14,7 @@ export default function Register() {
   const [fasilitas, setFasilitas] = useState('');
   const [opsiBayar, setOpsiBayar] = useState([]);
   const [rekening, setRekening] = useState([]);
+  const [DP, setDP] = useState(0);
 
   //Admin Confined
   const [namaAdmin, setNamaAdmin] = useState('');
@@ -58,6 +59,7 @@ export default function Register() {
       jamOperasional,
       fasilitas,
       opsiBayar,
+      DP,
       rekening,
       namaAdmin,
       noWaAdmin,
@@ -103,10 +105,17 @@ export default function Register() {
   const setCheck = () => {
     setOpsiBayar([])
     let check = document.getElementsByName('opsiBayar')
+    let DP = document.getElementById('DP')
     let len = check.length
     for (var i = 0; i < len; i++) {
       if (check[i].checked) {
         setOpsiBayar(arr => [...arr, check[i].value]);
+        if (check[i].value == 'DP') {
+          DP.readOnly = false
+        }
+      } else if (!check[i].checked && check[i].value == 'DP') {
+        DP.readOnly = true
+        setDP(0)
       }
     }
 
@@ -332,7 +341,7 @@ export default function Register() {
                         </div>
                       </div>
                     </div>
-                    <div className="className='col-12 col-md-12">
+                    <div className="className='col-12 mt-4 col-md-12">
                       {fotoVenue.length === 0 ? (
                         <h2>Daftar Foto</h2>
                       ) : (
@@ -374,10 +383,21 @@ export default function Register() {
                       </label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" value={'DP'} type="checkbox" onClick={() => setCheck()} id="flexCheckChecked" name='opsiBayar' />
-                      <label className="form-check-label" htmlFor="flexCheckChecked">
-                        DP
-                      </label>
+                      <div className='d-flex flex-row gap-2'>
+                        <input className="form-check-input" value={'DP'} type="checkbox" onClick={() => setCheck()} id="flexCheckChecked" name='opsiBayar' />
+                        <label className="form-check-label" htmlFor="flexCheckChecked">
+                          DP
+                        </label>
+                        <input className='form-control col-xs-2'
+                          type='number'
+                          style={{ width: '60px' }}
+                          id='DP'
+                          readOnly={true}
+                          value={DP}
+                          onChange={(e) => setDP(e.target.value)}
+                        /><label>%</label>
+                      </div>
+
                     </div>
                   </div>
                   <div className="form-check">

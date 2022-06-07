@@ -19,6 +19,7 @@ export default function EditMitra() {
         fasilitas,
         opsiBayarStringify,
         rekeningStringify,
+        DP,
         namaAdmin,
         noWaAdmin,
         username,
@@ -40,6 +41,7 @@ export default function EditMitra() {
     const [_fasilitas, setFasilitas] = useState('');
     const [_opsiBayar, setOpsiBayar] = useState([]);
     const [_rekening, setRekening] = useState([]);
+    const [_DP, setDP] = useState(0);
 
     //Admin Confined
     const [_namaAdmin, setNamaAdmin] = useState('');
@@ -97,7 +99,10 @@ export default function EditMitra() {
             checkOtomatis()
         } if (typeof rekeningStringify == 'string') {
             setRekening(Object.assign(_rekening, JSON.parse(rekeningStringify)))
-        } if (typeof namaAdmin == 'string') {
+        } if (typeof DP == 'string') {
+            setDP(DP)
+        }
+        if (typeof namaAdmin == 'string') {
             setNamaAdmin(namaAdmin)
         } if (typeof noWaAdmin == 'string') {
             setNoWaAdmin(noWaAdmin)
@@ -119,6 +124,7 @@ export default function EditMitra() {
         fasilitas,
         opsiBayarStringify,
         rekeningStringify,
+        DP,
         namaAdmin,
         noWaAdmin,
         username,
@@ -156,6 +162,7 @@ export default function EditMitra() {
                     fasilitas: _fasilitas,
                     opsiBayar: _opsiBayar,
                     rekening: _rekening,
+                    DP: _DP,
                     namaAdmin: _namaAdmin,
                     noWaAdmin: _noWaAdmin,
                     username: _username,
@@ -193,10 +200,17 @@ export default function EditMitra() {
     const setCheck = () => {
         setOpsiBayar([])
         let check = document.getElementsByName('opsiBayar')
+        let DP = document.getElementById('DP')
         let len = check.length
         for (var i = 0; i < len; i++) {
             if (check[i].checked) {
                 setOpsiBayar(arr => [...arr, check[i].value]);
+                if (check[i].value == 'DP') {
+                    DP.readOnly = false
+                }
+            } else if (!check[i].checked && check[i].value == 'DP') {
+                DP.readOnly = true
+                setDP(0)
             }
         }
 
@@ -216,6 +230,7 @@ export default function EditMitra() {
 
     const checkOtomatis = () => {
         let check = document.getElementsByName('opsiBayar')
+        let DPElement = document.getElementById('DP')
         let len = check.length
         let valueCheck = []
         for (let i = 0; i < len; i++) {
@@ -225,8 +240,13 @@ export default function EditMitra() {
             if (valueCheck.indexOf(_opsiBayar[i]) != -1) {
                 let indexCheck = valueCheck.indexOf(_opsiBayar[i])
                 check[indexCheck].checked = true
+                if(check[indexCheck].value == 'DP'){
+                    console.log('Masuk Pak Eko')
+                    DPElement.readOnly = false
+                }
             }
         }
+
     }
 
     const removeItemArray = (data) => {
@@ -479,11 +499,21 @@ export default function EditMitra() {
                                             Full Bayar Transfer
                                         </label>
                                     </div>
-                                    <div className="form-check">
-                                        <input className="form-check-input" value={'DP'} type="checkbox" onClick={() => setCheck()} id="flexCheckChecked" name='opsiBayar' />
-                                        <label className="form-check-label" htmlFor="flexCheckChecked">
-                                            DP
-                                        </label>
+                                    <div className="form-check ">
+                                        <div className='d-flex flex-row gap-2'>
+                                            <input className="form-check-input" value={'DP'} type="checkbox" onClick={() => setCheck()} id="flexCheckChecked" name='opsiBayar' />
+                                            <label className="form-check-label" htmlFor="flexCheckChecked">
+                                                DP
+                                            </label>
+                                            <input className='form-control col-xs-2'
+                                                type='number'
+                                                style={{ width: '60px' }}
+                                                id='DP'
+                                                value={_DP}
+                                                readOnly={true}
+                                                onChange={(e) => setDP(e.target.value)}
+                                            /><label>%</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="form-check">
