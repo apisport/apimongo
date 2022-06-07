@@ -322,18 +322,14 @@ export default function Register() {
                   <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                   <div className="container">
                     <div className="row">
-                      <div className="col-sm-2 imgUp">
-                        <div className="" />
-                        <img src=''></img>
-                        <label className="btn btn-primary">
-                          Upload
+                      <div className="mt-2 col-md-12">
+                        <div className="custom-file">
                           <input type="file"
-                            className="uploadFile img"
-                            defaultValue="Upload Photo"
                             onChange={uploadToClient}
-
-                            style={{ width: 0, height: 0, overflow: 'hidden' }} />
-                        </label>
+                            className="custom-file-input"
+                            id="validatedCustomFile" name="myImage" />
+                          <label className="custom-file-label" htmlFor="validatedCustomFile">Choose file...</label>
+                        </div>
                       </div>
                     </div>
                     <div className="className='col-12 col-md-12">
@@ -473,7 +469,7 @@ export default function Register() {
                   <button type='button' onClick={() => { myFunction() }} className="form-control col-2 col-sm-2"><i className="fa fa-eye"></i></button>
                 </div>
               </div>
-              <div class="container-login100-form-btn my-3">
+              <div className="container-login100-form-btn my-3">
                 <button type="submit"
                   onClick={uploadToServer}
                   className="btn btn-outline-secondary" style={{ backgroundColor: '#006E61', color: 'rgb(255, 255, 255)', borderRadius: '5cm', width: 500, height: 50 }}>DAFTAR</button>

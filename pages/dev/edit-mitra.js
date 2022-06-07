@@ -569,7 +569,7 @@ export default function EditMitra() {
                                 />
                             </div>
                         </div>
-                        <div className="mt-2 col-12 col-md-12"><label className="labels">Foto Lapangan</label>
+                        <div className="mt-2 col-12 col-md-12"><label className="labels">Foto Mitra</label>
                             <i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                             <div className="mt-2 col-md-12">
                                 <div className="custom-file">

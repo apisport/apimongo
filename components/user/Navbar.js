@@ -55,7 +55,13 @@ const Navbar = () => {
                                             <strong>{session.user.password}</strong>
                                         </a>
                                         <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
-                                            <li><Link href='/profil'><a className="dropdown-item">Profil</a></Link></li>
+                                            <li><Link href={{
+                                                pathname: '/profil',
+                                                query: {
+                                                    email: session.user.email
+                                                }
+
+                                            }}><a className="dropdown-item">Profil</a></Link></li>
                                             <li><hr className="dropdown-divider" /></li>
                                             <li><a className="dropdown-item" onClick={handleSignout}>Sign out</a></li>
                                         </ul>
@@ -93,7 +99,13 @@ const Navbar = () => {
                                     <strong>{session.user.password}</strong>
                                 </a>
                                 <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
-                                    <li><Link href='/profil'><a className="dropdown-item">Profil</a></Link></li>
+                                    <li><Link href={{
+                                        pathname: '/profil',
+                                        query: {
+                                            email: session.user.email
+                                        }
+
+                                    }}><a className="dropdown-item">Profil</a></Link></li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li><a className="dropdown-item" onClick={handleSignout}>Sign out</a></li>
                                 </ul>

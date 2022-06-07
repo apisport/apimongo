@@ -1,6 +1,27 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
-const { data: session } = useSession();
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+
 export default function Profil() {
+  let router = useRouter()
+  let { email } = router.query
+  const fetcher = (...args) => fetch(...args).then((res) => res.json())
+  
+  const { data: data, error } = useSWR(`/api/profildb?email=${email}`, fetcher)
+
+  if (!data) {
+    return <div>Loading...</div>
+  } else if (error) {
+    return <div>Something went wrong</div>
+  }
+
+  console.log(email)
+
+  let profil = data['message']
+  console.log(profil)
+
+  
+  
+  
   return (
     <div className="limiter">
       <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>

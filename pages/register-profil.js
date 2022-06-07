@@ -1,65 +1,102 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession, signIn } from 'next-auth/react'
+import useSWR from 'swr';
 
 export default function Register() {
     const [nama, setNama] = useState('');
     const [jenisKelamin, setJenisKelamin] = useState('');
     const [noWa, setNoWa] = useState('');
     const [email, setEmail] = useState('');
+    const [available, setAvailable] = useState(true);
     const [timTemp, setTimTemp] = useState('');
     const [tim, setTim] = useState([]);
-    const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('')
     const { data: session } = useSession();
 
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const { data: data, error } = useSWR(`/api/checkmail?emailReq=${session.user.email}`, fetcher)
+
+    if (!data) {
+        return <div>Loading...</div>
+    } else if (error) {
+        return <div>Something went wrong</div>
+    }
+
+
+    let emailDb = data['message']
+    console.log(emailDb)
+
     let router = useRouter()
+
     const handlePost = async (e) => {
         e.preventDefault();
         setEmail(session.user.email)
+        checkEmail()
         // reset error and message
         // fields check
         if (!nama || !jenisKelamin || !noWa || !email || !tim) {
             alert('Harap untuk mengisi semua data');
             return setError('All fields are required');
         }
-        // addToAccount()
 
-
+        if (available) {
+            let user = {
+                nama,
+                jenisKelamin,
+                noWa,
+                email,
+                tim,
+            };
+            // save the post
+            let response = await fetch('/api/userdb', {
+                method: 'POST',
+                body: JSON.stringify(user),
+            });
+            // get the data
+            let data = await response.json();
+            if (data.success) {
+                alert('Simpan profil berhasil')
+                router.push('/')
+                // set the message
+                return setMessage(data.message);
+            }
+            else {
+                // set the error
+                console.log(data.message);
+                return setError(data.message);
+            }
+        } else {
+            alert('Email sudah terdaftar, Mohon gunakan yang lain')
+        }
         // post structure
-        let user = {
-            nama,
-            jenisKelamin,
-            noWa,
-            email,
-            tim,
-        };
-        // save the post
-        let response = await fetch('/api/userdb', {
-            method: 'POST',
-            body: JSON.stringify(user),
-        });
-        // get the data
-        let data = await response.json();
-        if (data.success) {
-            alert('Simpan profil berhasil')
-            router.push('/')
-            // set the message
-            return setMessage(data.message);
-        }
-        else {
-            // set the error
-            console.log(data.message);
-            return setError(data.message);
-        }
+
     };
+
     const onAddItemArray = () => {
+        checkEmail()
         setEmail(session.user.email)
         setTim(tim => [...tim, timTemp]);
         setTimTemp('')
         console.log(tim)
 
     };
+
+    const checkEmail = () => {
+        let emailSama = []
+        for (let i = 0; i < user.length; i++) {
+            if (user[i].email === email) {
+                emailSama.push(user[i])
+            }
+        }
+        if (emailSama.length != 0) {
+            setAvailable(false)
+        }
+        console.log('emailSama:')
+        console.log(emailSama)
+    }
+
+
     const removeItemArray = (data) => {
         var index = tim.indexOf(data)
         if (index >= 0) {
