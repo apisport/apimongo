@@ -46,8 +46,27 @@ const Navbar = () => {
                                 </ul>
                             </div>
                             <div className="modal-footer border-0 gap-3" style={{ padding: '2rem', paddingTop: '0.75rem' }}>
-                                <Link href="/login"><button className="btn btn-success btn-no-fill text-white">Log In</button></Link>
-                                <Link href='/register'><button className="btn btn-fill text-white">Register</button></Link>
+                                {session &&
+                                    <div className="dropdown mb-3">
+                                        <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
+                                            <img src={session.user.image} alt width={32} height={32} className="rounded-circle me-2" />
+                                            <strong>{session.user.name}</strong>
+                                            <strong>{session.user.email}</strong>
+                                            <strong>{session.user.password}</strong>
+                                        </a>
+                                        <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
+                                            <li><Link href='/profil'><a className="dropdown-item">Profil</a></Link></li>
+                                            <li><hr className="dropdown-divider" /></li>
+                                            <li><a className="dropdown-item" onClick={handleSignout}>Sign out</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                                {!session &&
+                                    <>
+                                        <Link href='/login'><button className="btn btn-default btn-no-fill">Log In</button></Link>
+                                        <Link href='/register'><button className="btn btn-fill text-white">Register</button></Link>
+                                    </>
+                                }
                             </div>
                         </div>
                     </div>
@@ -68,8 +87,10 @@ const Navbar = () => {
                         {session &&
                             <div className="dropdown mb-3">
                                 <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
-                                    <img src="https://github.com/mdo.png" alt width={32} height={32} className="rounded-circle me-2" />
+                                    <img src={session.user.image} alt width={32} height={32} className="rounded-circle me-2" />
                                     <strong>{session.user.name}</strong>
+                                    <strong>{session.user.email}</strong>
+                                    <strong>{session.user.password}</strong>
                                 </a>
                                 <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" >
                                     <li><Link href='/profil'><a className="dropdown-item">Profil</a></Link></li>
