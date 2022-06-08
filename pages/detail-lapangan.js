@@ -7,18 +7,24 @@ import { useState } from 'react';
 import Link from 'next/link'
 
 export default function Home() {
-    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
     const router = useRouter()
     const { idLapangan, namaVenue, namaLapangan } = router.query
-    const { data: data, error } =  useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}`, fetcher)
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    let todayVar = yyyy + '-' + mm + '-' + dd;
+    
     const [_dataMain, setDataMain] = useState({});
-    const [tglMain, setTglMain] = useState('');
+    const [tglMain, setTglMain] = useState(todayVar);
     const [jadwalPesan, setJadwalPesan] = useState([]);
     const [available, setAvailable] = useState(true);
     const [hargaPesan, setHargaPesan] = useState([]);
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}&tglMainReq=${tglMain}`, fetcher)
 
-    
-
+    console.log(tglMain)
     if (!data) {
         return <div>Loading...</div>
     } else if (error) {
@@ -190,13 +196,13 @@ export default function Home() {
             <div className='mt-3'>
                 <form onSubmit={handlePost}>
                     <h4 className='text-start'>Jadwal Lapangan</h4>
-                    <input type='date' id='tglMain' value={tglMain} onChange={(e)=>setTglMain(e.target.value)} className='form-control mb-4' required></input>
+                    <input type='date' id='tglMain' value={tglMain} onChange={(e) => setTglMain(e.target.value)} className='form-control mb-4' required></input>
                     <div className='card p-3'>
                         <div className='row' style={{ color: 'white' }}>
                             {/* THIS IS CARD */}
 
                             {/* THIS IS CARD */}
-                            {available && 
+                            {available &&
                                 <>
 
                                     {gabunganJadwal.map((data, index) => (
@@ -213,7 +219,7 @@ export default function Home() {
                             }
                             {!available &&
                                 <>
-                                    <h3 className='text-black'>Mitra tidak beroperasi</h3>    
+                                    <h3 className='text-black'>Mitra tidak beroperasi</h3>
                                 </>
                             }
                             {/* {gabunganJadwal.length === 0 ? (
