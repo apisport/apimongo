@@ -10,12 +10,14 @@ export default function Home() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
     const router = useRouter()
     const { idLapangan, namaVenue, namaLapangan } = router.query
-    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}`, fetcher)
+    const { data: data, error } =  useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}`, fetcher)
     const [_dataMain, setDataMain] = useState({});
     const [tglMain, setTglMain] = useState('');
     const [jadwalPesan, setJadwalPesan] = useState([]);
     const [available, setAvailable] = useState(true);
     const [hargaPesan, setHargaPesan] = useState([]);
+
+    
 
     if (!data) {
         return <div>Loading...</div>
@@ -55,6 +57,7 @@ export default function Home() {
     })
     console.log('Hasil Filter')
     console.log(transaksiArr)
+
 
     const setCheck = () => {
         setJadwalPesan([])
@@ -117,6 +120,7 @@ export default function Home() {
         }
 
     };
+
 
     //Penggabungan Harga dan Jadwal
 
@@ -258,8 +262,6 @@ export default function Home() {
                         {/* </Link> */}
                     </div>
                 </form>
-
-
             </div>
         </div>
 

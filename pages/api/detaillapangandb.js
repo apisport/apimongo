@@ -28,7 +28,7 @@ async function getDetailLapangan(req, res) {
             .find({
                 namaVenue: namaVenueReq,
                 lapangan: namaLapanganReq
-            })
+            }, { projection: { 'tglMain': 1, 'jadwalMain': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();
         let hasil = {}
