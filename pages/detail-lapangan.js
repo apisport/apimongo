@@ -9,10 +9,12 @@ import Link from 'next/link'
 export default function Home() {
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
     const router = useRouter()
-    const { idLapangan } = router.query
-    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}`, fetcher)
+    const { idLapangan, namaVenue, namaLapangan } = router.query
+    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}`, fetcher)
     const [_dataMain, setDataMain] = useState({});
+    const [tglMain, setTglMain] = useState('');
     const [jadwalPesan, setJadwalPesan] = useState([]);
+    const [available, setAvailable] = useState(true);
     const [hargaPesan, setHargaPesan] = useState([]);
 
     if (!data) {
@@ -23,8 +25,11 @@ export default function Home() {
 
     //Deklarasi Array JSON SWR
     let lapangan = data['message']
+    console.log('Lapangan')
     console.log(lapangan)
-    let infoLapangan = lapangan[0]
+    console.log('Transaksi:')
+    console.log(lapangan.infoTransaksi)
+    let infoLapangan = lapangan.infoLapangan[0]
     let namaHasil = infoLapangan.namaLapangan.split(" ").join("");
 
     // Penggabungan Harga dan Jadwal
@@ -40,6 +45,16 @@ export default function Home() {
     for (let i = 0; i < keyJadwalMalam.length; i++) {
         gabunganHarga.push(infoLapangan.hargaMalam)
     }
+
+    let transaksiArr = lapangan.infoTransaksi.filter((tblDat) => {
+        if (tglMain == "") {
+            return tblDat
+        } else if (tblDat.tglMain === tglMain) {
+            return tblDat
+        }
+    })
+    console.log('Hasil Filter')
+    console.log(transaksiArr)
 
     const setCheck = () => {
         setJadwalPesan([])
@@ -171,26 +186,49 @@ export default function Home() {
             <div className='mt-3'>
                 <form onSubmit={handlePost}>
                     <h4 className='text-start'>Jadwal Lapangan</h4>
-                    <input type='date' id='tglMain' className='form-control mb-4' required></input>
+                    <input type='date' id='tglMain' value={tglMain} onChange={(e)=>setTglMain(e.target.value)} className='form-control mb-4' required></input>
                     <div className='card p-3'>
                         <div className='row' style={{ color: 'white' }}>
                             {/* THIS IS CARD */}
 
                             {/* THIS IS CARD */}
-                            {gabunganJadwal.length === 0 ? (
-                                <h2>Tidak ada data Jadwal</h2>
-                            ) : (
+                            {available && 
                                 <>
+
                                     {gabunganJadwal.map((data, index) => (
+
                                         <div className='col-6 col-lg-3 mb-2'>
                                             <div>
+
                                                 <input type="checkbox" className="btn-check" id={`btn-check${index + 1}`} autoComplete="off" onClick={() => setCheck()} name='jadwal' value={JSON.stringify([`${data}`, gabunganHarga[index]])} />
                                                 <label className="btn btn-outline-primary" htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
                                             </div>
                                         </div>
                                     ))}
                                 </>
-                            )}
+                            }
+                            {!available &&
+                                <>
+                                    <h3 className='text-black'>Mitra tidak beroperasi</h3>    
+                                </>
+                            }
+                            {/* {gabunganJadwal.length === 0 ? (
+                                <h2>Tidak ada data Jadwal</h2>
+                            ) : ( 
+                                    <>
+                                        
+                                        {gabunganJadwal.map((data, index) => (
+                                        
+                                        <div className='col-6 col-lg-3 mb-2'>
+                                            <div>
+                                                
+                                                <input type="checkbox" className="btn-check" id={`btn-check${index + 1}`} autoComplete="off" onClick={() => setCheck()} name='jadwal' value={JSON.stringify([`${data}`, gabunganHarga[index]])} />
+                                                <label className="btn btn-outline-primary" htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </>
+                            )} */}
 
                         </div>
                     </div>
@@ -198,6 +236,7 @@ export default function Home() {
 
                     <div className='row'>
                         <h2><b>Jadwal yang akan dipesan:</b></h2>
+                        <h3>{tglMain}</h3>
                         <hr></hr>
                         {jadwalPesan.length === 0 ? (
                             <h2>Tidak ada data Jadwal yang dipesan</h2>
@@ -209,7 +248,7 @@ export default function Home() {
                             </>
                         )}
                         {/* <Link href={{
-                        pathname: '/detail-lapangan',
+                        pathname: '/pembayaran',
                         query: {
                             idLapangan: props._id
                         }

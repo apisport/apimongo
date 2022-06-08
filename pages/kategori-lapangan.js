@@ -184,7 +184,7 @@ export default function Lapangan() {
                 <div className="container my-4 text-black-50" >
                     <h2 style={{ color: 'black' }} className='fw-bold fst-italic'>{`Daftar Lapangan ${kategori}`}</h2>
                     <hr></hr>
-                    <div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
+                    <div className="row justify-content-center row-cols-1 row-cols-md-3">
                         {currentPosts.length === 0 ? (
                             <><h3>{`Tidak ada Data Lapangan ${kategori} ditemukan`}</h3></>
                         ) : (
@@ -197,14 +197,10 @@ export default function Lapangan() {
                         )}
                     </div>
                 </div>
-                <div className='d-flex flex-row justify-content-center'>
-                    <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
-                </div>
-
             </div>
-
-
-
+            <div className='d-flex flex-row justify-content-center'>
+                <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
+            </div>
 
         </>
     )

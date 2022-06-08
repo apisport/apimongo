@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
 
 async function getDetailLapangan(req, res) {
-    const { idLapangan } = req.query
+    const { idLapangan, namaVenueReq, namaLapanganReq } = req.query
     const convertedObjectId = new ObjectId(idLapangan);
     try {
         // connect to the database
@@ -16,9 +16,28 @@ async function getDetailLapangan(req, res) {
             })
             .sort({ idfavorit: -1 })
             .toArray();
+        let infoVenue = await db
+            .collection('mitra')
+            .find({
+                namaVenue: namaVenueReq
+            })
+            .sort({ idfavorit: -1 })
+            .toArray();
+        let infoTransaksi = await db
+            .collection('transaksi')
+            .find({
+                namaVenue: namaVenueReq,
+                lapangan: namaLapanganReq
+            })
+            .sort({ idfavorit: -1 })
+            .toArray();
+        let hasil = {}
+        hasil['infoTransaksi'] = infoTransaksi
+        hasil['infoLapangan'] = infoLapangan
+        hasil['infoVenue'] = infoVenue
         // return the posts
         return res.json({
-            message: JSON.parse(JSON.stringify(infoLapangan)),
+            message: JSON.parse(JSON.stringify(hasil)),
             success: true,
         });
     } catch (error) {

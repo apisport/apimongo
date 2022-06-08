@@ -62,7 +62,7 @@ export default function Pagination({pages, setCurrentPage}) {
 
     return (
         <div>
-            <div className="col-md-6">
+            <div className="">
                 <nav className="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                     <ul className="pagination p-1">
                         <li className="page-item">

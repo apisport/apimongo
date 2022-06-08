@@ -64,7 +64,9 @@ export default function CardLapangan({props}) {
                                 <Link href={{
                                     pathname: '/detail-lapangan',
                                     query: {
-                                        idLapangan: props._id
+                                        idLapangan: props._id,
+                                        namaVenue: props.namaVenue,
+                                        namaLapangan: props.namaLapangan
                                     }
 
                                 }}>

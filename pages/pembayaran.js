@@ -14,11 +14,11 @@ export default function Home() {
   const [nama, setNama] = useState('Yosi');
   const [noWa, setNoWa] = useState('081');
   const [tim, setTim] = useState('Ambyar FC');
-  const [namaVenue, setNamaVenue] = useState('Scudetto Futsal');
-  const [tglBooking, setTglBooking] = useState('20-03-2022 09:00 WIB');
-  const [tglMain, setTglMain] = useState('30-03-2022');
-  const [jadwalMain, setJadwalMain] = useState(['20.00-21.00', '21.00-22.00']);
-  const [lapangan, setLapangan] = useState('Lapangan 1');
+  const [namaVenue, setNamaVenue] = useState('Scuttod');
+  const [tglBooking, setTglBooking] = useState('20-03-2022');
+  const [tglMain, setTglMain] = useState('2022-06-08');
+  const [jadwalMain, setJadwalMain] = useState(['18.00-19.00', '20.00-21.00']);
+  const [lapangan, setLapangan] = useState('Lapangan 2');
   const [harga, setHarga] = useState(50);
   const [status, setStatus] = useState('pending');
   const [noRekening, setNoRekening] = useState('2342543 - Bank BCA');
@@ -200,7 +200,7 @@ export default function Home() {
             </div>
 
             <div className="mt-4 text-center">
-              <img src={createObjectURL} className="" />
+              <img src={createObjectURL} className="img-fluid" />
             </div>
             <div className="d-flex flex-row mt-3">
               <span className='font-weight-normal' style={{ color: 'red' }}><b>*Mohon untuk mengupload bukti pembayaran hingga 13:30 WIB atau pembayaran akan di cancel</b></span>

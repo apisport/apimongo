@@ -5,7 +5,7 @@ const Navbar = ({ props }) => {
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
                 <a href="#">
-                    <img style={{ marginRight: '0.75rem', height: '50px' }} src="./y.png" alt />
+                    <img style={{ marginRight: '0.75rem', height: '50px' }} src="/y.png" alt />
                 </a>
                 <button className="navbar-toggler border-0" type="button" data-bs-toggle="modal" data-bs-target="#targetModal-item">
                     <span className="navbar-toggler-icon" />
