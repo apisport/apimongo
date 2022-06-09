@@ -5,9 +5,11 @@ import useSWR from "swr";
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Link from 'next/link'
+import { useEffect } from 'react';
 
 export default function Home() {
 
+    //Router
     const router = useRouter()
     const { idLapangan, namaVenue, namaLapangan } = router.query
     var today = new Date();
@@ -16,11 +18,14 @@ export default function Home() {
     var yyyy = today.getFullYear();
     let todayVar = yyyy + '-' + mm + '-' + dd;
     
+    //State of Decay
     const [_dataMain, setDataMain] = useState({});
     const [tglMain, setTglMain] = useState(todayVar);
     const [jadwalPesan, setJadwalPesan] = useState([]);
     const [available, setAvailable] = useState(true);
     const [hargaPesan, setHargaPesan] = useState([]);
+
+    //Suwir
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
     const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}&tglMainReq=${tglMain}`, fetcher)
 
@@ -37,8 +42,73 @@ export default function Home() {
     console.log(lapangan)
     console.log('Transaksi:')
     console.log(lapangan.infoTransaksi)
+    console.log('Venue:')
+    console.log(lapangan.infoVenue)
     let infoLapangan = lapangan.infoLapangan[0]
     let namaHasil = infoLapangan.namaLapangan.split(" ").join("");
+
+    //Function SetAvailable
+    const setTglMainFunc = (data) => {
+        setTglMain(data)
+        setAvailableJam()
+        setAvailableHari()
+        
+    }
+    
+    const setAvailableJam = () => {
+        console.log('Available Jam')
+    }
+
+    const setAvailableHari = () => {
+        let hariTemp = lapangan.infoVenue[0].hariOperasional.split(" - ")
+        console.log(hariTemp)
+
+        let day = new Date()
+        const weekday = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const weekdayHitung = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        let today = weekday[day.getUTCDay()]
+        console.log('Available Hari')
+        console.log(today)
+
+        let indexAwalHari = weekdayHitung.indexOf(hariTemp[0])
+        let indexAkhirHari = weekdayHitung.indexOf(hariTemp[1])
+        console.log(indexAwalHari)
+        console.log(indexAkhirHari)
+
+        let totalIndex = indexAkhirHari - indexAwalHari
+        let arrayAvailableHariTemp = []
+        console.log(totalIndex)
+        for (let i = 0; i <= totalIndex; i++) {
+            arrayAvailableHariTemp[i] = weekdayHitung[i]
+        }
+        console.log('Sudah Jadi:')
+        console.log(arrayAvailableHariTemp)
+        console.log('Hari UTC TGl MAIN')
+        let dateCheckerInit = new Date(tglMain)
+        let dateChecker = weekday[dateCheckerInit.getUTCDay()]
+        if (arrayAvailableHariTemp.indexOf(dateChecker) === -1) {
+            console.log('Mitra Tutup')
+        } else {
+            console.log('Mitra Buka')
+        }
+    }
+
+    setAvailableJam()
+    setAvailableHari()
+    
+    
+
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
 
     // Penggabungan Harga dan Jadwal
     let keyJadwalPagi = Object.keys(infoLapangan.jadwalPagi)
@@ -63,6 +133,9 @@ export default function Home() {
     })
     console.log('Hasil Filter')
     console.log(transaksiArr)
+
+    
+
 
 
     const setCheck = () => {
@@ -196,7 +269,7 @@ export default function Home() {
             <div className='mt-3'>
                 <form onSubmit={handlePost}>
                     <h4 className='text-start'>Jadwal Lapangan</h4>
-                    <input type='date' id='tglMain' value={tglMain} onChange={(e) => setTglMain(e.target.value)} className='form-control mb-4' required></input>
+                    <input type='date' id='tglMain' value={tglMain} onChange={(e) => setTglMainFunc(e.target.value)} className='form-control mb-4' required></input>
                     <div className='card p-3'>
                         <div className='row' style={{ color: 'white' }}>
                             {/* THIS IS CARD */}
