@@ -17,13 +17,16 @@ export default function Home() {
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
     let todayVar = yyyy + '-' + mm + '-' + dd;
+    let available = true
+    let jamTerisi = []
     
     //State of Decay
     const [_dataMain, setDataMain] = useState({});
     const [tglMain, setTglMain] = useState(todayVar);
     const [jadwalPesan, setJadwalPesan] = useState([]);
-    const [available, setAvailable] = useState(true);
+    // const [available, setAvailable] = useState(true);
     const [hargaPesan, setHargaPesan] = useState([]);
+    const [totalHarga, setTotalHarga] = useState(0);
 
     //Suwir
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
@@ -47,16 +50,34 @@ export default function Home() {
     let infoLapangan = lapangan.infoLapangan[0]
     let namaHasil = infoLapangan.namaLapangan.split(" ").join("");
 
-    //Function SetAvailable
+    //Function SetAvailable dan Input Date
     const setTglMainFunc = (data) => {
         setTglMain(data)
+        setJadwalPesan([])
+        setHargaPesan([])
+        
         setAvailableJam()
         setAvailableHari()
         
     }
+
+    //Function Hitung Harga
+    const hitungHargaPesan = () => {
+        let total = 0
+        for (let i = 0; i < hargaPesan.length; i++){
+            total = parseInt(hargaPesan[i])  + total 
+        }
+        setTotalHarga(total)
+    }
     
     const setAvailableJam = () => {
-        console.log('Available Jam')
+        console.log('Jam Booked')
+        for (let i = 0; i < lapangan.infoTransaksi.length; i++){
+            for (let j = 0; j < lapangan.infoTransaksi[i].jadwalMain.length;j++){
+                jamTerisi.push(lapangan.infoTransaksi[i].jadwalMain[j])
+            }
+        }
+        console.log(jamTerisi)
     }
 
     const setAvailableHari = () => {
@@ -86,10 +107,11 @@ export default function Home() {
         console.log('Hari UTC TGl MAIN')
         let dateCheckerInit = new Date(tglMain)
         let dateChecker = weekday[dateCheckerInit.getUTCDay()]
+
         if (arrayAvailableHariTemp.indexOf(dateChecker) === -1) {
-            console.log('Mitra Tutup')
+            available = false
         } else {
-            console.log('Mitra Buka')
+            available = true
         }
     }
 
@@ -97,19 +119,6 @@ export default function Home() {
     setAvailableHari()
     
     
-
-    
-
-    
-
-    
-    
-
-    
-    
-
-    
-
     // Penggabungan Harga dan Jadwal
     let keyJadwalPagi = Object.keys(infoLapangan.jadwalPagi)
     let keyJadwalMalam = Object.keys(infoLapangan.jadwalMalam)
@@ -168,7 +177,10 @@ export default function Home() {
         // console.log(`jadwal Pesan:`)
         // console.log(jadwalTemp)
         // console.log(hargaTemp)
+        hitungHargaPesan()
+        console.log('Jadwal Pesan')
         console.log(jadwalPesan)
+        console.log('Harga Pesan')
         console.log(hargaPesan)
     }
 
@@ -283,8 +295,13 @@ export default function Home() {
                                         <div className='col-6 col-lg-3 mb-2'>
                                             <div>
 
-                                                <input type="checkbox" className="btn-check" id={`btn-check${index + 1}`} autoComplete="off" onClick={() => setCheck()} name='jadwal' value={JSON.stringify([`${data}`, gabunganHarga[index]])} />
-                                                <label className="btn btn-outline-primary" htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
+                                                <input type="checkbox" className="btn-check" id={`btn-check${index + 1}`}
+                                                    autoComplete="off" onClick={() => setCheck()}
+                                                    name='jadwal'
+                                                    
+                                                    disabled={jamTerisi.indexOf(data) === -1 ? (false) : (true)}
+                                                    value={JSON.stringify([`${data}`, gabunganHarga[index]])} />
+                                                <label className="btn btn-outline-success" style={jamTerisi.indexOf(data) === -1 ? ({}) : ({ backgroundColor: 'red', color:'white' })} htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
                                             </div>
                                         </div>
                                     ))}
@@ -319,7 +336,8 @@ export default function Home() {
 
                     <div className='row'>
                         <h2><b>Jadwal yang akan dipesan:</b></h2>
-                        <h3>{tglMain}</h3>
+                        <h3>Tgl Main: {tglMain}</h3>
+                        <h3>Total Harga: {totalHarga}</h3>
                         <hr></hr>
                         {jadwalPesan.length === 0 ? (
                             <h2>Tidak ada data Jadwal yang dipesan</h2>
@@ -337,7 +355,7 @@ export default function Home() {
                         }
 
                     }}> */}
-                        <button type='button' className='btn btn-fill text-white mt-3' onClick={checkValue}>Pesan</button>
+                        <button type='button' className='btn btn-fill text-white mt-3' onClick={() => checkValue()}>Pesan</button>
                         {/* </Link> */}
                     </div>
                 </form>

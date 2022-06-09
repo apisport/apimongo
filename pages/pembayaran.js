@@ -16,7 +16,7 @@ export default function Home() {
   const [tim, setTim] = useState('Ambyar FC');
   const [namaVenue, setNamaVenue] = useState('Scuttod');
   const [tglBooking, setTglBooking] = useState('20-03-2022');
-  const [tglMain, setTglMain] = useState('2022-06-08');
+  const [tglMain, setTglMain] = useState('2022-06-09');
   const [jadwalMain, setJadwalMain] = useState(['18.00-19.00', '20.00-21.00']);
   const [lapangan, setLapangan] = useState('Lapangan 2');
   const [harga, setHarga] = useState(50);
