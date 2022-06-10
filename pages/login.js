@@ -1,6 +1,7 @@
 export default function Home() {
     return (
-<div className="limiter">
+      <div className="limiter">
+        
   <div className="container-login100" style={{backgroundImage: 'url("./bg-01.jpg")'}}>
     <div className="wrap-login100 p-l-55 p-r-55 p-t-10 p-b-20">
       <form className="login100-form validate-form">

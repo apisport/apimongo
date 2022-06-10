@@ -65,7 +65,7 @@ export default function Home() {
     const hitungHargaPesan = () => {
         let total = 0
         for (let i = 0; i < hargaPesan.length; i++){
-            total = parseInt(hargaPesan[i])  + total 
+            total = total + parseInt(hargaPesan[i]) 
         }
         setTotalHarga(total)
     }
