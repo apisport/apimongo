@@ -22,7 +22,7 @@ export default function Home() {
     const [available, setAvailable] = useState(true);
     const [hargaPesan, setHargaPesan] = useState([]);
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}&tglMainReq=${tglMain}`, fetcher)
+    const { data: data, error } = useSWR(`/api/detaillapangandb?idLapangan=${idLapangan}&namaVenueReq=${namaVenue}&namaLapanganReq=${namaLapangan}&tglMainReq=${tglMain }`, fetcher)
 
     console.log(tglMain)
     if (!data) {
