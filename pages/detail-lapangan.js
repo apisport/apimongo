@@ -376,7 +376,6 @@ export default function Home() {
 
 
                     <div className='row'>
-                        <h3>{isCheck ? 'true' : 'false'}</h3>
                         <h2><b>Jadwal yang akan dipesan:</b></h2>
                         <h3>Tgl Main: {tglMain}</h3>
                         <h3>Total Harga: {`Rp ${totalHarga}.000,-`}</h3>
