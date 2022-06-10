@@ -4,38 +4,30 @@ const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
 
 async function getDetailLapangan(req, res) {
-    const { idLapangan, namaVenueReq, namaLapanganReq, tglMainReq } = req.query
+    const { usernameReq, passwordReq } = req.query
     const convertedObjectId = new ObjectId(idLapangan);
     try {
         // connect to the database
         let { db } = await connectToDatabase();
-        let infoLapangan = await db
-            .collection('lapangan')
-            .find({
-                _id: convertedObjectId
-            })
-            .sort({ idfavorit: -1 })
-            .toArray();
         let infoVenue = await db
             .collection('mitra')
             .find({
-                namaVenue: namaVenueReq
-            }, { projection: { 'namaVenue': 1, 'hariOperasional': 1 } })
+                username : usernameReq,
+                password : passwordReq
+            }, { projection: { 'username': 1, 'password': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();
-        let infoTransaksi = await db
-            .collection('transaksi')
+        let infoDev = await db
+            .collection('dev')
             .find({
-                namaVenue: namaVenueReq,
-                lapangan: namaLapanganReq,
-                tglMain: tglMainReq
-            }, { projection: { 'tglMain': 1, 'jadwalMain': 1 } })
+                username: usernameReq,
+                password: passwordReq
+            }, { projection: { 'username': 1, 'password': 1 } })
             .sort({ idfavorit: -1 })
-            .toArray();
+            .toArray()
         let hasil = {}
-        hasil['infoTransaksi'] = infoTransaksi
-        hasil['infoLapangan'] = infoLapangan
-        hasil['infoVenue'] = infoVenue
+        hasil['loginMitra'] = infoVenue
+        hasil['loginDev'] = infoDev
         // return the posts
         return res.json({
             message: JSON.parse(JSON.stringify(hasil)),
@@ -56,15 +48,6 @@ export default async function handler(req, res) {
     switch (req.method) {
         case 'GET': {
             return getDetailLapangan(req, res);
-        }
-        case 'POST': {
-            return addFavorit(req, res);
-        }
-        case 'PUT': {
-            return updateFavorit(req, res);
-        }
-        case 'DELETE': {
-            return deleteFavorit(req, res);
         }
     }
 }
