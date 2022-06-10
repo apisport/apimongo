@@ -62,12 +62,12 @@ export default function Home() {
     }
 
     //Function Hitung Harga
-    const hitungHargaPesan = () => {
+    const hitungHargaPesan = (data) => {
         let total = 0
-        for (let i = 0; i < hargaPesan.length; i++){
+        for (let i = 0; i < data.length; i++){
             total = parseInt(hargaPesan[i])  + total 
         }
-        setTotalHarga(total)
+        return total
     }
     
     const setAvailableJam = () => {
@@ -150,6 +150,7 @@ export default function Home() {
     const setCheck = () => {
         setJadwalPesan([])
         setHargaPesan([])
+        setTotalHarga(0)
         let convertedJSON = []
         let check = document.getElementsByName('jadwal')
         let date = document.getElementById('tglMain')
@@ -158,6 +159,7 @@ export default function Home() {
         let hargaTemp = []
         let jadwalTemp = []
         let len = check.length
+        let totalHargaVar = 0
 
         for (var i = 0; i < len; i++) {
             convertedJSON.push(JSON.parse(check[i].value))
@@ -171,13 +173,16 @@ export default function Home() {
             if (check[i].checked) {
                 setJadwalPesan(arr => [...arr, jadwalValue[i]]);
                 setHargaPesan(arr => [...arr, hargaValue[i]])
+                totalHargaVar = totalHargaVar + parseInt(hargaValue[i])
+                
             }
         }
+
 
         // console.log(`jadwal Pesan:`)
         // console.log(jadwalTemp)
         // console.log(hargaTemp)
-        hitungHargaPesan()
+        setTotalHarga(totalHargaVar)
         console.log('Jadwal Pesan')
         console.log(jadwalPesan)
         console.log('Harga Pesan')
@@ -337,7 +342,7 @@ export default function Home() {
                     <div className='row'>
                         <h2><b>Jadwal yang akan dipesan:</b></h2>
                         <h3>Tgl Main: {tglMain}</h3>
-                        <h3>Total Harga: {totalHarga}</h3>
+                        <h3>Total Harga: {`Rp ${totalHarga}.000,-`}</h3>
                         <hr></hr>
                         {jadwalPesan.length === 0 ? (
                             <h2>Tidak ada data Jadwal yang dipesan</h2>
