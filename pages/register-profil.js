@@ -166,11 +166,11 @@ export default function Register() {
                                                 value={noWa}
                                             />
                                         </div>
-                                        <div className="mt-2 col-md-12"><label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                        {/* <div className="mt-2 col-md-12"><label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                                             <input type="text" className="form-control" required
                                                 value={session.user.name}
                                             />
-                                        </div>
+                                        </div> */}
                                         <div className="mt-2 col-md-12"><label className="labels">Email</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                                             <input type="text" className="form-control" required
                                                 name="email"

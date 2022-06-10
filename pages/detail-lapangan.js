@@ -4,14 +4,17 @@ import CardJadwal from '../components/user/detail-lapangan/CardJadwal'
 import useSWR from "swr";
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useEffect } from 'react';
+
 
 export default function Home() {
 
     //Router
     const router = useRouter()
     const { idLapangan, namaVenue, namaLapangan } = router.query
+    const { data: session } = useSession();
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -19,14 +22,18 @@ export default function Home() {
     let todayVar = yyyy + '-' + mm + '-' + dd;
     let available = true
     let jamTerisi = []
-    
+
     //State of Decay
     const [_dataMain, setDataMain] = useState({});
     const [tglMain, setTglMain] = useState(todayVar);
     const [jadwalPesan, setJadwalPesan] = useState([]);
     // const [available, setAvailable] = useState(true);
-    const [hargaPesan, setHargaPesan] = useState([]);
     const [totalHarga, setTotalHarga] = useState(0);
+
+    //Perubahan
+    // let isCheck = []
+    const [isCheck, setIsCheck] = useState(true);
+
 
     //Suwir
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
@@ -41,12 +48,6 @@ export default function Home() {
 
     //Deklarasi Array JSON SWR
     let lapangan = data['message']
-    console.log('Lapangan')
-    console.log(lapangan)
-    console.log('Transaksi:')
-    console.log(lapangan.infoTransaksi)
-    console.log('Venue:')
-    console.log(lapangan.infoVenue)
     let infoLapangan = lapangan.infoLapangan[0]
     let namaHasil = infoLapangan.namaLapangan.split(" ").join("");
 
@@ -54,57 +55,47 @@ export default function Home() {
     const setTglMainFunc = (data) => {
         setTglMain(data)
         setJadwalPesan([])
-        setHargaPesan([])
-        
+        setTotalHarga(0)
         setAvailableJam()
         setAvailableHari()
-        
+
     }
 
-    //Function Hitung Harga
-    const hitungHargaPesan = () => {
-        let total = 0
-        for (let i = 0; i < hargaPesan.length; i++){
-            total = total + parseInt(hargaPesan[i]) 
-        }
-        setTotalHarga(total)
-    }
-    
     const setAvailableJam = () => {
-        console.log('Jam Booked')
-        for (let i = 0; i < lapangan.infoTransaksi.length; i++){
-            for (let j = 0; j < lapangan.infoTransaksi[i].jadwalMain.length;j++){
+        // console.log('Jam Booked')
+        for (let i = 0; i < lapangan.infoTransaksi.length; i++) {
+            for (let j = 0; j < lapangan.infoTransaksi[i].jadwalMain.length; j++) {
                 jamTerisi.push(lapangan.infoTransaksi[i].jadwalMain[j])
             }
         }
-        console.log(jamTerisi)
+        // console.log(jamTerisi)
     }
 
     const setAvailableHari = () => {
         let hariTemp = lapangan.infoVenue[0].hariOperasional.split(" - ")
-        console.log(hariTemp)
+        // console.log(hariTemp)
 
         let day = new Date()
         const weekday = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
         const weekdayHitung = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
         let today = weekday[day.getUTCDay()]
-        console.log('Available Hari')
-        console.log(today)
+        // console.log('Available Hari')
+        // console.log(today)
 
         let indexAwalHari = weekdayHitung.indexOf(hariTemp[0])
         let indexAkhirHari = weekdayHitung.indexOf(hariTemp[1])
-        console.log(indexAwalHari)
-        console.log(indexAkhirHari)
+        // console.log(indexAwalHari)
+        // console.log(indexAkhirHari)
 
         let totalIndex = indexAkhirHari - indexAwalHari
         let arrayAvailableHariTemp = []
-        console.log(totalIndex)
+        // console.log(totalIndex)
         for (let i = 0; i <= totalIndex; i++) {
             arrayAvailableHariTemp[i] = weekdayHitung[i]
         }
-        console.log('Sudah Jadi:')
-        console.log(arrayAvailableHariTemp)
-        console.log('Hari UTC TGl MAIN')
+        // console.log('Sudah Jadi:')
+        // console.log(arrayAvailableHariTemp)
+        // console.log('Hari UTC TGl MAIN')
         let dateCheckerInit = new Date(tglMain)
         let dateChecker = weekday[dateCheckerInit.getUTCDay()]
 
@@ -117,8 +108,8 @@ export default function Home() {
 
     setAvailableJam()
     setAvailableHari()
-    
-    
+
+
     // Penggabungan Harga dan Jadwal
     let keyJadwalPagi = Object.keys(infoLapangan.jadwalPagi)
     let keyJadwalMalam = Object.keys(infoLapangan.jadwalMalam)
@@ -140,75 +131,125 @@ export default function Home() {
             return tblDat
         }
     })
-    console.log('Hasil Filter')
-    console.log(transaksiArr)
-
-    
+    // console.log('Hasil Filter')
+    // console.log(transaksiArr)
 
 
+    const setCheck = (harga, i) => {
 
-    const setCheck = () => {
-        setJadwalPesan([])
-        setHargaPesan([])
-        let convertedJSON = []
-        let check = document.getElementsByName('jadwal')
-        let date = document.getElementById('tglMain')
-        let jadwalValue = []
-        let hargaValue = []
-        let hargaTemp = []
-        let jadwalTemp = []
-        let len = check.length
+        // isCheck[i] = true
+        // for (let index = 0; index < isCheck.length; index++) {
+        //     console.log(isCheck[index])
 
-        for (var i = 0; i < len; i++) {
-            convertedJSON.push(JSON.parse(check[i].value))
-            jadwalValue.push(convertedJSON[i][0])
-            hargaValue.push(convertedJSON[i][1])
-        }
-        // console.log(convertedJSON)
-        // console.log(jadwalValue)
-        // console.log(hargaValue)
-        for (var i = 0; i < len; i++) {
-            if (check[i].checked) {
-                setJadwalPesan(arr => [...arr, jadwalValue[i]]);
-                setHargaPesan(arr => [...arr, hargaValue[i]])
-            }
-        }
+        // }
 
-        // console.log(`jadwal Pesan:`)
-        // console.log(jadwalTemp)
-        // console.log(hargaTemp)
-        hitungHargaPesan()
-        console.log('Jadwal Pesan')
-        console.log(jadwalPesan)
-        console.log('Harga Pesan')
-        console.log(hargaPesan)
+
+        // // console.log('Total Harga:')
+        // HitungHarga(harga)
+        // console.log(isCheck)
     }
+    let tohar = 0
+
+    const setChange = (e, harga, jadwal) => {
+        setIsCheck(e.target.checked)
+        if (e.target.checked === true) {
+            /*  tohar = tohar + parseInt(harga)
+             setTotalHarga(tohar) */
+            setTotalHarga(totalHarga => totalHarga + parseInt(harga))
+            setJadwalPesan(arr => [...arr, jadwal]);
+        } else {
+            /* tohar = tohar - parseInt(harga)
+            setTotalHarga(tohar) */
+            setTotalHarga(totalHarga => totalHarga - parseInt(harga))
+            // let filteredArray = jadwalPesan.filter(item => item !== data)
+            // console.log(data)
+            let index = jadwalPesan.indexOf(jadwal)
+            setJadwalPesan(tim => [...tim.slice(0, index), ...tim.slice(index + 1)])
+        }
+        /*  {
+             isCheck ? setTotalHarga(totalHarga => totalHarga + parseInt(harga)) : setTotalHarga(totalHarga => totalHarga - parseInt(harga))
+         } */
+        console.log(totalHarga + ' ,' + harga)
+    }
+
+    // const setCheck = () => {
+    //     setJadwalPesan([])
+    //     setTotalHarga(0)
+    //     let convertedJSON = []
+    //     let check = document.getElementsByName('jadwal')
+    //     let jadwalValue = []
+    //     let hargaValue = []
+    //     let len = check.length
+    //     let totalHargaVar = 0
+
+    //     for (var i = 0; i < len; i++) {
+    //         convertedJSON.push(JSON.parse(check[i].value))
+    //         jadwalValue.push(convertedJSON[i][0])
+    //         hargaValue.push(convertedJSON[i][1])
+    //     }
+    //     // console.log(convertedJSON)
+    //     // console.log(jadwalValue)
+    //     // console.log(hargaValue)
+    //     for (var i = 0; i < len; i++) {
+    //         if (check[i].checked) {
+    //             setJadwalPesan(arr => [...arr, jadwalValue[i]]);
+    //             totalHargaVar = totalHargaVar + parseInt(hargaValue[i])
+
+    //         }
+    //     }
+
+
+    //     // console.log(`jadwal Pesan:`)
+    //     // console.log(jadwalTemp)
+    //     // console.log(hargaTemp)
+    //     setTotalHarga(totalHargaVar)
+    //     console.log('Jadwal Pesan')
+    //     console.log(jadwalPesan)
+    // }
 
     //Handle Post Update DataMain Lapangan
     const handlePost = async (e) => {
-        e.preventDefault();
-
-        // reset error and message
-        // fields check
-        try {
-            // Update post
-            await fetch('/api/datamaindb', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    dataMain: _dataMain,
-                    objectId: infoLapangan._id,
-                }),
-            });
-            // reload the page
-            alert('Data sukses diupdate')
-            return router.push('/mitra/home');
-        } catch (error) {
-            // Stop publishing state
-            console.log('Not Working')
+        e.preventDefault()
+        if (jadwalPesan.length > 3) {
+            alert('Batas Maksimum Pemesanan adalah 3')
+        } else if (jadwalPesan.length == 0) {
+            alert('Tidak ada Jadwal yang dipesan')
         }
+        else {
+            router.push({
+                pathname: '/pembayaran',
+                query: {
+                    jadwalPesanReq: JSON.stringify(jadwalPesan),
+                    totalHargaReq: totalHarga,
+                    namaVenueReq: lapangan.infoVenue[0].namaVenue,
+                    namaLapanganReq: infoLapangan.namaLapangan,
+                    tglMainReq: tglMain
+                }
+            })
+        }
+        // e.preventDefault();
+
+        // // reset error and message
+        // // fields check
+        // try {
+        //     // Update post
+        //     await fetch('/api/datamaindb', {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             dataMain: _dataMain,
+        //             objectId: infoLapangan._id,
+        //         }),
+        //     });
+        //     // reload the page
+        //     alert('Data sukses diupdate')
+        //     return router.push('/mitra/home');
+        // } catch (error) {
+        //     // Stop publishing state
+        //     console.log('Not Working')
+        // }
 
     };
 
@@ -296,12 +337,12 @@ export default function Home() {
                                             <div>
 
                                                 <input type="checkbox" className="btn-check" id={`btn-check${index + 1}`}
-                                                    autoComplete="off" onClick={() => setCheck()}
+                                                    autoComplete="off" onChange={(e) => setChange(e, gabunganHarga[index], data)} onClick={() => setCheck(gabunganHarga[index], index)}
                                                     name='jadwal'
-                                                    
+
                                                     disabled={jamTerisi.indexOf(data) === -1 ? (false) : (true)}
                                                     value={JSON.stringify([`${data}`, gabunganHarga[index]])} />
-                                                <label className="btn btn-outline-success" style={jamTerisi.indexOf(data) === -1 ? ({}) : ({ backgroundColor: 'red', color:'white' })} htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
+                                                <label className="btn btn-outline-success" style={jamTerisi.indexOf(data) === -1 ? ({}) : ({ backgroundColor: 'red', color: 'white' })} htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
                                             </div>
                                         </div>
                                     ))}
@@ -335,27 +376,48 @@ export default function Home() {
 
 
                     <div className='row'>
+                        <h3>{isCheck ? 'true' : 'false'}</h3>
                         <h2><b>Jadwal yang akan dipesan:</b></h2>
                         <h3>Tgl Main: {tglMain}</h3>
-                        <h3>Total Harga: {totalHarga}</h3>
+                        <h3>Total Harga: {`Rp ${totalHarga}.000,-`}</h3>
                         <hr></hr>
                         {jadwalPesan.length === 0 ? (
                             <h2>Tidak ada data Jadwal yang dipesan</h2>
                         ) : (
                             <>
+
                                 {jadwalPesan.map((data, index) => (
-                                    <h3>{data}</h3>
+                                    <div className='col-6 col-sm-3 mb-2'>
+                                        <div className='card'>
+                                            <div className='card-body'>
+                                                <span>{data}</span><br></br>
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
                             </>
                         )}
+
+
                         {/* <Link href={{
                         pathname: '/pembayaran',
                         query: {
-                            idLapangan: props._id
+                            jadwalPesanReq: JSON.stringify(jadwalPesan),
+                            totalHargaReq: totalHarga,
+                            namaVenueReq: lapangan.infoVenue[0].namaVenue
                         }
 
-                    }}> */}
-                        <button type='button' className='btn btn-fill text-white mt-3' onClick={() => checkValue()}>Pesan</button>
+                        }}> */}
+
+                        <button type='submit' className='btn btn-fill text-white mt-3' onClick={() => checkValue()}>Pesan</button>
+
+                        {/* Session di sini jangan lupa dan button */}
+                        {/* disabled={(session) ? (false) : (true)} */}
+                        {/* {
+                            !session &&
+                            <span style={{color:'red'}}><b>*Anda harus login untuk memesan</b> </span>
+                        } */}
+
                         {/* </Link> */}
                     </div>
                 </form>

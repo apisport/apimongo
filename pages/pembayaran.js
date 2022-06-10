@@ -1,8 +1,12 @@
-
+//@ts-check
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useSession, signIn } from 'next-auth/react'
+import useSWR from "swr";
 
 export default function Home() {
+
   var currentdate = new Date();
   var dateTime = currentdate.getDate() + "/"
     + (currentdate.getMonth() + 1) + "/"
@@ -11,25 +15,79 @@ export default function Home() {
     + currentdate.getMinutes() + ":"
     + currentdate.getSeconds();
 
-  const [nama, setNama] = useState('Yosi');
-  const [noWa, setNoWa] = useState('081');
-  const [tim, setTim] = useState('Ambyar FC');
-  const [namaVenue, setNamaVenue] = useState('Scuttod');
-  const [tglBooking, setTglBooking] = useState('20-03-2022');
-  const [tglMain, setTglMain] = useState('2022-06-09');
-  const [jadwalMain, setJadwalMain] = useState(['18.00-19.00', '20.00-21.00']);
-  const [lapangan, setLapangan] = useState('Lapangan 2');
-  const [harga, setHarga] = useState(50);
-  const [status, setStatus] = useState('pending');
-  const [noRekening, setNoRekening] = useState('2342543 - Bank BCA');
+  // Backup State
+  // const [nama, setNama] = useState('Yosi');
+  // const [noWa, setNoWa] = useState('081');
+  // const [tim, setTim] = useState('Ambyar FC');
+  // const [namaVenue, setNamaVenue] = useState('Scuttod');
+  // const [tglBooking, setTglBooking] = useState('20-03-2022');
+  // const [tglMain, setTglMain] = useState('2022-06-09');
+  // const [jadwalMain, setJadwalMain] = useState([]);
+  // const [lapangan, setLapangan] = useState('Lapangan 2');
+  // const [harga, setHarga] = useState(50);
+  // const [status, setStatus] = useState('pending');
+  // const [noRekening, setNoRekening] = useState('2342543 - Bank BCA');
+  // const [opsiBayar, setOpsiBayar] = useState('DP');
+  // const [diterima, setDiterima] = useState(dateTime);
+  // const [buktiBayar, setBuktiBayar] = useState('');
+  // const [createObjectURL, setCreateObjectURL] = useState(null);
+  // const [message, setMessage] = useState('');
+
+  //Variabel Biasa
+  
+  let nama = ''
+  let lapangan = ''
+  let noWa = ''
+  let timSWR = []
+  const [tim, setTim] = useState('');
+  let noRekeningSWR = []
+  const [noRekening, setNoRekening] = useState('');
+  let opsiBayarSWR = ''
   const [opsiBayar, setOpsiBayar] = useState('DP');
-  const [diterima, setDiterima] = useState(dateTime);
   const [buktiBayar, setBuktiBayar] = useState('');
-  const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
-  const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  let namaVenue = ''
+  let tglMain = ''
+  let jadwalMain = []
+  let harga = 0
+  const [status, setStatus] = useState('pending');
+  
+  
+  
+
+  //Router
   let router = useRouter()
+  const { jadwalPesanReq,
+    totalHargaReq,
+    namaVenueReq,
+    namaLapanganReq,
+    tglMainReq
+  } = router.query
+
+  //Suwir
+  const fetcher = (...args) => fetch(...args).then((res) => res.json())
+  const { data: data, error } = useSWR(`/api/mitradb`, fetcher)
+
+  console.log(tglMain)
+  if (!data) {
+    return <div>Loading...</div>
+  } else if (error) {
+    return <div>Something went wrong</div>
+  }
+
+  //Deklarasi Array JSON SWR
+  let profil = data['message']
+
+  //Pemanggilan Function
+  const setValue = () => {
+    jadwalMain = JSON.parse(jadwalPesanReq)
+    harga = totalHargaReq
+    namaVenue = namaVenueReq
+    lapangan = namaLapanganReq
+    tglMain = tglMainReq
+  }
+  setValue()
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -49,11 +107,9 @@ export default function Home() {
       opsiBayar,
       buktiBayar,
       namaVenue,
-      tglBooking,
       tglMain,
       jadwalMain,
       harga,
-      diterima,
       status
     };
     // save the post
@@ -67,22 +123,6 @@ export default function Home() {
       // reset the fields
       alert('Transaksi pending, Mohn tunggu persetujuan Mitra!')
       router.push('/')
-      setNama('');
-      setNoWa('');
-      setTim('');
-      setNamaVenue('');
-      setTglBooking('');
-      setTglMain('');
-      setNoRekening('');
-      setJadwalMain('');
-      setHarga('');
-      setStatus('');
-      setOpsiBayar('');
-      setBuktiBayar('');
-      setLapangan('');
-      setImage(null);
-      setCreateObjectURL(null);
-      // set the message
       return setMessage(data.message);
     }
     else {
@@ -128,23 +168,26 @@ export default function Home() {
       <div className="p-3">
         <div className="container-xxl card p-3 shadow-lg">
           <div className="row">
-            <div className="px-md-5 p-3 col-md-6 d-flex flex-column align-items-start justify-content-center" >
-              <h1>Nama Mitra</h1>
-              <p className="mb-3 lead">Lapangan 1</p>
-              <p className="mb-2">Sabtu 5 Maret 2022</p>
+            <div className="px-md-5 p-3 col-md-12 align-items-start justify-content-center" >
+              <h1><b>{namaVenue}</b></h1>
+              <h3 ><b>Lapangan:</b>&nbsp;{lapangan}</h3>
+              <h4><b>Tgl Main:</b>&nbsp;{tglMain}</h4><br></br>
               <div className="row">
-                <div className="col-4 col-lg-4 mr-auto">
-                  <button type="button" class="btn btn-sm btn-primary text-white" disabled>16.00 - 17.00<br />Rp 100.000</button>
-                </div>
-                <div className="col-4 col-lg-4 mr-auto">
-                  <button type="button" class="btn btn-sm btn-primary text-white" disabled>16.00 - 17.00<br />Rp 100.000</button>
-                </div>
-                <div className="col-4 col-lg-4 mr-auto">
-                  <button type="button" class="btn btn-sm btn-primary text-white" disabled>16.00 - 17.00<br />Rp 100.000</button>
-                </div>
+                <h3><b>Jadwal Main:</b></h3>
+                {jadwalMain.map((data, i) => (
+                  <>
+                    <div className='col-12 col-sm-4 mb-2'>
+                      <div className='card'>
+                        <div className='card-body'>
+                          <h2>{data}</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ))}
               </div>
+              <h5>Pesanan dibuat pada <b>{dateTime}</b></h5>
             </div>
-            <div className="col-md-6 p-3"> <img className=" d-block w-100" src="images/futsallap.jpg" height={300} /> </div>
           </div>
         </div>
       </div>

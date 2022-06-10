@@ -23,6 +23,7 @@ import LayoutMitra from '../layout/admin/LayoutAdmin'
 
 
 
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   if (router.pathname.startsWith('/mitra/')) {
