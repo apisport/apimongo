@@ -15,6 +15,25 @@ export default function Home() {
     + currentdate.getMinutes() + ":"
     + currentdate.getSeconds();
 
+  let nama = ''
+  let lapangan = ''
+  let noWa = ''
+  let timSWR = []
+  const [tim, setTim] = useState('');
+  let noRekeningSWR = []
+  const [noRekening, setNoRekening] = useState('');
+  let opsiBayarSWR = ''
+  const [opsiBayar, setOpsiBayar] = useState('');
+  const [buktiBayar, setBuktiBayar] = useState('');
+  const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
+  let namaVenue = ''
+  let tglMain = ''
+  let jadwalMain = []
+  let harga = 0
+  const [status, setStatus] = useState('pending');
+
   // Backup State
   // const [nama, setNama] = useState('Yosi');
   // const [noWa, setNoWa] = useState('081');
@@ -34,27 +53,9 @@ export default function Home() {
   // const [message, setMessage] = useState('');
 
   //Variabel Biasa
-  
-  let nama = ''
-  let lapangan = ''
-  let noWa = ''
-  let timSWR = []
-  const [tim, setTim] = useState('');
-  let noRekeningSWR = []
-  const [noRekening, setNoRekening] = useState('');
-  let opsiBayarSWR = ''
-  const [opsiBayar, setOpsiBayar] = useState('DP');
-  const [buktiBayar, setBuktiBayar] = useState('');
-  const [createObjectURL, setCreateObjectURL] = useState(null);
-  const [message, setMessage] = useState('');
-  let namaVenue = ''
-  let tglMain = ''
-  let jadwalMain = []
-  let harga = 0
-  const [status, setStatus] = useState('pending');
-  
-  
-  
+
+
+  const { data: session } = useSession()
 
   //Router
   let router = useRouter()
@@ -65,19 +66,33 @@ export default function Home() {
     tglMainReq
   } = router.query
 
+
   //Suwir
   const fetcher = (...args) => fetch(...args).then((res) => res.json())
-  const { data: data, error } = useSWR(`/api/mitradb`, fetcher)
+  let url = ''
+  url = `/api/profildb?emailReq=${`api.sport.team@gmail.com`}&namaVenueReq=${namaVenueReq}`
+  if (session) {
+    url = `/api/profildb?emailReq=${`api.sport.team@gmail.com`}&namaVenueReq=${namaVenueReq}`
+  }
+  const { data: data, error } = useSWR(url, fetcher)
 
-  console.log(tglMain)
   if (!data) {
-    return <div>Loading...</div>
+    return <div>Access denied</div>
   } else if (error) {
     return <div>Something went wrong</div>
   }
 
   //Deklarasi Array JSON SWR
   let profil = data['message']
+  // console.log(profil)
+
+
+
+
+
+
+
+
 
   //Pemanggilan Function
   const setValue = () => {
@@ -196,19 +211,20 @@ export default function Home() {
           <form onSubmit={handlePost}>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Nama Pemesan : </label>
-              <input value={nama} type="text" className="form-control" readOnly />
+              <input value={profil.profil[0].nama} type="text" className="form-control" readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">Nama Tim</label>
               <select className="form-control form-select" id="exampleFormControlSelect1" onChange={(e) => setTim(e.target.value)}>
                 <option>--Pilih Tim--</option>
-                <option value={'Ambyar FC'}>Ambyar FC</option>
-                <option value={'Ukrana FC'}>Ukrana FC</option>
+                {profil.profil[0].tim.map((data, i) => (
+                  <option value={data}>{data}</option>
+                ))}
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="exampleFormControlInput1">No. WA: </label>
-              <input type="number" className="form-control" value={noWa} readOnly />
+              <label htmlFor="exampleFormControlInput1">No. WA Pemesan: </label>
+              <input type="number" className="form-control" value={profil.profil[0].noWa} readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
@@ -217,18 +233,19 @@ export default function Home() {
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">No. Rekening</label>
               <select className="form-control form-select" id="exampleFormControlSelect1" onChange={(e) => setNoRekening(e.target.value)}>
-                <option>--No. Rekening--</option>
-                <option value={'300 - Bank 333'}>123 - Bank ABC</option>
-                <option value={'400 - Bank 133'}>234 - Bank</option>
+                <option>--Pilih No. Rekening--</option>
+                {profil.infoVenue[0].rekening.map((data, i) => (
+                  <option value={data}>{data}</option>
+                ))}
               </select>
             </div>
             <div className="form-group">
               <label>Opsi Bayar</label>
-              <select className=" form-select" onChange={(e) => aturOpsiBayar(e.target.value)}>
+              <select className=" form-select" onChange={(e) => setOpsiBayar(e.target.value)}>
                 <option>--Pilih Opsi Bayar--</option>
-                <option value={'DP'}>DP</option>
-                <option value={'Full Bayar'}>Full Bayar</option>
-                <option value={'Bayar di Tempat'}>Bayar di Tempat</option>
+                {profil.infoVenue[0].opsiBayar.map((data, i) => (
+                  <option value={data}>{data}</option>
+                ))}
               </select>
             </div>
             <div className="form-group">
@@ -248,8 +265,8 @@ export default function Home() {
             <div className="d-flex flex-row mt-3">
               <span className='font-weight-normal' style={{ color: 'red' }}><b>*Mohon untuk mengupload bukti pembayaran hingga 13:30 WIB atau pembayaran akan di cancel</b></span>
             </div>
-            <div class="d-grid gap-2 py-4 ">
-              <button class="btn btn-primary p-3 fw-bold" type="submit" onClick={uploadToServer} style={{ backgroundColor: '#006E61' }}>Kirim</button>
+            <div className="d-grid gap-2 py-4 ">
+              <button className="btn btn-primary p-3 fw-bold" type="submit" onClick={uploadToServer} style={{ backgroundColor: '#006E61' }}>Kirim</button>
             </div>
           </form>
         </div>

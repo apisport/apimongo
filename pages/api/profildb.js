@@ -19,7 +19,7 @@ async function getProfil(req, res) {
             .collection('mitra')
             .find({
                 namaVenue: namaVenueReq
-            }, { projection: { 'namaVenue': 1, 'hariOperasional': 1 } })
+            }, { projection: { 'namaVenue': 1, 'rekening': 1, 'opsiBayar': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();
         let hasil = {}
