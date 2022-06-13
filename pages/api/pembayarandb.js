@@ -24,7 +24,7 @@ async function getProfil(req, res) {
             .toArray();
         let hasil = {}
         hasil['profil'] = profil,
-            hasil['infoVenue'] = infoVenue
+        hasil['infoVenue'] = infoVenue
         // return the posts
         // return the posts
         return res.json({

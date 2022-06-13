@@ -31,7 +31,11 @@ export default function Home() {
   let tglMain = ''
   let jadwalMain = []
   let harga = 0
+  const [hargaDP, setHargaDP] = useState('-');
+  const [opsiBayarDP, setOpsiBayarDP] = useState(false);
+  let diterima = ''
   const [status, setStatus] = useState('pending');
+  const [error1, setError1] = useState('')
 
   // Backup State
   // const [nama, setNama] = useState('Yosi');
@@ -69,9 +73,9 @@ export default function Home() {
   //Suwir
   const fetcher = (...args) => fetch(...args).then((res) => res.json())
   let url = ''
-  url = `/api/profildb?emailReq=${`api.sport.team@gmail.com`}&namaVenueReq=${namaVenueReq}`
+  url = `/api/pembayarandb?emailReq=${`api.sport.team@gmail.com`}&namaVenueReq=${namaVenueReq}`
   if (session) {
-    url = `/api/profildb?emailReq=${`api.sport.team@gmail.com`}&namaVenueReq=${namaVenueReq}`
+    url = `/api/pembayarandb?emailReq=${session.user.email}&namaVenueReq=${namaVenueReq}`
   }
   const { data: data, error } = useSWR(url, fetcher)
 
@@ -85,14 +89,6 @@ export default function Home() {
   let profil = data['message']
   // console.log(profil)
 
-
-
-
-
-
-
-
-
   //Pemanggilan Function
   const setValue = () => {
     jadwalMain = JSON.parse(jadwalPesanReq)
@@ -103,16 +99,42 @@ export default function Home() {
     nama = profil.profil[0].nama
     noWa = profil.profil[0].noWa
     email = profil.profil[0].email
+    diterima = dateTime
+    
   }
   setValue()
+
+  const aturOpsiBayar = (data) => {
+    setOpsiBayar(data)
+    if (data == 'DP') {
+      hitungHargaDP()
+      setOpsiBayarDP(true)
+    } else {
+      setOpsiBayarDP(false)
+      setHargaDP('-')
+    }
+    // console.log(opsiBayarDP)
+    
+  }
+
+  const hitungHargaDP = () => {
+    let DPhitung = parseInt(profil.infoVenue[0].DP) 
+    let hargaDPHitung = harga - (((DPhitung / 100) * harga))
+    let hargaDPhitungString = hargaDPHitung.toString()
+    setHargaDP(hargaDPhitungString)
+    console.log(hargaDP)
+  }
 
   const handlePost = async (e) => {
     e.preventDefault();
     // reset error and message
     setMessage('');
     // fields check
-    if (!nama || !email || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglMain || !jadwalMain || !harga || !status)
+    if (!nama || !email || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglMain || !jadwalMain || !harga || !status || !hargaDP) {
       alert('Tolong isi semua kolom')
+      return setError1('All fields are required');
+    }
+      
     // post structure
     let transaksi = {
       nama,
@@ -127,6 +149,7 @@ export default function Home() {
       tglMain,
       jadwalMain,
       harga,
+      hargaDP,
       status
     };
     // save the post
@@ -145,17 +168,9 @@ export default function Home() {
     else {
       // set the error
       console.log(data.message);
-      return setError(data.message);
+      return setError1(data.message);
     }
   };
-
-  const aturOpsiBayar = (value) => {
-    if (value === 'DP' || value === 'Bayar di tempat') {
-      setStatus('pending')
-    } else (
-      setStatus('lunas')
-    )
-  }
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -236,6 +251,13 @@ export default function Home() {
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
               <input type="text" className="form-control" value={`Rp ${harga}.000`} readOnly />
             </div>
+            {opsiBayarDP &&
+              <div className="form-group">
+                <label htmlFor="exampleFormControlInput1">Total Bayar (DP): </label>
+                <input type="text" className="form-control" value={`Rp ${hargaDP}.000`} readOnly />
+              </div>
+            }
+            
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">No. Rekening</label>
               <select className="form-control form-select" id="exampleFormControlSelect1" onChange={(e) => setNoRekening(e.target.value)}>
@@ -247,7 +269,7 @@ export default function Home() {
             </div>
             <div className="form-group">
               <label>Opsi Bayar</label>
-              <select className=" form-select" onChange={(e) => setOpsiBayar(e.target.value)}>
+              <select className=" form-select" onChange={(e) => aturOpsiBayar(e.target.value)}>
                 <option>--Pilih Opsi Bayar--</option>
                 {profil.infoVenue[0].opsiBayar.map((data, i) => (
                   <option value={data}>{data}</option>

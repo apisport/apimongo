@@ -412,10 +412,10 @@ export default function Home() {
 
                         {/* Session di sini jangan lupa dan button */}
                         {/* disabled={(session) ? (false) : (true)} */}
-                        {/* {
+                        {
                             !session &&
-                            <span style={{color:'red'}}><b>*Anda harus login untuk memesan</b> </span>
-                        } */}
+                            <span style={{color:'red'}}><b>*Anda harus login/daftar untuk memesan</b> </span>
+                        }
 
                         {/* </Link> */}
                     </div>
