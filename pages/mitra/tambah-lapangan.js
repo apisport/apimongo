@@ -1,6 +1,7 @@
 //@ts-check
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+
 export default function Addlapangan() {
     //Variabel
     const [namaVenue, setNamaVenue] = useState('Scuttod');
@@ -102,6 +103,10 @@ export default function Addlapangan() {
         console.log(pagiMulai)
         console.log(jadwalPagi)
         return selisih
+    }
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     }
 
     const bagiJamMalam = () => {
@@ -321,17 +326,15 @@ export default function Addlapangan() {
                                 <div className='col-5 col-lg-5 mb-2'>
                                     <div className='d-flex flex-row'>
                                         <div className='col-2 col-sm-2'>
-                                            <input className="form-control" value={'Rp'} readOnly required />
+                                            <label>Rp</label>
                                         </div>
-                                        <div className='col-7 col-sm-6'>
+                                        <div className='col-10 col-sm-10'>
                                             <input type="number" className="form-control" placeholder="Harga Pagi"
                                                 required
                                                 value={hargaPagi}
+                                                min="0.01" step="0.01"
                                                 onChange={(e) => setHargaPagi(e.target.value)}
                                             />
-                                        </div>
-                                        <div className='col-3 col-sm-4'>
-                                            <input type="text" className="form-control" value={'.000,-'} readOnly required />
                                         </div>
                                     </div>
                                 </div>
@@ -352,17 +355,14 @@ export default function Addlapangan() {
                                 <div className='col-5 col-lg-5 mb-2'>
                                     <div className='d-flex flex-row'>
                                         <div className='col-2 col-sm-2'>
-                                            <input className="form-control" value={'Rp'} readOnly required />
+                                            <label>Rp</label>
                                         </div>
-                                        <div className='col-7 col-sm-6'>
+                                        <div className='col-10 col-sm-10'>
                                             <input type="number" className="form-control"
                                                 placeholder="Harga Malam"
                                                 value={hargaMalam}
                                                 onChange={(e) => setHargaMalam(e.target.value)}
                                                 required />
-                                        </div>
-                                        <div className='col-3 col-sm-4'>
-                                            <input type="text" className="form-control" value={'.000,-'} readOnly required />
                                         </div>
 
                                     </div>
@@ -389,7 +389,7 @@ export default function Addlapangan() {
                                             <div className='card text-center'>
                                                 <div className='card-body'>
                                                     <span>{data}</span><br></br>
-                                                    <span>Rp {hargaTampilan[i]}.000</span>
+                                                    <span>Rp {hargaTampilan[i].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}</span>
                                                 </div>
                                             </div>
                                         </div>

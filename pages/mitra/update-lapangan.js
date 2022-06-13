@@ -440,17 +440,14 @@ export default function Addlapangan() {
                                 <div className='col-5 col-lg-5 mb-2'>
                                     <div className='d-flex flex-row'>
                                         <div className='col-2 col-sm-2'>
-                                            <input className="form-control" value={'Rp'} readOnly required />
+                                            <label>Rp</label>
                                         </div>
-                                        <div className='col-7 col-sm-6'>
+                                        <div className='col-10 col-sm-10'>
                                             <input type="number" className="form-control" placeholder="Harga Pagi"
                                                 required
                                                 value={_hargaPagi}
                                                 onChange={(e) => setHargaPagi(e.target.value)}
                                             />
-                                        </div>
-                                        <div className='col-3 col-sm-4'>
-                                            <input type="text" className="form-control" value={'.000,-'} readOnly required />
                                         </div>
                                     </div>
                                 </div>
@@ -471,19 +468,15 @@ export default function Addlapangan() {
                                 <div className='col-5 col-lg-5 mb-2'>
                                     <div className='d-flex flex-row'>
                                         <div className='col-2 col-sm-2'>
-                                            <input className="form-control" value={'Rp'} readOnly required />
+                                            <label>Rp</label>
                                         </div>
-                                        <div className='col-7 col-sm-6'>
+                                        <div className='col-10 col-sm-10'>
                                             <input type="number" className="form-control"
                                                 placeholder="Harga Malam"
                                                 value={_hargaMalam}
                                                 onChange={(e) => setHargaMalam(e.target.value)}
                                                 required />
                                         </div>
-                                        <div className='col-3 col-sm-4'>
-                                            <input type="text" className="form-control" value={'.000,-'} readOnly required />
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -508,7 +501,7 @@ export default function Addlapangan() {
                                             <div className='card text-center'>
                                                 <div className='card-body'>
                                                     <span>{data}</span><br></br>
-                                                    <span>Rp {hargaTampilan[i]}.000</span>
+                                                    <span>Rp {hargaTampilan[i].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}</span>
                                                 </div>
                                             </div>
                                         </div>
