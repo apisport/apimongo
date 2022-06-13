@@ -20,7 +20,7 @@ async function getTransaksiUser(req, res) {
             .collection('transaksi')
             .find({
                 email: emailReq,
-                status: 'pending'
+                status: {$ne: 'pending'}
             }, { projection: { 'status': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();

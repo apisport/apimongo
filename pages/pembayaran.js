@@ -34,7 +34,7 @@ export default function Home() {
   const [hargaDP, setHargaDP] = useState('-');
   const [opsiBayarDP, setOpsiBayarDP] = useState(false);
   const [diterima, setDiterima] = useState(dateTime);
-  const [status, setStatus] = useState('pending');
+  const [status, setStatus] = useState('lunas');
   const [error1, setError1] = useState('')
 
   // Backup State
@@ -87,7 +87,7 @@ export default function Home() {
 
   //Deklarasi Array JSON SWR
   let profil = data['message']
-  // console.log(profil)
+  console.log(profil)
 
   //Pemanggilan Function
   const setValue = () => {
