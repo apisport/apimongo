@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSession, signIn } from 'next-auth/react'
 import useSWR from "swr";
+import { now } from 'next-auth/client/_utils';
 
 export default function Home() {
 
@@ -18,11 +19,9 @@ export default function Home() {
   let nama = ''
   let lapangan = ''
   let noWa = ''
-  let timSWR = []
+  let email = ''
   const [tim, setTim] = useState('');
-  let noRekeningSWR = []
   const [noRekening, setNoRekening] = useState('');
-  let opsiBayarSWR = ''
   const [opsiBayar, setOpsiBayar] = useState('');
   const [buktiBayar, setBuktiBayar] = useState('');
   const [createObjectURL, setCreateObjectURL] = useState(null);
@@ -101,20 +100,23 @@ export default function Home() {
     namaVenue = namaVenueReq
     lapangan = namaLapanganReq
     tglMain = tglMainReq
+    nama = profil.profil[0].nama
+    noWa = profil.profil[0].noWa
+    email = profil.profil[0].email
   }
   setValue()
 
   const handlePost = async (e) => {
     e.preventDefault();
     // reset error and message
-    setError('');
     setMessage('');
     // fields check
-    if (!nama || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglBooking || !tglMain || !jadwalMain || !harga || !status)
-      return setError('All fields are required');
+    if (!nama || !email || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglMain || !jadwalMain || !harga || !status)
+      alert('Tolong isi semua kolom')
     // post structure
     let transaksi = {
       nama,
+      email,
       lapangan,
       noWa,
       tim,
@@ -211,7 +213,11 @@ export default function Home() {
           <form onSubmit={handlePost}>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Nama Pemesan : </label>
-              <input value={profil.profil[0].nama} type="text" className="form-control" readOnly />
+              <input value={nama} type="text" className="form-control" readOnly />
+            </div>
+            <div className="form-group">
+              <label htmlFor="exampleFormControlInput1">E-mail : </label>
+              <input value={email} type="text" className="form-control" readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlSelect1">Nama Tim</label>
@@ -224,7 +230,7 @@ export default function Home() {
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">No. WA Pemesan: </label>
-              <input type="number" className="form-control" value={profil.profil[0].noWa} readOnly />
+              <input type="number" className="form-control" value={noWa} readOnly />
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
