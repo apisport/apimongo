@@ -1,9 +1,11 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import Link from 'next/link'
-
 import { useSession, signIn, signOut } from 'next-auth/react'
+import NavbarPesan from './pesananNavbar'
+
 const Navbar = () => {
+
     const { data: session } = useSession();
 
     const handleSignout = (e) => {
@@ -44,15 +46,9 @@ const Navbar = () => {
                                         <Link href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                                     </li>
                                     {session &&
-                                        <li className="nav-item">
-                                            <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
-                                        </li>
+                                        <NavbarPesan/>
                                     }
-                                    {session &&
-                                        <li className="nav-item">
-                                            <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
-                                        </li>
-                                    }
+                                    
                                 </ul>
                             </div>
                             <div className="modal-footer border-0 gap-3" style={{ padding: '2rem', paddingTop: '0.75rem' }}>
@@ -98,16 +94,8 @@ const Navbar = () => {
                             <Link className="nav-link" href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                         </li>
                         {session &&
-                            <li className="nav-item">
-                                <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
-                            </li>
+                            <NavbarPesan />
                         }
-                        {session &&
-                            <li className="nav-item">
-                                <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
-                            </li>
-                        }
-
                     </ul>
                     <div className="gap-3">
                         {session &&

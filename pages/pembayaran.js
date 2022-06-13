@@ -33,7 +33,7 @@ export default function Home() {
   let harga = 0
   const [hargaDP, setHargaDP] = useState('-');
   const [opsiBayarDP, setOpsiBayarDP] = useState(false);
-  let diterima = ''
+  const [diterima, setDiterima] = useState(dateTime);
   const [status, setStatus] = useState('pending');
   const [error1, setError1] = useState('')
 
@@ -122,7 +122,7 @@ export default function Home() {
     let hargaDPHitung = harga - (((DPhitung / 100) * harga))
     let hargaDPhitungString = hargaDPHitung.toString()
     setHargaDP(hargaDPhitungString)
-    console.log(hargaDP)
+    // console.log(hargaDP)
   }
 
   const handlePost = async (e) => {
@@ -249,12 +249,18 @@ export default function Home() {
             </div>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1">Total Bayar : </label>
-              <input type="text" className="form-control" value={`Rp ${harga}.000`} readOnly />
+              <input type="text" className="form-control" value={`Rp ${harga.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}`} readOnly />
             </div>
             {opsiBayarDP &&
               <div className="form-group">
+                <label htmlFor="exampleFormControlInput1">Persen DP: </label>
+                <input type="text" className="form-control" value={`${profil.infoVenue[0].DP}%`} readOnly />
+              </div>
+            }
+            {opsiBayarDP &&
+              <div className="form-group">
                 <label htmlFor="exampleFormControlInput1">Total Bayar (DP): </label>
-                <input type="text" className="form-control" value={`Rp ${hargaDP}.000`} readOnly />
+                <input type="text" className="form-control" value={`Rp ${hargaDP.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}`} readOnly />
               </div>
             }
             
