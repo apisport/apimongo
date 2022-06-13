@@ -3,8 +3,8 @@ const { connectToDatabase } = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
 
-async function getProfil(req, res) {
-    const { emailReq, namaVenueReq } = req.query
+async function getTransaksiUser(req, res) {
+    const { emailReq } = req.query
     try {
         // connect to the database
         let { db } = await connectToDatabase();

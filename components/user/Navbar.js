@@ -3,8 +3,24 @@ import Helmet from 'react-helmet'
 import Link from 'next/link'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import NavbarPesan from './pesananNavbar'
+// import useSWR from 'swr'
 
 const Navbar = () => {
+    // const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    // let url = ''
+    // if (session) {
+    //     url = `/api/navbarpesandb?emailReq=${session.user.email}`
+    // }
+    // const { data: data, error } = useSWR(url, fetcher)
+
+    // if (!data) {
+    //     return <div>Tidak ada data</div>
+    // } else if (error) {
+    //     return <div>Error</div>
+    // }
+
+    // let transaksi = data['message']
+    // console.log(transaksi)
 
     const { data: session } = useSession();
 
@@ -16,10 +32,13 @@ const Navbar = () => {
         e.preventDefault()
         signIn()
     }
+
+    
+
     return (
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
-
+                
                 <img style={{ marginRight: '0.75rem', height: '50px' }} src="/y.png" alt />
 
                 <button className="navbar-toggler border-0" type="button" data-bs-toggle="modal" data-bs-target="#targetModal-item">
@@ -46,9 +65,15 @@ const Navbar = () => {
                                         <Link href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                                     </li>
                                     {session &&
-                                        <NavbarPesan/>
+                                        <li className="nav-item">
+                                            <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
+                                        </li>
                                     }
-                                    
+                                    {session &&
+                                        <li className="nav-item">
+                                            <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
                             <div className="modal-footer border-0 gap-3" style={{ padding: '2rem', paddingTop: '0.75rem' }}>
@@ -94,8 +119,17 @@ const Navbar = () => {
                             <Link className="nav-link" href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                         </li>
                         {session &&
-                            <NavbarPesan />
+                            <li className="nav-item">
+                                <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
+                            </li>
                         }
+                        {session &&
+                            <li className="nav-item">
+                                <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
+                            </li>
+                        }
+
+
                     </ul>
                     <div className="gap-3">
                         {session &&
