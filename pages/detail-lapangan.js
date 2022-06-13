@@ -342,7 +342,7 @@ export default function Home() {
 
                                                     disabled={jamTerisi.indexOf(data) === -1 ? (false) : (true)}
                                                     value={JSON.stringify([`${data}`, gabunganHarga[index]])} />
-                                                <label className="btn btn-outline-success" style={jamTerisi.indexOf(data) === -1 ? ({}) : ({ backgroundColor: 'red', color: 'white' })} htmlFor={`btn-check${index + 1}`}>{data}<br />{`Rp ${gabunganHarga[index]}.000`}</label><br />
+                                                <label className="btn btn-outline-success" style={jamTerisi.indexOf(data) === -1 ? ({}) : ({ backgroundColor: 'red', color: 'white' })} htmlFor={`btn-check${index + 1}`}>{data}<br />Rp {gabunganHarga[index].toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}</label><br />
                                             </div>
                                         </div>
                                     ))}
@@ -378,7 +378,7 @@ export default function Home() {
                     <div className='row'>
                         <h2><b>Jadwal yang akan dipesan:</b></h2>
                         <h3>Tgl Main: {tglMain}</h3>
-                        <h3>Total Harga: {`Rp ${totalHarga}.000,-`}</h3>
+                        <h3>Total Harga: {`Rp ${totalHarga.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}`}</h3>
                         <hr></hr>
                         {jadwalPesan.length === 0 ? (
                             <h2>Tidak ada data Jadwal yang dipesan</h2>
