@@ -34,7 +34,7 @@ export default function Home() {
   const [hargaDP, setHargaDP] = useState('-');
   const [opsiBayarDP, setOpsiBayarDP] = useState(false);
   const [diterima, setDiterima] = useState(dateTime);
-  const [status, setStatus] = useState('lunas');
+  const [status, setStatus] = useState('pending');
   const [error1, setError1] = useState('')
 
   // Backup State
@@ -130,7 +130,7 @@ export default function Home() {
     // reset error and message
     setMessage('');
     // fields check
-    if (!nama || !email || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglMain || !jadwalMain || !harga || !status || !hargaDP) {
+    if (!nama || !email || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglMain || !jadwalMain || !harga || !status || !hargaDP || !diterima) {
       alert('Tolong isi semua kolom')
       return setError1('All fields are required');
     }
@@ -150,10 +150,11 @@ export default function Home() {
       jadwalMain,
       harga,
       hargaDP,
+      diterima,
       status
     };
     // save the post
-    let response = await fetch('/api/transaksidb', {
+    let response = await fetch('/api/notifkasiuserdb', {
       method: 'POST',
       body: JSON.stringify(transaksi),
     });

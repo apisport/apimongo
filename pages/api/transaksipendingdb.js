@@ -28,6 +28,39 @@ async function getTransaksi(req, res) {
         });
     }
 }
+
+async function updateTransaksi(req, res) {
+    const { status, idTransaksi } = req.body
+    var ObjectId = require('mongodb').ObjectId;
+    const convertedObjectId = new ObjectId(idTransaksi);
+    try {
+        // connect to the database
+        let { db } = await connectToDatabase();
+        // update the published status of the post
+        await db.collection('transaksi').updateOne(
+            {
+                '_id': convertedObjectId
+            },
+            {
+                $set: {
+                    'status': status,
+                }
+            }
+        );
+        // return a message
+        return res.json({
+            message: 'Post updated successfully',
+            success: true,
+        });
+    } catch (error) {
+        // return an error
+        return res.json({
+            message: new Error(error).message,
+            success: false,
+        });
+    }
+}
+
 // menambah data kedalam collection Transaksi
 async function addTransaksi(req, res) {
     try {
@@ -48,6 +81,9 @@ async function addTransaksi(req, res) {
         });
     }
 }
+
+
+
 // CRUD handler
 export default async function handler(req, res) {
     // switch the methods

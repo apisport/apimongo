@@ -11,7 +11,14 @@ export default function CardBayarDiTempat({ props }) {
                             <h4><b>Nama Pemesan:</b>{data.nama}</h4>
                             <h4><b>Nama Tim:</b>{data.tim}</h4>
                             <h4><b>Opsi Pembayaran:</b> {data.opsiBayar}</h4>
-                            <h4><b>Total Bayar:</b> {`Rp ${data.harga}.000,-`}</h4>
+                            {data.opsiBayar != 'DP' ? (
+                                <h4><b>Harga :</b>{` Rp ${data.harga.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}`}</h4>
+                            ) : (
+                                <div>
+                                    <h4><b>Harga :</b>{` Rp ${data.harga.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}`}</h4>
+                                    <h4><b>Harga DP:</b>{` Rp ${data.hargaDP.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")}`}</h4>
+                                </div>
+                            )}
                             <hr></hr>
                             <h5><b>Diterima:</b> {data.diterima}</h5>
                             <h5><b>Tanggal Main:</b> {data.tglMain}</h5><br></br>

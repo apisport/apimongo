@@ -1,6 +1,8 @@
 import React from 'react'
 
 const Navbar = ({ props }) => {
+    
+
     return (
         <>
             <nav className="navbar navbar-expand-lg  navbar-light">
@@ -25,7 +27,7 @@ const Navbar = ({ props }) => {
                                         <a className="nav-link" href="/mitra/home">Beranda</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/mitra/transaksi-pending">Konfirmasi Booking <span className='numberCircle'>{props}</span></a>
+                                        <a className="nav-link" href="/mitra/transaksi-pending">Notifkasi <span className='numberCircle'>{props}</span></a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/mitra/data-transaksi">Pembukuan Transaksi</a>
@@ -55,7 +57,7 @@ const Navbar = ({ props }) => {
                             <a className="nav-link" href="/mitra/home">Beranda</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/mitra/transaksi-pending">Konfirmasi Booking <span className='numberCircle'>{props}</span></a>
+                            <a className="nav-link" href="/mitra/transaksi-pending">Notifikasi <span className='numberCircle'>{props}</span></a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/mitra/data-transaksi">Pembukuan Transaksi</a>
