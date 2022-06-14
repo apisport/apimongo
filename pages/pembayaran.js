@@ -154,7 +154,7 @@ export default function Home() {
       status
     };
     // save the post
-    let response = await fetch('/api/notifkasiuserdb', {
+    let response = await fetch('/api/transaksidb', {
       method: 'POST',
       body: JSON.stringify(transaksi),
     });
