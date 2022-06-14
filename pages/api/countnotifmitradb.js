@@ -2,13 +2,17 @@ const { connectToDatabase } = require('../../lib/mongodb');
 const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
 async function getTransaksi(req, res) {
+    const { namaVenueReq } = req.query
     try {
         // connect to the database
         let { db } = await connectToDatabase();
         // fetch the posts
         let transaksi = await db
             .collection('transaksi')
-            .find({})
+            .find({
+                namaVenue: namaVenueReq,
+                status: { $ne: 'lunas' }
+            }, { projection: { 'status': 1 } })
             .sort({ idTransaksi: -1 })
             .toArray();
         // return the posts

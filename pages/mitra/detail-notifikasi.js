@@ -1,7 +1,24 @@
+import { useRouter } from 'next/router';
+import useSWR from "swr";
+
 export default function Home() {
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const router = useRouter()
+    const { idTransaksi } = router.query
+    const { data: data, error } = useSWR(`/api/detailnotifikasidb?idTransaksiReq=${idTransaksi}`, fetcher)
+
+    if (!data) {
+        return <div>Loading...</div>
+    } else if (error) {
+        return <div>Something went wrong</div>
+    }
+
+
+    let transaksi = data['message'][0]
+    console.log(transaksi)
     return (
         <div className="container">
-            <h1 className="mb-3">Form Pembayaran</h1>
+            <h1 className="mb-3">Detail Transaksi</h1>
             <div className="">
                 <div className="container card p-3 shadow-lg">
                     <div className="row">

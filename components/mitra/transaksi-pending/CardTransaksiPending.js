@@ -20,7 +20,7 @@ const CardTransaksiPending = ({ props }) => {
                             <Link href={{
                                 pathname: '/mitra/detail-notifikasi',
                                 query: {
-                                    objectId: data._id
+                                    idTransaksi: data._id
                                 }
 
                             }}>

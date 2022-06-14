@@ -10,8 +10,9 @@ import useSWR from 'swr';
 
 
 const LayoutAdmin = ({ children }) => {
+    let namaVenue = 'Scuttod'
     const fetcher = (...args) => fetch(...args).then((res) => res.json())
-    const { data: data, error } = useSWR('/api/transaksidb', fetcher)
+    const { data: data, error } = useSWR(`/api/countnotifmitradb?namaVenueReq=${namaVenue}`, fetcher)
 
     if (!data) {
         return <div>Loading...</div>
@@ -26,7 +27,7 @@ const LayoutAdmin = ({ children }) => {
     let transaksiBayarDiTempat = transaksi.filter(data => data.opsiBayar == "Bayar di Tempat" && data.status == 'diterima')
 
     let total = transaksiPending.length + transaksiDPBelumLunas.length + transaksiBayarDiTempat.length
-    console.log(total)
+    console.log(transaksi)
 
     return (
         <div className="container-xxl mx-auto p-0  position-relative header-2-2" style={{ fontFamily: '"Poppins", sans-serif' }}>
