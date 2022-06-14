@@ -15,7 +15,7 @@ const NavbarPesan = () => {
     const { data: data, error } = useSWR(url, fetcher)
 
     if (!data) {
-        return <div></div>
+        return <li></li>
     } else if (error) {
         return <div>Something went wrong</div>
     }
@@ -25,16 +25,13 @@ const NavbarPesan = () => {
 
     return (
         <>
-            {session &&
                 <li className="nav-item">
-                    <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>{transaksi.diterima[0].length}</span></a></Link>
+                    <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>{transaksi.diterima.length}</span></a></Link>
                 </li>
-            }
-            {session &&
+
                 <li className="nav-item">
-                    <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>{transaksi.pending[0].length}</span></a></Link>
+                    <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>{transaksi.pending.length}</span></a></Link>
                 </li>
-            }
         </>
 
     )

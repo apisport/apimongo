@@ -64,7 +64,7 @@ const Navbar = () => {
                                     <li className="nav-item">
                                         <Link href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                                     </li>
-                                    {session &&
+                                    {/* {session &&
                                         <li className="nav-item">
                                             <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
                                         </li>
@@ -73,7 +73,8 @@ const Navbar = () => {
                                         <li className="nav-item">
                                             <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
                                         </li>
-                                    }
+                                    } */}
+                                    <NavbarPesan/>
                                 </ul>
                             </div>
                             <div className="modal-footer border-0 gap-3" style={{ padding: '2rem', paddingTop: '0.75rem' }}>
@@ -118,7 +119,7 @@ const Navbar = () => {
                         <li className="nav-item">
                             <Link className="nav-link" href="/tentang-kami"><a className="nav-link">Tentang Kami</a></Link>
                         </li>
-                        {session &&
+                        {/* {session &&
                             <li className="nav-item">
                                 <Link href={'/list-nota'}><a className="nav-link" > Nota <span className='numberCircle'>123</span></a></Link>
                             </li>
@@ -127,7 +128,8 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link href={'/pesanan-pending'}><a className="nav-link" > Pesanan Pending <span className='numberCircle'>123</span></a></Link>
                             </li>
-                        }
+                        } */}
+                        <NavbarPesan />
 
 
                     </ul>

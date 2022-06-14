@@ -20,22 +20,6 @@ const CardTransaksiPending = ({ props }) => {
                             <Link href={{
                                 pathname: '/mitra/detail-notifikasi',
                                 query: {
-                                    namaVenue: data.namaVenue,
-                                    namaPemilikVenue: data.namaPemilikVenue,
-                                    alamat: data.alamat,
-                                    noWa: data.noWa,
-                                    instagram: data.instagram,
-                                    kategori: data.kategori,
-                                    hariOperasional: data.hariOperasional,
-                                    jamOperasional: data.jamOperasional,
-                                    fasilitas: data.fasilitas,
-                                    opsiBayarStringify: JSON.stringify(data.opsiBayar),
-                                    rekeningStringify: JSON.stringify(data.rekening),
-                                    namaAdmin: data.namaAdmin,
-                                    noWaAdmin: data.noWaAdmin,
-                                    username: data.username,
-                                    password: data.password,
-                                    fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                     objectId: data._id
                                 }
 
