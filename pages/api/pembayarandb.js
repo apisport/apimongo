@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectId;
 // mengambil data dari collection Transaksi
 
 async function getProfil(req, res) {
-    const { emailReq, namaVenueReq } = req.query
+    const { emailReq, namaVenueReq, tglMainReq, jadwalPesanReq, lapanganReq } = req.query
     try {
         // connect to the database
         let { db } = await connectToDatabase();
@@ -12,6 +12,15 @@ async function getProfil(req, res) {
             .collection('user')
             .find({
                 email: emailReq
+            })
+            .sort({ idfavorit: -1 })
+            .toArray();
+        let transaksi = await db
+            .collection('transaksi')
+            .find({
+                namaVenue: namaVenueReq,
+                lapangan: lapanganReq,
+                tglMain: tglMainReq
             })
             .sort({ idfavorit: -1 })
             .toArray();
@@ -23,8 +32,9 @@ async function getProfil(req, res) {
             .sort({ idfavorit: -1 })
             .toArray();
         let hasil = {}
-        hasil['profil'] = profil,
+        hasil['profil'] = profil
         hasil['infoVenue'] = infoVenue
+        hasil['transaksi'] = transaksi
         // return the posts
         // return the posts
         return res.json({

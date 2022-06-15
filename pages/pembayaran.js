@@ -36,6 +36,7 @@ export default function Home() {
   const [diterima, setDiterima] = useState(dateTime);
   const [status, setStatus] = useState('pending');
   const [error1, setError1] = useState('')
+  const [stateDummy, setStateDummy] = useState('')
 
   // Backup State
   // const [nama, setNama] = useState('Yosi');
@@ -129,48 +130,81 @@ export default function Home() {
     e.preventDefault();
     // reset error and message
     setMessage('');
+    setStateDummy('DummyKirim')
     // fields check
     if (!nama || !email || !noWa || !tim || !noRekening || !opsiBayar || !buktiBayar || !namaVenue || !tglMain || !jadwalMain || !harga || !status || !hargaDP || !diterima) {
       alert('Tolong isi semua kolom')
       return setError1('All fields are required');
     }
-      
-    // post structure
-    let transaksi = {
-      nama,
-      email,
-      lapangan,
-      noWa,
-      tim,
-      noRekening,
-      opsiBayar,
-      buktiBayar,
-      namaVenue,
-      tglMain,
-      jadwalMain,
-      harga,
-      hargaDP,
-      diterima,
-      status
-    };
-    // save the post
-    let response = await fetch('/api/transaksidb', {
-      method: 'POST',
-      body: JSON.stringify(transaksi),
-    });
+
     // get the data
-    let data = await response.json();
-    if (data.success) {
-      // reset the fields
-      alert('Transaksi pending, Mohn tunggu persetujuan Mitra!')
-      router.push('/')
-      return setMessage(data.message);
+    let jamTerisi = []
+    let response1 = await fetch(`/api/pembayarandb?emailReq=${`api.sport.team@gmail.com`}&namaVenueReq=${namaVenueReq}&tglMainReq=${tglMainReq}&jadwalPesanReq=${jadwalPesanReq}&lapanganReq=${namaLapanganReq}`, {
+      method: 'GET'
+    });
+    let data1 = await response1.json();
+    console.log(`JSON Test:`)
+    let transaksiCheck = data1['message'].transaksi
+    console.log(transaksiCheck)
+    for (let i = 0; i < transaksiCheck.length; i++) {
+      for (let j = 0; j < transaksiCheck[i].jadwalMain.length; j++) {
+        jamTerisi.push(transaksiCheck[i].jadwalMain[j])
+      }
     }
-    else {
-      // set the error
-      console.log(data.message);
-      return setError1(data.message);
+
+    console.log(`Jam Pesan:`)
+    console.log(jadwalMain)
+
+    console.log(`Jam Terisi:`)
+    console.log(jamTerisi)
+
+    // let jamFilter = jamTerisi.filter(val => !jadwalMain.includes(val));
+    const jamFilter =jadwalMain.filter(value => jamTerisi.includes(value));
+    console.log(`Jam Filter:`)
+    console.log(jamFilter)
+
+    if (jamFilter.length == 0) {
+      let transaksi = {
+        nama,
+        email,
+        lapangan,
+        noWa,
+        tim,
+        noRekening,
+        opsiBayar,
+        buktiBayar,
+        namaVenue,
+        tglMain,
+        jadwalMain,
+        harga,
+        hargaDP,
+        diterima,
+        status
+      };
+      // save the post
+      let response = await fetch('/api/transaksidb', {
+        method: 'POST',
+        body: JSON.stringify(transaksi),
+      });
+      // get the data
+      let data = await response.json();
+      if (data.success) {
+        // reset the fields
+        alert('Transaksi pending, Mohn tunggu persetujuan Mitra!')
+        router.back()
+        return setMessage(data.message);
+      }
+      else {
+        // set the error
+        console.log(data.message);
+        return setError1(data.message);
+      }
+    } else {
+      alert('Mohon Maaf, timeslot telah dipesan, mohon untuk memilih jadwal kembali')
+      router.back()
     }
+    // post structure
+    
   };
 
   const uploadToClient = (event) => {

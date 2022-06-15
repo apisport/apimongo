@@ -323,6 +323,7 @@ export default function Home() {
                 <form onSubmit={handlePost}>
                     <h4 className='text-start'>Jadwal Lapangan</h4>
                     <input type='date' id='tglMain' value={tglMain} onChange={(e) => setTglMainFunc(e.target.value)} className='form-control mb-4' required></input>
+                    <h5 style={{ color: 'red' }}><b>Hari Operasional: </b>{lapangan.infoVenue[0].hariOperasional} </h5>
                     <div className='card p-3'>
                         <div className='row' style={{ color: 'white' }}>
                             {/* THIS IS CARD */}
