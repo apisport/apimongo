@@ -22,6 +22,7 @@ import { useRouter } from 'next/router'
 import LayoutUser from '../layout/user/LayoutUser'
 import LayoutMitra from '../layout/admin/LayoutAdmin'
 import LayoutDev from '../layout/dev/LayoutDev'
+import LayoutRegister from '../layout/register/LayoutRegister'
 import { SessionProvider } from "next-auth/react"
 
 
@@ -30,9 +31,20 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter()
   if (router.pathname.startsWith('/mitra/')) {
     return (
+      <SessionProvider session={pageProps.session}>
       <LayoutMitra>
         <Component {...pageProps} />
       </LayoutMitra>
+      </SessionProvider >
+    )
+  }
+  if (router.pathname.startsWith('/register/')) {
+    return (
+      <SessionProvider session={pageProps.session}>
+        <LayoutRegister>
+          <Component {...pageProps} />
+        </LayoutRegister>
+      </SessionProvider >
     )
   }
   else if (router.pathname.startsWith('/dev/')) {

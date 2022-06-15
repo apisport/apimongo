@@ -102,11 +102,10 @@ export default function Register() {
     };
 
     if (session) {
-        
-        if (emailDb.length === 0) {
+        if (emailDb.user.length === 0 && emailDb.mitra.length === 0) {
             return (
                 <div className="limiter">
-                    <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>
+                    <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>
                         <div className="wrap-login100 p-3">
                             <form className="login100-form validate-form" onSubmit={handlePost}>
                                 {error ? (
@@ -180,6 +179,14 @@ export default function Register() {
                                                 readOnly
                                             />
                                         </div>
+                                        <div className="mt-2 col-md-12"><label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                            <input type="text" className="form-control" required
+                                                name="email"
+                                                id='email'
+                                                value={session.user.name}
+                                                readOnly
+                                            />
+                                        </div>
                                         <div className="mt-2 col-md-12">
                                             <label className="labels">Tambah Tim</label>
                                         </div>
@@ -239,13 +246,15 @@ export default function Register() {
 
                 </div>
             )
-        } else {
+        } else if(emailDb.user.length != 0){
             return (
                 <div className="limiter">
-                    <div className="container-login100" style={{ backgroundImage: 'url("./bg-01.jpg")' }}>
+                    <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>
                         <div className="wrap-login100 p-3">
                             <form className="login100-form validate-form" >
-                                <h3>Email sudah terdaftar</h3>
+                                <div className='d-flex flex-row justify-content-center'>
+                                    <h3>Email sudah terdaftar</h3>
+                                </div>
                                 <div className="p-3 py-5">
 
                                     <div className="flex-c-m">
@@ -263,8 +272,31 @@ export default function Register() {
 
                 </div>
             )
-        }
+        } else if (emailDb.mitra.length != 0) {
+            return (
+                <div className="limiter">
+                    <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>
+                        <div className="wrap-login100 p-3">
+                            <form className="login100-form validate-form" >
+                                <h3>Email sudah terdaftar sebagai Mitra</h3>
+                                <div className="p-3 py-5">
 
+                                    <div className="flex-c-m">
+                                        <Link href='/mitra/home'>
+                                            <a className="btn btn-primary p-3">
+                                                <i className="fa fa-google" /> &nbsp; &nbsp; &nbsp; Lanjut ke Beranda Mitra
+
+                                            </a>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            )
+        }
     } else {
         return (
             <><h3>Email sudah terdaftar</h3></>

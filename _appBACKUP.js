@@ -24,20 +24,29 @@ import LayoutMitra from '../layout/admin/LayoutAdmin'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
-  if (router.pathname.startsWith('/mitra/')) {
+  if (router.pathname.startsWith('/register/')) {
     return (
       <LayoutMitra>
         <Component {...pageProps} />
       </LayoutMitra>
     )
   }
-  else if (router.pathname.startsWith('/')) {
+  if (router.pathname.startsWith('/mitra/')) {
+    return (
+      <LayoutMitra>
+        <Component {...pageProps} />
+      </LayoutMitra>
+
+    )
+  }
+  if (router.pathname.startsWith('/')) {
     return (
       <LayoutUser>
         <Component {...pageProps} />
       </LayoutUser>
     )
   }
+  
   else {
     return <RecoilRoot> <Component {...pageProps} /> </RecoilRoot>
 

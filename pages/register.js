@@ -17,9 +17,14 @@ export default function Register() {
   const [message, setMessage] = useState('');
   const { data: session } = useSession();
 
-  const handleSignin = (e) => {
+  const handleSigninUser = (e) => {
     e.preventDefault()
-    signIn('google', { callbackUrl: '/register-profil' })
+    signIn('google', { callbackUrl: '/register/register-profil' })
+
+  }
+  const handleSigninMitra = (e) => {
+    e.preventDefault()
+    signIn('google', { callbackUrl: '/register/mitra-register' })
 
   }
 
@@ -32,10 +37,13 @@ export default function Register() {
             <div className="p-3 py-5">
               
               <div className="flex-c-m">
-                {!session && <a href="#" onClick={handleSignin} className="btn btn-primary p-3">
+                {!session && <a href="#" onClick={handleSigninUser} className="btn btn-primary p-3">
                   <i className="fa fa-google" /> &nbsp; &nbsp; &nbsp; Register dengan Google
 
                 </a>}
+                {session &&
+                  <h3>Anda Sudah Login</h3>
+                }
 
               </div>
               <div className="txt1 text-center mt-2">
@@ -45,11 +53,9 @@ export default function Register() {
               </div>
               <div className='mt-2 col-md-12 text-center' style={{ color: 'red' }}>
                 <div className="flex-c-m">
-                  <Link href={'/mitra-register'}>
-                  <a href="#" className="btn btn-success text-white p-3">
+                    <a href="#" className="btn btn-success text-white p-3" onClick={handleSigninMitra}>
                     <i className="fa fa-address-card" /> &nbsp; &nbsp; &nbsp; Register sebagai Mitra
                   </a>
-                  </Link>
                 </div>
               </div>
             </div>

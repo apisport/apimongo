@@ -8,8 +8,15 @@ async function getProfil(req, res) {
     try {
         // connect to the database
         let { db } = await connectToDatabase();
-        let profil = await db
+        let user = await db
             .collection('user')
+            .find({
+                email: emailReq
+            })
+            .sort({ idfavorit: -1 })
+            .toArray();
+        let mitra = await db
+            .collection('mitra')
             .find({
                 email: emailReq
             })
@@ -17,9 +24,11 @@ async function getProfil(req, res) {
             .toArray();
         // return the posts
         // return the posts
-
+        let hasil = {}
+        hasil['user'] = user
+        hasil['mitra'] = mitra
         return res.json({
-            message: JSON.parse(JSON.stringify(profil)),
+            message: JSON.parse(JSON.stringify(hasil)),
             success: true,
         });
     } catch (error) {

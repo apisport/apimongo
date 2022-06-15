@@ -27,7 +27,7 @@ const LayoutAdmin = ({ children }) => {
     let transaksiBayarDiTempat = transaksi.filter(data => data.opsiBayar == "Bayar di Tempat" && data.status == 'diterima')
 
     let total = transaksiPending.length + transaksiDPBelumLunas.length + transaksiBayarDiTempat.length
-    console.log(transaksi)
+
 
     return (
         <div className="container-xxl mx-auto p-0  position-relative header-2-2" style={{ fontFamily: '"Poppins", sans-serif' }}>
