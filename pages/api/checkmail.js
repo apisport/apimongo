@@ -12,14 +12,21 @@ async function getProfil(req, res) {
             .collection('user')
             .find({
                 email: emailReq
-            })
+            }, { projection: { 'email': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();
         let mitra = await db
             .collection('mitra')
             .find({
                 email: emailReq
-            })
+            }, { projection: { 'email': 1 } })
+            .sort({ idfavorit: -1 })
+            .toArray();
+        let mitraPending = await db
+            .collection('mitraPending')
+            .find({
+                email: emailReq
+            }, { projection: { 'email': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();
         // return the posts
@@ -27,6 +34,7 @@ async function getProfil(req, res) {
         let hasil = {}
         hasil['user'] = user
         hasil['mitra'] = mitra
+        hasil['mitraPending'] = mitraPending
         return res.json({
             message: JSON.parse(JSON.stringify(hasil)),
             success: true,
