@@ -1,7 +1,7 @@
 //@ts-check
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import useSWR from 'swr';
 import Link from 'next/link';
 
@@ -50,9 +50,15 @@ export default function Register() {
   let emailDb = data['message']
   console.log(emailDb)
 
+
+  const handleSignOut = (e) => {
+    signOut({ callbackUrl: '/' })
+  }
+
   const handlePost = async (e) => {
     e.preventDefault();
     setEmail(session.user.email)
+    alert(email)
     setCheck()
     setJam()
     setHari()
@@ -60,7 +66,7 @@ export default function Register() {
     setMessage('');
     // fields check
     if (!namaVenue || !namaPemilikVenue || !alamat || !noWa || !instagram || !kategori || !hariOperasional ||
-      !jamOperasional || !fasilitas || !opsiBayar || !rekening || !namaAdmin || !noWaAdmin || !fotoVenue) {
+      !jamOperasional || !fasilitas || !opsiBayar || !rekening || !namaAdmin || !noWaAdmin || !fotoVenue || !email) {
       return alert('Harap untuk mengisi semua data');
     }
 
@@ -93,7 +99,8 @@ export default function Register() {
     if (data.success) {
       // reset the fields
       alert('Register berhasil! Mohon Tunggu untuk Persetujuan')
-      router.push('/')
+      signOut({ callbackUrl: '/' })
+      
       return setMessage(data.message);
     }
     else {
@@ -108,6 +115,7 @@ export default function Register() {
     let valueJamAkhir = document.getElementById('jamOperasionalAkhir').value
     let jadi = `${valueJamMulai} - ${valueJamAkhir}`
     setJamOperasional(jadi)
+    setEmail(session.user.email)
   }
 
   const setHari = () => {
@@ -115,6 +123,7 @@ export default function Register() {
     let hariAkhir = document.getElementById('hariOperasionalAkhir').value
     let jadi = `${hariMulai} - ${hariAkhir}`
     setHariOperasional(jadi)
+    setEmail(session.user.email)
   }
 
   const setCheck = () => {
@@ -214,7 +223,7 @@ export default function Register() {
   
 
   if (session) {
-    if (emailDb.mitra.length === 0 && emailDb.user.length === 0) {
+    if (emailDb.mitra.length === 0 && emailDb.user.length === 0 && emailDb.mitraPending.length === 0) {
       return (
         <div className="limiter">
           <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>
@@ -477,11 +486,22 @@ export default function Register() {
                         required />
                     </div>
                     <div className="mt-1 col-md-12">
+                      <label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                      <input type="text"
+                        className="form-control"
+                        value={session.user.name}
+                        required
+                        readOnly
+                        />
+                    </div>
+                    <div className="mt-1 col-md-12">
                       <label className="labels">E-mail</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                       <input type="text"
                         className="form-control"
                         value={session.user.email}
-                        required />
+                        required
+                        readOnly
+                        />
                     </div>
                   </div>
                   <div className="container-login100-form-btn my-3">
@@ -545,6 +565,30 @@ export default function Register() {
                         <i className="fa fa-google" /> &nbsp; &nbsp; &nbsp; Lanjut ke Beranda Mitra
 
                       </a>
+                    </Link>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      )
+    }else if (emailDb.mitraPending.length != 0) {
+      return (
+        <div className="limiter">
+          <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>
+            <div className="wrap-login100 p-3">
+              <form className="login100-form validate-form" >
+                <h3>Mohon Tunggu untuk Persetujuan Kami</h3>
+                <div className="p-3 py-5">
+
+                  <div className="flex-c-m">
+                    <Link href='/'>
+                      <button className="btn btn-primary p-3" onClick={handleSignOut}>
+                        <i className="fa fa-google" /> &nbsp; &nbsp; &nbsp; Kembali ke Beranda
+
+                      </button>
                     </Link>
                   </div>
                 </div>
