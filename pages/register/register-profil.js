@@ -102,7 +102,7 @@ export default function Register() {
     };
 
     if (session) {
-        if (emailDb.user.length === 0 && emailDb.mitra.length === 0) {
+        if (emailDb.user.length === 0 && emailDb.mitra.length === 0 && emailDb.mitraPending === 0) {
             return (
                 <div className="limiter">
                     <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>

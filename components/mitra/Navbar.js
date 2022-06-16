@@ -1,7 +1,25 @@
 import React from 'react'
+import useSWR from 'swr'
+import Link from 'next/link'
 
 const Navbar = ({ props }) => {
-    
+    let namaVenue = 'Scuttod'
+    const fetcher = (...args) => fetch(...args).then((res) => res.json())
+    const { data: data, error } = useSWR(`/api/countnotifmitradb?namaVenueReq=${namaVenue}`, fetcher)
+
+    if (!data) {
+        return <div>Loading...</div>
+    } else if (error) {
+        return <div>Something went wrong</div>
+    }
+
+
+    let transaksi = data['message']
+    let transaksiPending = transaksi.filter(data => data.opsiBayar != "Full Bayar" && data.status == 'pending')
+    let transaksiDPBelumLunas = transaksi.filter(data => data.opsiBayar == "DP" && data.status == 'diterima')
+    let transaksiBayarDiTempat = transaksi.filter(data => data.opsiBayar == "Bayar di Tempat" && data.status == 'diterima')
+
+    let total = transaksiPending.length + transaksiDPBelumLunas.length + transaksiBayarDiTempat.length
 
     return (
         <>
@@ -27,7 +45,7 @@ const Navbar = ({ props }) => {
                                         <a className="nav-link" href="/mitra/home">Beranda</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/mitra/transaksi-pending">Notifkasi <span className='numberCircle'>{props}</span></a>
+                                        <a className="nav-link" href="/mitra/transaksi-pending">Notifikasi <span className='numberCircle'>{total}</span></a>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link" href="/mitra/data-transaksi">Pembukuan Transaksi</a>
@@ -57,7 +75,7 @@ const Navbar = ({ props }) => {
                             <a className="nav-link" href="/mitra/home">Beranda</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/mitra/transaksi-pending">Notifikasi <span className='numberCircle'>{props}</span></a>
+                            <a className="nav-link" href="/mitra/transaksi-pending">Notifikasi <span className='numberCircle'>{total}</span></a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/mitra/data-transaksi">Pembukuan Transaksi</a>
