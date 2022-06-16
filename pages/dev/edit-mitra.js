@@ -22,8 +22,7 @@ export default function EditMitra() {
         DP,
         namaAdmin,
         noWaAdmin,
-        username,
-        password,
+        emailReq,
         fotoVenueStringify,
         objectId,
         namaVenueLama
@@ -46,8 +45,6 @@ export default function EditMitra() {
     //Admin Confined
     const [_namaAdmin, setNamaAdmin] = useState('');
     const [_noWaAdmin, setNoWaAdmin] = useState('');
-    const [_username, setUsername] = useState('');
-    const [_password, setPassword] = useState('');
 
     //Gambar
     const [_fotoVenue, setFotoVenue] = useState([]);
@@ -106,10 +103,6 @@ export default function EditMitra() {
             setNamaAdmin(namaAdmin)
         } if (typeof noWaAdmin == 'string') {
             setNoWaAdmin(noWaAdmin)
-        } if (typeof username == 'string') {
-            setUsername(username)
-        } if (typeof password == 'string') {
-            setPassword(password)
         } if (typeof fotoVenueStringify == 'string') {
             setFotoVenue(Object.assign(_fotoVenue, JSON.parse(fotoVenueStringify)))
         }
@@ -127,8 +120,7 @@ export default function EditMitra() {
         DP,
         namaAdmin,
         noWaAdmin,
-        username,
-        password,
+        emailReq,
         fotoVenueStringify,
         objectId])
 
@@ -584,18 +576,8 @@ export default function EditMitra() {
                                 <label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                                 <input type="text" className="form-control"
                                     required
-                                    value={_username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        <div className="row mt-2">
-                            <div className="mt-2 col-md-12">
-                                <label className="labels">Password</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
-                                <input type="text" className="form-control"
-                                    required
-                                    value={_password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={email}
+                                    readOnly
                                 />
                             </div>
                         </div>

@@ -37,6 +37,9 @@ export default function Register() {
 
     let router = useRouter()
 
+    const handleSignOut = (e) => {
+        signOut({ callbackUrl: '/' })
+    }
     
 
     const handlePost = async (e) => {
@@ -287,6 +290,30 @@ export default function Register() {
                                                 <i className="fa fa-google" /> &nbsp; &nbsp; &nbsp; Lanjut ke Beranda Mitra
 
                                             </a>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            )
+        } else if (emailDb.mitraPending.length != 0) {
+            return (
+                <div className="limiter">
+                    <div className="container-login100" style={{ backgroundImage: 'url("/bg-01.jpg")' }}>
+                        <div className="wrap-login100 p-3">
+                            <form className="login100-form validate-form" >
+                                <h3>Mohon Tunggu untuk Persetujuan Kami</h3>
+                                <div className="p-3 py-5">
+
+                                    <div className="flex-c-m">
+                                        <Link href='/'>
+                                            <button className="btn btn-primary p-3" onClick={handleSignOut}>
+                                                <i className="fa fa-google" /> &nbsp; &nbsp; &nbsp; Kembali ke Beranda
+
+                                            </button>
                                         </Link>
                                     </div>
                                 </div>

@@ -116,8 +116,7 @@ export default function FavoritDev() {
                                                         DP: data.DP,
                                                         namaAdmin: data.namaAdmin,
                                                         noWaAdmin: data.noWaAdmin,
-                                                        username: data.username,
-                                                        password: data.password,
+                                                        emailReq: data.email,
                                                         fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                                         objectId: data._id
                                                     }

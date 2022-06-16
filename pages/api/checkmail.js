@@ -29,12 +29,20 @@ async function getProfil(req, res) {
             }, { projection: { 'email': 1 } })
             .sort({ idfavorit: -1 })
             .toArray();
+        let namaVenue = await db
+            .collection('mitra')
+            .find({
+                email: emailReq
+            }, { projection: { 'namaVenue': 1 } })
+            .sort({ idfavorit: -1 })
+            .toArray();
         // return the posts
         // return the posts
         let hasil = {}
         hasil['user'] = user
         hasil['mitra'] = mitra
         hasil['mitraPending'] = mitraPending
+        hasil['namaVenue'] = namaVenue
         return res.json({
             message: JSON.parse(JSON.stringify(hasil)),
             success: true,

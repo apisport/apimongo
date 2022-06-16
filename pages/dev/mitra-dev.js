@@ -78,8 +78,7 @@ export default function MitraDev() {
                                 <th>Nama Pemilik Venue</th>
                                 <th>Nama Admin</th>
                                 <th>No. WA Admin</th>
-                                <th>Username</th>
-                                <th>Password</th>
+                                <th>Email</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -95,10 +94,8 @@ export default function MitraDev() {
                                             <td>{data.namaPemilikVenue}</td>
                                             <td>{data.namaAdmin}</td>
                                             <td>{data.noWaAdmin}</td>
-                                            <td>{data.username}</td>
-                                            <td>{data.password}</td>
+                                            <td>{data.email}</td>
                                             <td><div className="btn-group-vertical btn-group-sm">
-                                                {/* <Link href={`/dev/detail-mitra-pending?namaVenue=${data.namaVenue}&namaPemilikVenue=${data.namaPemilikVenue}&alamat=${data.alamat}&noWa=${data.noWa}&instagram=${data.instagram}&kategori=${data.kategori}&hariOperasional=${data.hariOperasional}&jamOperasional=${data.jamOperasional}&fasilitas=${data.fasilitas}&opsiBayarStringify=${JSON.stringify(data.opsiBayar)}&rekeningStringify=${JSON.stringify(data.rekening)}&namaAdmin=${data.namaAdmin}&noWaAdmin=${data.noWaAdmin}&username=${data.username}&password=${data.password}&fotoVenue=${data.fotoVenue}objectId=${data._id}`}> */}
                                                 <Link href={{
                                                     pathname: '/dev/detail-mitra',
                                                     query: {
@@ -116,8 +113,7 @@ export default function MitraDev() {
                                                         DP: data.DP,
                                                         namaAdmin: data.namaAdmin,
                                                         noWaAdmin: data.noWaAdmin,
-                                                        username: data.username,
-                                                        password: data.password,
+                                                        emailReq: data.email,
                                                         fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                                         objectId: data._id
                                                     }

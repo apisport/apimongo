@@ -96,7 +96,6 @@ export default function MitraDev() {
                                             <td>{data.noWaAdmin}</td>
                                             <td>{data.email}</td>
                                             <td><div className="btn-group-vertical btn-group-sm">
-                                                {/* <Link href={`/dev/detail-mitra-pending?namaVenue=${data.namaVenue}&namaPemilikVenue=${data.namaPemilikVenue}&alamat=${data.alamat}&noWa=${data.noWa}&instagram=${data.instagram}&kategori=${data.kategori}&hariOperasional=${data.hariOperasional}&jamOperasional=${data.jamOperasional}&fasilitas=${data.fasilitas}&opsiBayarStringify=${JSON.stringify(data.opsiBayar)}&rekeningStringify=${JSON.stringify(data.rekening)}&namaAdmin=${data.namaAdmin}&noWaAdmin=${data.noWaAdmin}&username=${data.username}&password=${data.password}&fotoVenue=${data.fotoVenue}objectId=${data._id}`}> */}
                                                 <Link href={{
                                                     pathname: '/dev/detail-mitra-pending',
                                                     query: {
@@ -114,8 +113,7 @@ export default function MitraDev() {
                                                         DP: data.DP,
                                                         namaAdmin: data.namaAdmin,
                                                         noWaAdmin: data.noWaAdmin,
-                                                        username: data.username,
-                                                        password: data.password,
+                                                        emailReq: data.email,
                                                         fotoVenueStringify: JSON.stringify(data.fotoVenue),
                                                         objectId: data._id
                                                     }

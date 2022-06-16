@@ -58,7 +58,6 @@ export default function Register() {
   const handlePost = async (e) => {
     e.preventDefault();
     setEmail(session.user.email)
-    alert(email)
     setCheck()
     setJam()
     setHari()

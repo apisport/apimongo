@@ -17,8 +17,7 @@ export default function Register() {
         DP,
         namaAdmin,
         noWaAdmin,
-        username,
-        password,
+        emailReq,
         fotoVenueStringify,
         objectId } = router.query
 
@@ -28,6 +27,7 @@ export default function Register() {
     let opsiBayar = JSON.parse(opsiBayarStringify)
     let rekening = JSON.parse(rekeningStringify)
     let fotoVenue = JSON.parse(fotoVenueStringify)
+    let email = emailReq
 
     const deleteFavorit = async () => {
         try {
@@ -214,20 +214,10 @@ export default function Register() {
                         </div>
                         <div className="row mt-2">
                             <div className="mt-2 col-md-12">
-                                <label className="labels">Username</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
+                                <label className="labels">Email</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
                                 <input type="text" className="form-control"
                                     required
-                                    value={username}
-                                    readOnly
-                                />
-                            </div>
-                        </div>
-                        <div className="row mt-2">
-                            <div className="mt-2 col-md-12">
-                                <label className="labels">Password</label><i style={{ color: '#ff0000', fontSize: 'larger' }}>*</i>
-                                <input type="text" className="form-control"
-                                    required
-                                    value={password}
+                                    value={email}
                                     readOnly
                                 />
                             </div>

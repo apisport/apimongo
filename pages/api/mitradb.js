@@ -40,8 +40,7 @@ async function updateMitra(req, res) {
         DP,
         namaAdmin,
         noWaAdmin,
-        username,
-        password,
+        email,
         fotoVenue,
         objectId,
         namaVenueLama } = req.body
@@ -71,8 +70,6 @@ async function updateMitra(req, res) {
                     "DP": DP,
                     'namaAdmin': namaAdmin,
                     'noWaAdmin': noWaAdmin,
-                    'username': username,
-                    'password': password,
                     'fotoVenue': fotoVenue
                 }
             }
@@ -96,8 +93,6 @@ async function updateMitra(req, res) {
                     'rekening': rekening,
                     'namaAdmin': namaAdmin,
                     'noWaAdmin': noWaAdmin,
-                    'username': username,
-                    'password': password,
                     'fotoVenue': fotoVenue
                 }
             }
