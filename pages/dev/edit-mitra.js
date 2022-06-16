@@ -53,6 +53,7 @@ export default function EditMitra() {
     const [createObjectURL, setCreateObjectURL] = useState([]);
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    let email = emailReq
 
     //Set All
     useEffect(() => {
@@ -157,8 +158,6 @@ export default function EditMitra() {
                     DP: _DP,
                     namaAdmin: _namaAdmin,
                     noWaAdmin: _noWaAdmin,
-                    username: _username,
-                    password: _password,
                     fotoVenue: _fotoVenue,
                     objectId: objectId,
                     namaVenueLama: namaVenueLama
